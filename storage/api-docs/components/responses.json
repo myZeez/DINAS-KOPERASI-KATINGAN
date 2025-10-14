@@ -1,0 +1,97 @@
+{
+    "responses": {
+        "ValidationError": {
+            "description": "Error validasi data",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "success": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "message": {
+                                "type": "string",
+                                "example": "Data yang diberikan tidak valid"
+                            },
+                            "errors": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": ["Field name wajib diisi"],
+                                    "email": ["Format email tidak valid"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "ServerError": {
+            "description": "Error server internal",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "success": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "message": {
+                                "type": "string",
+                                "example": "Terjadi kesalahan pada server"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "NotFound": {
+            "description": "Resource tidak ditemukan",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "success": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "message": {
+                                "type": "string",
+                                "example": "Data tidak ditemukan"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "Unauthorized": {
+            "description": "Tidak memiliki akses",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "success": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "message": {
+                                "type": "string",
+                                "example": "Unauthorized"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

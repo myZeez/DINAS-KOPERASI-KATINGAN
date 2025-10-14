@@ -1,0 +1,82 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dinas Koperasi API Documentation",
+        "version": "1.0.0",
+        "description": "API Documentation untuk sistem Dinas Koperasi Katingan",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "info@dinaskoperasi.gov.id"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api",
+            "description": "Local Development Server"
+        },
+        {
+            "url": "https://your-domain.com/api",
+            "description": "Production Server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Galleries",
+            "description": "API untuk mengelola galeri foto"
+        },
+        {
+            "name": "News",
+            "description": "API untuk mengelola berita"
+        },
+        {
+            "name": "Reviews",
+            "description": "API untuk mengelola ulasan/review"
+        }
+    ],
+    "paths": {
+        "/galleries": {
+            "$ref": "./paths/galleries.json#/galleries"
+        },
+        "/news": {
+            "$ref": "./paths/news.json#/news"
+        },
+        "/reviews": {
+            "$ref": "./paths/reviews.json#/reviews"
+        }
+    },
+    "components": {
+        "schemas": {
+            "$ref": "./components/schemas.json#/schemas"
+        },
+        "responses": {
+            "$ref": "./components/responses.json#/responses"
+        },
+        "parameters": {
+            "$ref": "./components/parameters.json#/parameters"
+        },
+        "requestBodies": {
+            "$ref": "./components/requestBodies.json#/requestBodies"
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-API-Key"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}

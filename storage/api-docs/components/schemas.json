@@ -1,0 +1,161 @@
+{
+    "schemas": {
+        "Gallery": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Rapat Koordinasi Koperasi"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Dokumentasi rapat koordinasi bulanan dengan seluruh pengurus koperasi"
+                },
+                "image_url": {
+                    "type": "string",
+                    "example": "https://example.com/storage/galleries/image.jpg"
+                },
+                "category": {
+                    "type": "string",
+                    "enum": ["kegiatan", "rapat", "acara", "fasilitas"],
+                    "example": "rapat"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2025-01-15T10:30:00Z"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2025-01-15T10:30:00Z"
+                }
+            }
+        },
+        "News": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Pembukaan Pendaftaran Koperasi Baru"
+                },
+                "slug": {
+                    "type": "string",
+                    "example": "pembukaan-pendaftaran-koperasi-baru"
+                },
+                "excerpt": {
+                    "type": "string",
+                    "example": "Dinas Koperasi membuka pendaftaran untuk koperasi baru..."
+                },
+                "content": {
+                    "type": "string",
+                    "example": "Isi lengkap berita tentang pembukaan pendaftaran koperasi baru..."
+                },
+                "featured_image": {
+                    "type": "string",
+                    "example": "https://example.com/storage/news/featured-image.jpg"
+                },
+                "category": {
+                    "type": "string",
+                    "enum": ["pengumuman", "kegiatan", "informasi", "berita"],
+                    "example": "pengumuman"
+                },
+                "is_published": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "published_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2025-01-15T09:00:00Z"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2025-01-15T08:30:00Z"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2025-01-15T08:30:00Z"
+                }
+            }
+        },
+        "Review": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Budi Santoso"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "budi@example.com"
+                },
+                "rating": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "example": 5
+                },
+                "comment": {
+                    "type": "string",
+                    "example": "Pelayanan sangat memuaskan, staff ramah dan profesional"
+                },
+                "is_verified": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "is_visible": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2025-01-15T14:30:00Z"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2025-01-15T14:30:00Z"
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Terjadi kesalahan"
+                },
+                "errors": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

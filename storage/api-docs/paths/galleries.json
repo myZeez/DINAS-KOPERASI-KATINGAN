@@ -1,0 +1,94 @@
+{
+    "galleries": {
+        "get": {
+            "tags": ["Galleries"],
+            "summary": "Daftar galeri foto",
+            "description": "Mengambil daftar foto galeri yang aktif",
+            "operationId": "getGalleriesList",
+            "parameters": [
+                {
+                    "name": "category",
+                    "in": "query",
+                    "description": "Filter berdasarkan kategori",
+                    "required": false,
+                    "schema": {
+                        "type": "string",
+                        "enum": ["kegiatan", "rapat", "acara", "fasilitas"]
+                    }
+                },
+                {
+                    "name": "page",
+                    "in": "query",
+                    "description": "Nomor halaman",
+                    "required": false,
+                    "schema": {
+                        "type": "integer",
+                        "default": 1
+                    }
+                },
+                {
+                    "name": "per_page",
+                    "in": "query",
+                    "description": "Jumlah item per halaman",
+                    "required": false,
+                    "schema": {
+                        "type": "integer",
+                        "default": 15,
+                        "maximum": 100
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Daftar galeri berhasil diambil",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "success": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Data galeri berhasil diambil"
+                                    },
+                                    "data": {
+                                        "type": "object",
+                                        "properties": {
+                                            "current_page": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "data": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "../components/schemas.json#/Gallery"
+                                                }
+                                            },
+                                            "total": {
+                                                "type": "integer",
+                                                "example": 25
+                                            },
+                                            "per_page": {
+                                                "type": "integer",
+                                                "example": 15
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "422": {
+                    "$ref": "../components/responses.json#/ValidationError"
+                },
+                "500": {
+                    "$ref": "../components/responses.json#/ServerError"
+                }
+            }
+        }
+    }
+}

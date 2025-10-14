@@ -1,0 +1,1160 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dinas Koperasi API Documentation",
+        "description": "API Documentation untuk sistem Dinas Koperasi Katingan",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "info@dinaskoperasi.gov.id"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://my-default-host.com",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/galleries": {
+            "get": {
+                "tags": [
+                    "Galleries"
+                ],
+                "summary": "Daftar galeri foto",
+                "description": "Mengambil daftar foto galeri yang aktif",
+                "operationId": "getGalleriesList",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filter berdasarkan kategori",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "kegiatan",
+                                "rapat",
+                                "acara",
+                                "fasilitas"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nomor halaman",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Jumlah item per halaman",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 12
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil daftar galeri",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "galleries": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Gallery"
+                                                    }
+                                                },
+                                                "pagination": {
+                                                    "properties": {
+                                                        "current_page": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "last_page": {
+                                                            "type": "integer",
+                                                            "example": 3
+                                                        },
+                                                        "per_page": {
+                                                            "type": "integer",
+                                                            "example": 12
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "example": 36
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/galleries/{id}": {
+            "get": {
+                "tags": [
+                    "Galleries"
+                ],
+                "summary": "Detail foto galeri",
+                "description": "Mengambil detail foto galeri berdasarkan ID",
+                "operationId": "getGalleryDetail",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID galeri",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil detail galeri",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Gallery"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Foto tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Foto tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/galleries": {
+            "post": {
+                "tags": [
+                    "Galleries"
+                ],
+                "summary": "Upload foto baru",
+                "description": "Upload foto baru ke galeri (Admin only)",
+                "operationId": "createGallery",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Judul Foto"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Deskripsi foto..."
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "enum": [
+                                            "kegiatan",
+                                            "rapat",
+                                            "acara",
+                                            "fasilitas"
+                                        ],
+                                        "example": "kegiatan"
+                                    },
+                                    "tags": {
+                                        "type": "string",
+                                        "example": "koperasi,kegiatan,meeting"
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ],
+                                        "example": 1
+                                    },
+                                    "is_featured": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "image": {
+                                        "description": "File foto",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Foto berhasil diupload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Foto berhasil diupload"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Gallery"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The image field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/news": {
+            "get": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "Daftar semua berita",
+                "description": "Mengambil daftar berita yang dipublikasi",
+                "operationId": "getNewsList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nomor halaman",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Jumlah item per halaman",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Kata kunci pencarian",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "koperasi"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil daftar berita",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "news": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/News"
+                                                    }
+                                                },
+                                                "pagination": {
+                                                    "properties": {
+                                                        "current_page": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "last_page": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "per_page": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "example": 50
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/news/{id}": {
+            "get": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "Detail berita",
+                "description": "Mengambil detail berita berdasarkan ID",
+                "operationId": "getNewsDetail",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID berita",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil detail berita",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/News"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Berita tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Berita tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/news": {
+            "post": {
+                "tags": [
+                    "News"
+                ],
+                "summary": "Buat berita baru",
+                "description": "Membuat berita baru (Admin only)",
+                "operationId": "createNews",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Judul Berita"
+                                    },
+                                    "content": {
+                                        "type": "string",
+                                        "example": "Konten berita..."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "draft",
+                                            "published"
+                                        ],
+                                        "example": "published"
+                                    },
+                                    "published_at": {
+                                        "type": "string",
+                                        "format": "datetime",
+                                        "example": "2025-01-01 12:00:00"
+                                    },
+                                    "image": {
+                                        "description": "File gambar",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Berita berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Berita berhasil dibuat"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/News"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The title field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/reviews": {
+            "get": {
+                "tags": [
+                    "Reviews"
+                ],
+                "summary": "Daftar ulasan",
+                "description": "Mengambil daftar ulasan yang tersedia",
+                "operationId": "getReviewsList",
+                "parameters": [
+                    {
+                        "name": "rating",
+                        "in": "query",
+                        "description": "Filter berdasarkan rating",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 5,
+                            "minimum": 1,
+                            "example": 5
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nomor halaman",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil daftar ulasan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reviews": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Review"
+                                                    }
+                                                },
+                                                "pagination": {
+                                                    "properties": {
+                                                        "current_page": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "last_page": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "per_page": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "example": 15
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "statistics": {
+                                                    "properties": {
+                                                        "average_rating": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 4.5
+                                                        },
+                                                        "total_reviews": {
+                                                            "type": "integer",
+                                                            "example": 15
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Reviews"
+                ],
+                "summary": "Buat ulasan baru",
+                "description": "Mengirim ulasan/review baru",
+                "operationId": "createReview",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "maximum": 5,
+                                        "minimum": 1,
+                                        "example": 5
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Pelayanan sangat memuaskan"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ulasan berhasil dikirim",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ulasan berhasil dikirim"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Review"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "rating": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The rating field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reviews/statistics": {
+            "get": {
+                "tags": [
+                    "Reviews"
+                ],
+                "summary": "Statistik ulasan",
+                "description": "Mengambil statistik rating dan ulasan",
+                "operationId": "getReviewsStatistics",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil statistik ulasan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "average_rating": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 4.5
+                                                },
+                                                "total_reviews": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                },
+                                                "rating_breakdown": {
+                                                    "properties": {
+                                                        "5_stars": {
+                                                            "type": "integer",
+                                                            "example": 60
+                                                        },
+                                                        "4_stars": {
+                                                            "type": "integer",
+                                                            "example": 25
+                                                        },
+                                                        "3_stars": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        },
+                                                        "2_stars": {
+                                                            "type": "integer",
+                                                            "example": 3
+                                                        },
+                                                        "1_star": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "News": {
+                "title": "News",
+                "description": "Model berita",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Judul Berita"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "judul-berita"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Konten berita lengkap..."
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "news/image.jpg",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "draft",
+                            "published"
+                        ],
+                        "example": "published"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    },
+                    "user": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Admin User"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Gallery": {
+                "title": "Gallery",
+                "description": "Model galeri foto",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Judul Foto"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Deskripsi foto",
+                        "nullable": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "galleries/photo.jpg"
+                    },
+                    "category": {
+                        "type": "string",
+                        "enum": [
+                            "kegiatan",
+                            "rapat",
+                            "acara",
+                            "fasilitas"
+                        ],
+                        "example": "kegiatan"
+                    },
+                    "tags": {
+                        "type": "string",
+                        "example": "koperasi,meeting",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "is_featured": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Review": {
+                "title": "Review",
+                "description": "Model ulasan/review",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com"
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "maximum": 5,
+                        "minimum": 1,
+                        "example": 5
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Pelayanan sangat memuaskan"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Profile": {
+                "title": "Profile",
+                "description": "Model profil organisasi",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Dinas Koperasi Katingan"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Deskripsi organisasi"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "Alamat lengkap"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+62123456789"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "info@dinaskoperasi.gov.id"
+                    },
+                    "website": {
+                        "type": "string",
+                        "example": "https://dinaskoperasi.gov.id",
+                        "nullable": true
+                    },
+                    "logo": {
+                        "type": "string",
+                        "example": "logos/logo.png",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Structure": {
+                "title": "Structure",
+                "description": "Model struktur organisasi",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "position": {
+                        "type": "string",
+                        "example": "Kepala Dinas"
+                    },
+                    "nip": {
+                        "type": "string",
+                        "example": "123456789",
+                        "nullable": true
+                    },
+                    "level": {
+                        "type": "string",
+                        "example": "Kepala"
+                    },
+                    "rank": {
+                        "type": "string",
+                        "example": "IV/a",
+                        "nullable": true
+                    },
+                    "photo": {
+                        "type": "string",
+                        "example": "structure/photo.jpg",
+                        "nullable": true
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2025-01-01T12:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Galleries",
+            "description": "API untuk mengelola galeri foto"
+        },
+        {
+            "name": "News",
+            "description": "API untuk mengelola berita"
+        },
+        {
+            "name": "Reviews",
+            "description": "API untuk mengelola ulasan/review"
+        }
+    ]
+}

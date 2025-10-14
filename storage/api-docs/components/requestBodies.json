@@ -1,0 +1,80 @@
+{
+    "requestBodies": {
+        "ReviewRequest": {
+            "description": "Data untuk membuat ulasan baru",
+            "required": true,
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "required": ["name", "email", "rating", "comment"],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "minLength": 2,
+                                "maxLength": 100,
+                                "example": "Budi Santoso"
+                            },
+                            "email": {
+                                "type": "string",
+                                "format": "email",
+                                "example": "budi@example.com"
+                            },
+                            "rating": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 5,
+                                "example": 5
+                            },
+                            "comment": {
+                                "type": "string",
+                                "minLength": 10,
+                                "maxLength": 1000,
+                                "example": "Pelayanan sangat memuaskan, staff ramah dan profesional"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "NewsRequest": {
+            "description": "Data untuk membuat atau mengupdate berita",
+            "required": true,
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "required": ["title", "content", "category"],
+                        "properties": {
+                            "title": {
+                                "type": "string",
+                                "minLength": 5,
+                                "maxLength": 200,
+                                "example": "Pembukaan Pendaftaran Koperasi Baru"
+                            },
+                            "content": {
+                                "type": "string",
+                                "minLength": 50,
+                                "example": "Isi lengkap berita..."
+                            },
+                            "excerpt": {
+                                "type": "string",
+                                "maxLength": 500,
+                                "example": "Ringkasan berita..."
+                            },
+                            "category": {
+                                "type": "string",
+                                "enum": ["pengumuman", "kegiatan", "informasi", "berita"],
+                                "example": "pengumuman"
+                            },
+                            "is_published": {
+                                "type": "boolean",
+                                "default": false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
