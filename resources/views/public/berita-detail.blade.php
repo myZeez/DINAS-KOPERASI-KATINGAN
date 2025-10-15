@@ -51,14 +51,19 @@
                         <!-- Share Buttons -->
                         <div class="mt-5 pt-4 border-top">
                             <h6 class="mb-3">Bagikan Berita Ini:</h6>
-                            <div class="d-flex gap-2">
+                            <div class="d-flex gap-2 flex-wrap">
                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
                                     target="_blank" class="btn btn-outline-primary btn-sm">
                                     <i class="fab fa-facebook-f me-2"></i>Facebook
                                 </a>
                                 <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($news->title) }}"
-                                    target="_blank" class="btn btn-outline-info btn-sm">
-                                    <i class="fab fa-twitter me-2"></i>Twitter
+                                    target="_blank" class="btn btn-outline-dark btn-sm">
+                                    <i class="fab fa-x-twitter me-2"></i>X
+                                </a>
+                                <a href="https://www.instagram.com/" target="_blank" 
+                                    onclick="navigator.clipboard.writeText('{{ $news->title }} - {{ request()->fullUrl() }}'); alert('Link berita disalin! Silakan paste di Instagram.');"
+                                    class="btn btn-outline-danger btn-sm">
+                                    <i class="fab fa-instagram me-2"></i>Instagram
                                 </a>
                                 <a href="https://wa.me/?text={{ urlencode($news->title . ' - ' . request()->fullUrl()) }}"
                                     target="_blank" class="btn btn-outline-success btn-sm">
