@@ -40,7 +40,7 @@ class AdminUserSeeder extends Seeder
             ['email' => 'siti@dinaskoperasi.go.id'],
             [
                 'name' => 'Siti Rahayu',
-                'role' => 'admin',
+                'role' => 'editor',
                 'is_active' => true,
                 'email_verified_at' => now(),
                 'password' => Hash::make('password123'),

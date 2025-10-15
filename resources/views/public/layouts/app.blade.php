@@ -590,7 +590,7 @@
             .services-hero-section,
             .news-hero-section {
                 min-height: 40vh !important;
-                margin: 0 10px 20px 10px !important;
+                margin: 20px 10px 20px 10px !important;
                 border-radius: 20px !important;
                 padding: 25px 0 !important;
             }
@@ -622,6 +622,12 @@
             .main-content:not(.hero-page) {
                 padding-top: 20px;
             }
+
+            /* Ensure news hero section has proper margin and border radius */
+            .news-hero-section {
+                margin: 20px 10px 20px 10px !important;
+                border-radius: 20px !important;
+            }
         }
 
         @media (max-width: 576px) {
@@ -651,7 +657,7 @@
             .services-hero-section,
             .news-hero-section {
                 min-height: 35vh !important;
-                margin: 0 8px 15px 8px !important;
+                margin: 15px 8px 15px 8px !important;
                 border-radius: 18px !important;
                 padding: 20px 0 !important;
             }
@@ -686,8 +692,15 @@
             .struktur-hero-section,
             .berita-hero-section,
             .download-hero-section,
-            .ulasan-hero-section {
+            .ulasan-hero-section,
+            .news-hero-section {
                 padding-top: 15px !important;
+            }
+
+            /* Specific fix for news hero section on small mobile */
+            .news-hero-section {
+                margin: 15px 8px 15px 8px !important;
+                border-radius: 18px !important;
             }
 
             section:first-child,
@@ -2900,15 +2913,30 @@
 
         /* ===== NEWS PAGE STYLES ===== */
         .news-hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 55vh;
-            margin: 120px 30px 30px 30px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding: 50px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            min-height: 55vh !important;
+            margin: 120px 30px 30px 30px !important;
+            border-radius: 50px !important;
+            display: flex !important;
+            align-items: center !important;
+            position: relative !important;
+            overflow: hidden !important;
+            padding: 50px 0 !important;
+        }
+
+        /* Ensure desktop styling for news hero section */
+        @media (min-width: 769px) {
+            .news-hero-section {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                min-height: 55vh !important;
+                margin: 120px 30px 30px 30px !important;
+                border-radius: 50px !important;
+                display: flex !important;
+                align-items: center !important;
+                position: relative !important;
+                overflow: hidden !important;
+                padding: 50px 0 !important;
+            }
         }
 
         .news-hero-section::before {
@@ -2927,15 +2955,30 @@
 
         /* ===== GALLERY PAGE STYLES ===== */
         .gallery-hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 55vh;
-            margin: 120px 30px 30px 30px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding: 50px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            min-height: 55vh !important;
+            margin: 120px 30px 30px 30px !important;
+            border-radius: 50px !important;
+            display: flex !important;
+            align-items: center !important;
+            position: relative !important;
+            overflow: hidden !important;
+            padding: 50px 0 !important;
+        }
+
+        /* Ensure desktop styling for gallery hero section */
+        @media (min-width: 769px) {
+            .gallery-hero-section {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                min-height: 55vh !important;
+                margin: 120px 30px 30px 30px !important;
+                border-radius: 50px !important;
+                display: flex !important;
+                align-items: center !important;
+                position: relative !important;
+                overflow: hidden !important;
+                padding: 50px 0 !important;
+            }
         }
 
         .gallery-hero-section::before {
@@ -2954,15 +2997,30 @@
 
         /* ===== SERVICES PAGE STYLES ===== */
         .services-hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 55vh;
-            margin: 120px 30px 30px 30px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding: 50px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            min-height: 55vh !important;
+            margin: 120px 30px 30px 30px !important;
+            border-radius: 50px !important;
+            display: flex !important;
+            align-items: center !important;
+            position: relative !important;
+            overflow: hidden !important;
+            padding: 50px 0 !important;
+        }
+
+        /* Ensure desktop styling for services hero section */
+        @media (min-width: 769px) {
+            .services-hero-section {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                min-height: 55vh !important;
+                margin: 120px 30px 30px 30px !important;
+                border-radius: 50px !important;
+                display: flex !important;
+                align-items: center !important;
+                position: relative !important;
+                overflow: hidden !important;
+                padding: 50px 0 !important;
+            }
         }
 
         .services-hero-section::before {
@@ -3776,15 +3834,30 @@
 
         /* ===== ORGANIZATION STRUCTURE STYLES ===== */
         .structure-hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 55vh;
-            margin: 120px 30px 30px 30px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding: 50px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            min-height: 55vh !important;
+            margin: 120px 30px 30px 30px !important;
+            border-radius: 50px !important;
+            display: flex !important;
+            align-items: center !important;
+            position: relative !important;
+            overflow: hidden !important;
+            padding: 50px 0 !important;
+        }
+
+        /* Ensure desktop styling for structure hero section */
+        @media (min-width: 769px) {
+            .structure-hero-section {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                min-height: 55vh !important;
+                margin: 120px 30px 30px 30px !important;
+                border-radius: 50px !important;
+                display: flex !important;
+                align-items: center !important;
+                position: relative !important;
+                overflow: hidden !important;
+                padding: 50px 0 !important;
+            }
         }
 
         .structure-hero-section::before {

@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="gallery-hero-section">
+    <section class="hero-section">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-8">
