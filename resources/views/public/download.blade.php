@@ -114,7 +114,7 @@
             @else
                 <div class="empty-state text-center py-5">
                     <div class="empty-icon mb-4">
-                        <i class="fas fa-folder-open fa-4x text-muted"></i>
+                        <i class="fas fa-folder-open fa-3x text-muted"></i>
                     </div>
                     @if (request('search'))
                         <h5 class="empty-title mb-3">Tidak ada file yang ditemukan</h5>
@@ -126,9 +126,11 @@
                     @else
                         <h5 class="empty-title mb-3">Belum ada file tersedia</h5>
                         <p class="empty-subtitle text-muted mb-4">File dan dokumen akan segera tersedia untuk diunduh.</p>
-                        <a href="{{ route('public.berita') }}" class="btn btn-gradient">
-                            <i class="fas fa-newspaper me-2"></i>Lihat Berita Terbaru
-                        </a>
+                        <div class="empty-actions">
+                            <a href="{{ route('public.home') }}" class="btn btn-outline-gradient">
+                                <i class="fas fa-home me-2"></i>Kembali ke Beranda
+                            </a>
+                        </div>
                     @endif
                 </div>
             @endif

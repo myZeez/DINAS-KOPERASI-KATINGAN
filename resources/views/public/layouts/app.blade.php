@@ -774,18 +774,7 @@
         }
 
         /* ===== UNIVERSAL HERO SECTIONS ===== */
-        .page-hero-section,
-        .gallery-hero-section,
-        .profile-hero-section,
-        .layanan-hero-section,
-        .struktur-hero-section,
-        .structure-hero-section,
-        .berita-hero-section,
-        .download-hero-section,
-        .ulasan-hero-section,
-        .reviews-hero-section,
-        .services-hero-section,
-        .news-hero-section {
+        .page-hero-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 50vh;
             margin: 20px 15px 30px 15px;
@@ -903,33 +892,6 @@
 
         .search-btn:hover {
             background: var(--primary-light);
-        }
-
-        /* ===== OVERRIDE INDIVIDUAL HERO SECTIONS ===== */
-        /* Override any existing individual hero section styles to ensure consistency */
-        .gallery-hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-            min-height: 50vh !important;
-            margin: 20px 15px 30px 15px !important;
-            border-radius: 25px !important;
-            display: flex !important;
-            align-items: center !important;
-            position: relative !important;
-            overflow: hidden !important;
-            padding: 40px 0 !important;
-        }
-
-        .news-hero-section,
-        .berita-hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-            min-height: 50vh !important;
-            margin: 20px 15px 30px 15px !important;
-            border-radius: 25px !important;
-            display: flex !important;
-            align-items: center !important;
-            position: relative !important;
-            overflow: hidden !important;
-            padding: 40px 0 !important;
         }
 
         /* Remove incorrect override for hero sections */
