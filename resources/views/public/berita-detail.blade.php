@@ -60,7 +60,7 @@
                                     target="_blank" class="btn btn-outline-dark btn-sm">
                                     <i class="fab fa-x-twitter me-2"></i>X
                                 </a>
-                                <a href="https://www.instagram.com/" target="_blank" 
+                                <a href="https://www.instagram.com/" target="_blank"
                                     onclick="navigator.clipboard.writeText('{{ $news->title }} - {{ request()->fullUrl() }}'); alert('Link berita disalin! Silakan paste di Instagram.');"
                                     class="btn btn-outline-danger btn-sm">
                                     <i class="fab fa-instagram me-2"></i>Instagram

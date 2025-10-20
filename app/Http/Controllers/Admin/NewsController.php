@@ -4,13 +4,21 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Services\BasicImageCompressionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
+    protected $imageCompressionService;
+
+    public function __construct(BasicImageCompressionService $imageCompressionService)
+    {
+        $this->imageCompressionService = $imageCompressionService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -57,16 +65,19 @@ class NewsController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
         ]);
 
         $data = $request->all();
 
-        // Handle image upload
+        // Handle image upload with compression
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('news', 'public');
+            $data['image'] = $this->imageCompressionService->compressAndSave(
+                $request->file('image'),
+                'news'
+            );
         }
 
         // Set published_at if status is published and no date is set
@@ -74,8 +85,9 @@ class NewsController extends Controller
             $data['published_at'] = now();
         }
 
-        // Use authenticated user ID or first available user
-        $data['user_id'] = auth()->id() ?? \App\Models\User::first()?->id ?? 1;
+        // Use authenticated user ID or default to 1
+        $userId = Auth::check() ? Auth::id() : 1;
+        $data['user_id'] = $userId;
 
         News::create($data);
 
@@ -108,20 +120,23 @@ class NewsController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
         ]);
 
         $data = $request->all();
 
-        // Handle image upload
+        // Handle image upload with compression
         if ($request->hasFile('image')) {
             // Delete old image if exists
             if ($news->image) {
                 Storage::disk('public')->delete($news->image);
             }
-            $data['image'] = $request->file('image')->store('news', 'public');
+            $data['image'] = $this->imageCompressionService->compressAndSave(
+                $request->file('image'),
+                'news'
+            );
         }
 
         // Set published_at if status is published and no date is set

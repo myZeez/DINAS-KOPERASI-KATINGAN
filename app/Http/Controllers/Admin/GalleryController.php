@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
+use App\Services\BasicImageCompressionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class GalleryController extends Controller
 {
+    protected $imageCompressionService;
+
+    public function __construct(BasicImageCompressionService $imageCompressionService)
+    {
+        $this->imageCompressionService = $imageCompressionService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -35,16 +43,19 @@ class GalleryController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'nullable',
-            'image' => 'required|image|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
             'category' => 'required',
             'tags' => 'nullable',
             'status' => 'required|in:0,1'
         ]);
 
-        // Upload gambar
+        // Upload gambar dengan compression
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('galleries', 'public');
+            $imagePath = $this->imageCompressionService->compressAndSave(
+                $request->file('image'),
+                'galleries'
+            );
         }
 
         // Simpan ke database
@@ -58,7 +69,7 @@ class GalleryController extends Controller
             'likes' => 0,
             'is_featured' => $request->has('is_featured'),
             'status' => $request->status == '1' ? 'active' : 'inactive',
-            'user_id' => 1, // User ID default
+            'user_id' => Auth::check() ? Auth::id() : 1, // User ID default
         ]);
 
         return redirect()->route('admin.galleries.index')->with('success', 'Gallery berhasil ditambahkan!');
@@ -104,19 +115,22 @@ class GalleryController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'nullable',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
             'category' => 'required',
             'tags' => 'nullable',
         ]);
 
-        // Upload gambar baru jika ada
+        // Upload gambar baru dengan compression jika ada
         $imagePath = $gallery->image;
         if ($request->hasFile('image')) {
             // Hapus gambar lama
             if ($gallery->image) {
                 Storage::disk('public')->delete($gallery->image);
             }
-            $imagePath = $request->file('image')->store('galleries', 'public');
+            $imagePath = $this->imageCompressionService->compressAndSave(
+                $request->file('image'),
+                'galleries'
+            );
         }
 
         // Update database

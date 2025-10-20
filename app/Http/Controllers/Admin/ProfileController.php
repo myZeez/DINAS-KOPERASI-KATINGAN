@@ -4,12 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
+use App\Services\BasicImageCompressionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
+    protected $imageCompressionService;
+
+    public function __construct(BasicImageCompressionService $imageCompressionService)
+    {
+        $this->imageCompressionService = $imageCompressionService;
+    }
     public function index()
     {
         $profile = Profile::getMain();
@@ -32,7 +39,7 @@ class ProfileController extends Controller
             'tugas_pokok' => 'nullable',
             'peran' => 'nullable',
             'fokus_utama' => 'nullable',
-            'logo' => 'nullable|image|max:2048',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB max
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180'
         ]);
@@ -43,14 +50,17 @@ class ProfileController extends Controller
             $profile = new Profile();
         }
 
-        // Handle logo upload
+        // Handle logo upload with compression
         $logoPath = $profile->logo;
         if ($request->hasFile('logo')) {
             // Delete old logo
             if ($profile->logo) {
                 Storage::disk('public')->delete($profile->logo);
             }
-            $logoPath = $request->file('logo')->store('logos', 'public');
+            $logoPath = $this->imageCompressionService->compressAndSave(
+                $request->file('logo'),
+                'logos'
+            );
         }
 
         // Handle operating hours
@@ -87,33 +97,36 @@ class ProfileController extends Controller
     public function uploadLogo(Request $request)
     {
         try {
-            \Log::info('Logo upload request received', [
+            Log::info('Logo upload request received', [
                 'has_file' => $request->hasFile('logo'),
                 'files' => $request->allFiles()
             ]);
 
             $request->validate([
-                'logo' => 'required|image|max:2048'
+                'logo' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240' // 10MB max
             ]);
 
             $profile = Profile::getMain();
 
-            \Log::info('Profile found', ['profile_id' => $profile->id ?? 'new']);
+            Log::info('Profile found', ['profile_id' => $profile->id ?? 'new']);
 
             // Delete old logo
             if ($profile->logo) {
                 Storage::disk('public')->delete($profile->logo);
-                \Log::info('Old logo deleted', ['old_logo' => $profile->logo]);
+                Log::info('Old logo deleted', ['old_logo' => $profile->logo]);
             }
 
-            // Store new logo
-            $logoPath = $request->file('logo')->store('logos', 'public');
-            \Log::info('New logo stored', ['path' => $logoPath]);
+            // Store new logo with compression
+            $logoPath = $this->imageCompressionService->compressAndSave(
+                $request->file('logo'),
+                'logos'
+            );
+            Log::info('New logo stored', ['path' => $logoPath]);
 
             $profile->logo = $logoPath;
             $profile->save();
 
-            \Log::info('Profile updated with new logo');
+            Log::info('Profile updated with new logo');
 
             return response()->json([
                 'success' => true,
@@ -121,7 +134,7 @@ class ProfileController extends Controller
                 'message' => 'Logo berhasil diupload!'
             ]);
         } catch (\Exception $e) {
-            \Log::error('Logo upload failed', [
+            Log::error('Logo upload failed', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
