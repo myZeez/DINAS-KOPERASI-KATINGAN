@@ -1105,7 +1105,10 @@
                         .closest('.edit-service');
                     const id = button.dataset.id;
 
-                    fetch(`{{ url('admin/public-content/service') }}/${id}`, {
+                    console.log('Edit service clicked, ID:', id);
+                    showLoading();
+
+                    fetch(`/admin/public-content/service/${id}`, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
@@ -1116,8 +1119,17 @@
                             },
                             credentials: 'same-origin'
                         })
-                        .then(response => response.json())
+                        .then(response => {
+                            console.log('Response status:', response.status);
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
                         .then(data => {
+                            console.log('Service data received:', data);
+                            hideLoading();
+                            
                             if (data.success) {
                                 const service = data.data;
                                 serviceForm.querySelector('[name="title"]').value = service.title || '';
@@ -1144,7 +1156,7 @@
                                     imageInput.parentNode.appendChild(imageInfo);
                                 }
 
-                                serviceForm.action = `{{ url('admin/public-content/service') }}/${id}`;
+                                serviceForm.action = `/admin/public-content/service/${id}`;
 
                                 let methodInput = serviceForm.querySelector('input[name="_method"]');
                                 if (!methodInput) {
@@ -1158,11 +1170,14 @@
                                 document.querySelector('#serviceModal .modal-title').innerHTML =
                                     '<i class="fas fa-edit me-2"></i>Edit Layanan';
                                 serviceModal.show();
+                            } else {
+                                showToast('Gagal mengambil data service: ' + (data.message || 'Unknown error'), 'error');
                             }
                         })
                         .catch(error => {
-                            console.error('Error:', error);
-                            showToast('Gagal mengambil data service', 'error');
+                            console.error('Error fetching service data:', error);
+                            hideLoading();
+                            showToast('Gagal mengambil data service: ' + error.message, 'error');
                         });
                 }
             });
