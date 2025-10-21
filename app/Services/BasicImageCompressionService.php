@@ -20,9 +20,9 @@ class BasicImageCompressionService
      * @return string
      */
     public function compressAndSave(
-        UploadedFile $file, 
-        string $directory = 'images', 
-        int $maxWidth = 1200, 
+        UploadedFile $file,
+        string $directory = 'images',
+        int $maxWidth = 1200,
         int $maxHeight = 800,
         int $targetSizeKB = 200
     ): string {
@@ -30,10 +30,10 @@ class BasicImageCompressionService
         $extension = $file->getClientOriginalExtension();
         $filename = time() . '_' . Str::random(10) . '.' . $extension;
         $path = $directory . '/' . $filename;
-        
+
         // Store the file
         $file->storeAs($directory, $filename, 'public');
-        
+
         return $path;
     }
 
@@ -66,7 +66,7 @@ class BasicImageCompressionService
         if (!Storage::disk('public')->exists($path)) {
             return 0;
         }
-        
+
         return Storage::disk('public')->size($path) / 1024;
     }
 
@@ -81,13 +81,13 @@ class BasicImageCompressionService
     {
         $files = Storage::disk('public')->files($directory);
         $results = [];
-        
+
         foreach ($files as $file) {
             $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-            
+
             if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
                 $originalSize = $this->getFileSizeKB($file);
-                
+
                 $results[] = [
                     'file' => $file,
                     'original_size' => round($originalSize, 2),
@@ -97,7 +97,7 @@ class BasicImageCompressionService
                 ];
             }
         }
-        
+
         return $results;
     }
 

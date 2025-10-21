@@ -13,7 +13,7 @@ class CompressExistingImages extends Command
      *
      * @var string
      */
-    protected $signature = 'images:compress 
+    protected $signature = 'images:compress
                             {directory=images : The directory to compress images in}
                             {--target-size=200 : Target file size in KB}
                             {--dry-run : Show what would be compressed without actually doing it}';
@@ -44,7 +44,7 @@ class CompressExistingImages extends Command
 
         $this->info("Scanning directory: {$directory}");
         $this->info("Target size: {$targetSize}KB");
-        
+
         if ($dryRun) {
             $this->warn("DRY RUN MODE - No files will be modified");
         }
@@ -74,7 +74,7 @@ class CompressExistingImages extends Command
         foreach ($imageFiles as $file) {
             try {
                 $originalSize = $this->imageCompressionService->getFileSizeKB($file);
-                
+
                 if ($originalSize > $targetSize) {
                     if (!$dryRun) {
                         $this->imageCompressionService->compressExisting($file, $targetSize);
@@ -85,9 +85,9 @@ class CompressExistingImages extends Command
                         $saved = 0;
                         $newSize = $originalSize;
                     }
-                    
+
                     $processedCount++;
-                    
+
                     if ($this->output->isVerbose()) {
                         $this->line("");
                         $this->info("Processed: {$file}");
@@ -99,7 +99,7 @@ class CompressExistingImages extends Command
                     }
                 } else {
                     $skippedCount++;
-                    
+
                     if ($this->output->isVerbose()) {
                         $this->line("");
                         $this->comment("Skipped (already optimized): {$file}");
@@ -108,13 +108,13 @@ class CompressExistingImages extends Command
                 }
             } catch (\Exception $e) {
                 $errorCount++;
-                
+
                 if ($this->output->isVerbose()) {
                     $this->line("");
                     $this->error("Error processing {$file}: " . $e->getMessage());
                 }
             }
-            
+
             $progressBar->advance();
         }
 
@@ -128,7 +128,7 @@ class CompressExistingImages extends Command
         $this->line("Files processed: {$processedCount}");
         $this->line("Files skipped: {$skippedCount}");
         $this->line("Errors: {$errorCount}");
-        
+
         if (!$dryRun && $totalSaved > 0) {
             $this->line("Total space saved: " . round($totalSaved, 2) . "KB (" . round($totalSaved / 1024, 2) . "MB)");
         }

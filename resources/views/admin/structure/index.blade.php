@@ -763,7 +763,7 @@
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('Gagal memuat data struktur');
+                        showToast('Gagal memuat data struktur', 'error');
                     });
             }
 
@@ -825,7 +825,7 @@
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('Gagal memuat detail struktur');
+                        showToast('Gagal memuat detail struktur', 'error');
                     });
             }
 
@@ -839,28 +839,38 @@
 
             // Delete Structure
             function deleteStructure(id) {
-                if (confirm('Apakah Anda yakin ingin menghapus posisi ini?')) {
-                    fetch(`/admin/structure/${id}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Posisi berhasil dihapus');
-                                location.reload();
-                            } else {
-                                alert(data.message || 'Gagal menghapus posisi');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Terjadi kesalahan saat menghapus posisi');
-                        });
-                }
+                confirmAction({
+                        title: 'Konfirmasi Hapus',
+                        message: 'Apakah Anda yakin ingin menghapus posisi ini?',
+                        confirmText: 'Hapus',
+                        icon: 'trash',
+                        variant: 'warning'
+                    })
+                    .then(ok => {
+                        if (!ok) return;
+                        showLoading();
+                        fetch(`/admin/structure/${id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    queueToast('Posisi berhasil dihapus', 'success');
+                                    location.reload();
+                                } else {
+                                    showToast(data.message || 'Gagal menghapus posisi', 'error');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                showToast('Terjadi kesalahan saat menghapus posisi', 'error');
+                            })
+                            .finally(() => hideLoading());
+                    });
             } // Submit handled below with jQuery AJAX (single handler)
 
             // Enhanced form handling
@@ -1018,7 +1028,7 @@
                         },
                         success: function(response) {
                             console.log('✅ Upload SUCCESS:', response);
-                            alert('Data berhasil disimpan!');
+                            queueToast('Data berhasil disimpan!', 'success');
                             $('#structureModal').modal('hide');
                             location.reload();
                         },
@@ -1029,7 +1039,7 @@
                                 responseText: xhr.responseText,
                                 error: error
                             });
-                            alert('Terjadi kesalahan: ' + (xhr.responseJSON?.message || error));
+                            showToast('Terjadi kesalahan: ' + (xhr.responseJSON?.message || error), 'error');
                         },
                         complete: function() {
                             $('#submitBtn, #submitBtnHeader').prop('disabled', false).html(

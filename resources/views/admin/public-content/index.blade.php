@@ -912,23 +912,7 @@
                         window.open('/', '_blank');
                     };
 
-                    window.exportContent = function() {
-                        alert('Fitur export akan segera tersedia');
-                    };
-
-                    window.importContent = function() {
-                        alert('Fitur import akan segera tersedia');
-                    };
-
-                    window.changeTheme = function(color) {
-                        document.documentElement.style.setProperty('--accent-color', color);
-                    };
-
-                    window.saveSettings = function() {
-                        alert('Pengaturan berhasil disimpan');
-                        const settingsModal = bootstrap.Modal.getInstance(document.getElementById('settingsModal'));
-                        if (settingsModal) settingsModal.hide();
-                    };
+                    // Remove duplicated functions - they are already defined below
 
                     window.toggleServiceStatus = function(id, status) {
                         showLoading();
@@ -1109,7 +1093,7 @@
                         })
                         .catch(error => {
                             console.error('Error:', error);
-                            alert('Gagal mengambil data carousel');
+                            showToast('Gagal mengambil data carousel', 'error');
                         });
                 }
             });
@@ -1178,7 +1162,7 @@
                         })
                         .catch(error => {
                             console.error('Error:', error);
-                            alert('Gagal mengambil data service');
+                            showToast('Gagal mengambil data service', 'error');
                         });
                 }
             });
@@ -1191,28 +1175,39 @@
                         .closest('.delete-carousel');
                     const id = button.dataset.id;
 
-                    if (confirm('Apakah Anda yakin ingin menghapus carousel ini?')) {
-                        fetch(`{{ url('admin/public-content/carousel') }}/${id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                        .getAttribute('content'),
-                                    'Content-Type': 'application/json',
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    location.reload();
-                                } else {
-                                    alert('Gagal menghapus carousel');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                alert('Terjadi kesalahan saat menghapus carousel');
-                            });
-                    }
+                    confirmAction({
+                            title: 'Konfirmasi Hapus',
+                            message: 'Apakah Anda yakin ingin menghapus carousel ini?',
+                            confirmText: 'Hapus',
+                            icon: 'trash',
+                            variant: 'warning'
+                        })
+                        .then(ok => {
+                            if (!ok) return;
+                            showLoading();
+                            fetch(`{{ url('admin/public-content/carousel') }}/${id}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                            .getAttribute('content'),
+                                        'Content-Type': 'application/json',
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        queueToast('Carousel berhasil dihapus', 'success');
+                                        location.reload();
+                                    } else {
+                                        showToast('Gagal menghapus carousel', 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    showToast('Terjadi kesalahan saat menghapus carousel', 'error');
+                                })
+                                .finally(() => hideLoading());
+                        });
                 }
             });
 
@@ -1223,28 +1218,39 @@
                         .closest('.delete-service');
                     const id = button.dataset.id;
 
-                    if (confirm('Apakah Anda yakin ingin menghapus service ini?')) {
-                        fetch(`{{ url('admin/public-content/service') }}/${id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                        .getAttribute('content'),
-                                    'Content-Type': 'application/json',
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    location.reload();
-                                } else {
-                                    alert('Gagal menghapus service');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                alert('Terjadi kesalahan saat menghapus service');
-                            });
-                    }
+                    confirmAction({
+                            title: 'Konfirmasi Hapus',
+                            message: 'Apakah Anda yakin ingin menghapus layanan ini?',
+                            confirmText: 'Hapus',
+                            icon: 'trash',
+                            variant: 'warning'
+                        })
+                        .then(ok => {
+                            if (!ok) return;
+                            showLoading();
+                            fetch(`{{ url('admin/public-content/service') }}/${id}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                            .getAttribute('content'),
+                                        'Content-Type': 'application/json',
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        queueToast('Layanan berhasil dihapus', 'success');
+                                        location.reload();
+                                    } else {
+                                        showToast('Gagal menghapus layanan', 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    showToast('Terjadi kesalahan saat menghapus layanan', 'error');
+                                })
+                                .finally(() => hideLoading());
+                        });
                 }
             });
 
@@ -1266,14 +1272,15 @@
                         .then(data => {
                             if (data.success) {
                                 carouselModal.hide();
+                                queueToast('Carousel berhasil disimpan', 'success');
                                 location.reload();
                             } else {
-                                alert('Gagal menyimpan carousel');
+                                showToast('Gagal menyimpan carousel', 'error');
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
-                            alert('Terjadi kesalahan saat menyimpan carousel');
+                            showToast('Terjadi kesalahan saat menyimpan carousel', 'error');
                         });
                 });
             }
@@ -1295,14 +1302,15 @@
                         .then(data => {
                             if (data.success) {
                                 serviceModal.hide();
+                                queueToast('Layanan berhasil disimpan', 'success');
                                 location.reload();
                             } else {
-                                alert('Gagal menyimpan service');
+                                showToast('Gagal menyimpan layanan', 'error');
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
-                            alert('Terjadi kesalahan saat menyimpan service');
+                            showToast('Terjadi kesalahan saat menyimpan layanan', 'error');
                         });
                 });
             }
@@ -1324,14 +1332,15 @@
                         .then(data => {
                             if (data.success) {
                                 publicContentModal.hide();
+                                queueToast('Konten berhasil disimpan', 'success');
                                 location.reload();
                             } else {
-                                alert('Gagal menyimpan konten publik');
+                                showToast('Gagal menyimpan konten publik', 'error');
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
-                            alert('Terjadi kesalahan saat menyimpan konten publik');
+                            showToast('Terjadi kesalahan saat menyimpan konten publik', 'error');
                         });
                 });
             }
@@ -1342,11 +1351,11 @@
             };
 
             window.exportContent = function() {
-                alert('Fitur export akan segera tersedia');
+                showToast('Fitur export akan segera tersedia', 'info');
             };
 
             window.importContent = function() {
-                alert('Fitur import akan segera tersedia');
+                showToast('Fitur import akan segera tersedia', 'info');
             };
 
             // Settings persistence (theme fixed to glass). Only close modal.
@@ -1355,9 +1364,15 @@
                 try {
                     localStorage.setItem('adminTheme', 'glass');
                 } catch (e) {}
-                alert('Pengaturan berhasil disimpan');
+                showToast('Pengaturan berhasil disimpan', 'success');
                 const settingsModal = bootstrap.Modal.getInstance(document.getElementById('settingsModal'));
                 if (settingsModal) settingsModal.hide();
+            };
+
+            // Apply admin accent color
+            window.applyAdminAccent = function(color) {
+                document.documentElement.style.setProperty('--accent-color', color);
+                showToast('Warna aksen berhasil diubah', 'success');
             };
 
             window.toggleServiceStatus = function(id, status) {
@@ -1445,7 +1460,7 @@
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('Gagal mengambil data konten');
+                        showToast('Gagal mengambil data konten', 'error');
                     });
             };
 
