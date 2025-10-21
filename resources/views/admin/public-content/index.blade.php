@@ -1135,7 +1135,17 @@
                                 serviceForm.querySelector('[name="title"]').value = service.title || '';
                                 serviceForm.querySelector('[name="description"]').value = service
                                     .description || '';
-                                serviceForm.querySelector('[name="link"]').value = service.link || '';
+                                
+                                // Handle external_link field (not link)
+                                const externalLinkField = serviceForm.querySelector('[name="external_link"]');
+                                if (externalLinkField) {
+                                    externalLinkField.value = service.external_link || '';
+                                }
+
+                                // Handle content_detail if editor exists
+                                if (serviceDetailEditor) {
+                                    serviceDetailEditor.innerHTML = service.content_detail || '';
+                                }
 
                                 // Reset file input
                                 const imageInput = serviceForm.querySelector('[name="image"]');

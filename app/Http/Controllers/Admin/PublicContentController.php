@@ -349,7 +349,7 @@ class PublicContentController extends Controller
             'description' => 'required|string|max:500',
             'content_detail' => 'nullable|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'link' => 'nullable|url|max:255'
+            'external_link' => 'nullable|url|max:255'
         ]);
 
         try {
@@ -363,7 +363,6 @@ class PublicContentController extends Controller
                 'description' => $request->description,
                 'content_detail' => $request->content_detail,
                 'image' => $imagePath,
-                'link' => $request->link,
                 'external_link' => $request->external_link,
                 'sort_order' => FeaturedService::max('sort_order') + 1,
                 'is_active' => true
@@ -397,7 +396,7 @@ class PublicContentController extends Controller
             'description' => 'required|string|max:500',
             'content_detail' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'link' => 'nullable|url|max:255'
+            'external_link' => 'nullable|url|max:255'
         ]);
 
         try {
@@ -420,7 +419,6 @@ class PublicContentController extends Controller
                 'description' => $request->description,
                 'content_detail' => $request->content_detail,
                 'image' => $imagePath,
-                'link' => $request->link,
                 'external_link' => $request->external_link,
             ]);
 
