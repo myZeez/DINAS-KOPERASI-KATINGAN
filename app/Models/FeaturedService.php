@@ -22,11 +22,30 @@ class FeaturedService extends Model
         'link',
         'external_link',
         'sort_order',
-        'is_active'
+        'is_active',
+        // Professional service fields
+        'service_category',
+        'service_status',
+        'requirements',
+        'required_documents',
+        'important_notes',
+        'procedure_steps',
+        'service_fee',
+        'processing_time',
+        'processing_time_unit',
+        'service_hours',
+        'service_location',
+        'responsible_person',
+        'phone_number',
+        'contact_email',
+        'form_download_link',
+        'tutorial_link'
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'service_fee' => 'decimal:2',
+        'processing_time' => 'integer'
     ];
 
     public function scopeActive($query)

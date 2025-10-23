@@ -426,7 +426,7 @@
 
     <!-- Service Modal -->
     <div class="modal fade" id="serviceModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content modal-glass">
                 <div class="modal-header">
                     <h5 class="modal-title">
@@ -438,41 +438,271 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Nama Layanan *</label>
-                            <input type="text" class="form-control form-control-glass" name="title" required>
-                        </div>
+                        <!-- Service Form Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-glass mb-4" id="serviceFormTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="basic-info-tab" data-bs-toggle="tab"
+                                    data-bs-target="#basic-info" type="button" role="tab">
+                                    <i class="fas fa-info-circle me-2"></i>Informasi Dasar
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="requirements-tab" data-bs-toggle="tab"
+                                    data-bs-target="#requirements" type="button" role="tab">
+                                    <i class="fas fa-clipboard-list me-2"></i>Persyaratan
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="procedure-tab" data-bs-toggle="tab"
+                                    data-bs-target="#procedure" type="button" role="tab">
+                                    <i class="fas fa-route me-2"></i>Prosedur & Biaya
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                    data-bs-target="#contact" type="button" role="tab">
+                                    <i class="fas fa-phone me-2"></i>Kontak & Link
+                                </button>
+                            </li>
+                        </ul>
 
-                        <div class="mb-3">
-                            <label class="form-label">Deskripsi Singkat *</label>
-                            <textarea class="form-control form-control-glass" name="description" rows="3" maxlength="500" required></textarea>
-                            <small class="text-muted">Maksimal 500 karakter.</small>
-                        </div>
+                        <div class="tab-content" id="serviceFormTabContent">
+                            <!-- Basic Information Tab -->
+                            <div class="tab-pane fade show active" id="basic-info" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nama Layanan *</label>
+                                            <input type="text" class="form-control form-control-glass" name="title" required>
+                                            <small class="text-muted">Contoh: Pendirian Koperasi Baru</small>
+                                        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Konten Detail (Opsional)</label>
-                            <div id="serviceDetailEditor" class="custom-editor" contenteditable="true"
-                                style="min-height:180px;background:#1e2330;border:1px solid #2d3444;border-radius:8px;padding:12px;overflow:auto">
+                                        <div class="mb-3">
+                                            <label class="form-label">Kategori Layanan *</label>
+                                            <select class="form-control form-control-glass" name="service_category" required>
+                                                <option value="">Pilih Kategori</option>
+                                                <option value="perizinan">Perizinan</option>
+                                                <option value="pembinaan">Pembinaan</option>
+                                                <option value="pengawasan">Pengawasan</option>
+                                                <option value="konsultasi">Konsultasi</option>
+                                                <option value="pelatihan">Pelatihan</option>
+                                                <option value="sertifikasi">Sertifikasi</option>
+                                                <option value="lainnya">Lainnya</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Deskripsi Singkat *</label>
+                                            <textarea class="form-control form-control-glass" name="description" rows="3" maxlength="500" required></textarea>
+                                            <small class="text-muted">Maksimal 500 karakter. Deskripsi yang akan tampil di halaman utama.</small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Deskripsi Lengkap</label>
+                                            <div id="serviceDetailEditor" class="custom-editor" contenteditable="true"
+                                                style="min-height:180px;background:#1e2330;border:1px solid #2d3444;border-radius:8px;padding:12px;overflow:auto">
+                                            </div>
+                                            <textarea name="content_detail" id="serviceDetailHidden" class="d-none"></textarea>
+                                            <small class="text-muted">Penjelasan detail tentang layanan ini.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Logo/Ikon Layanan *</label>
+                                            <input type="file" class="form-control form-control-glass" name="image"
+                                                accept="image/*" required>
+                                            <small class="text-muted">Format: JPG, PNG, GIF, SVG. Maksimal 2MB. Rekomendasi ukuran: 300x300px</small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Status Layanan *</label>
+                                            <select class="form-control form-control-glass" name="service_status" required>
+                                                <option value="active">Aktif</option>
+                                                <option value="inactive">Tidak Aktif</option>
+                                                <option value="maintenance">Dalam Perbaikan</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Urutan Tampil</label>
+                                            <input type="number" class="form-control form-control-glass" name="sort_order"
+                                                value="1" min="1" max="100">
+                                            <small class="text-muted">Semakin kecil angka, semakin atas posisinya</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <textarea name="content_detail" id="serviceDetailHidden" class="d-none"></textarea>
-                            <small class="text-muted">Boleh kosong. Jika diisi akan tampil di halaman detail
-                                internal.</small>
-                        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Logo/Gambar Layanan *</label>
-                            <input type="file" class="form-control form-control-glass" name="image"
-                                accept="image/*" required>
-                            <small class="text-muted">Upload logo atau gambar untuk layanan. Ukuran maksimal 2MB. Format:
-                                JPG, PNG, GIF, SVG</small>
-                        </div>
+                            <!-- Requirements Tab -->
+                            <div class="tab-pane fade" id="requirements" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Persyaratan Umum</label>
+                                            <div id="requirementsEditor" class="custom-editor" contenteditable="true"
+                                                style="min-height:200px;background:#1e2330;border:1px solid #2d3444;border-radius:8px;padding:12px;overflow:auto">
+                                                <p>Contoh:</p>
+                                                <ul>
+                                                    <li>KTP pemohon yang masih berlaku</li>
+                                                    <li>Surat keterangan domisili</li>
+                                                    <li>NPWP (jika ada)</li>
+                                                </ul>
+                                            </div>
+                                            <textarea name="requirements" id="requirementsHidden" class="d-none"></textarea>
+                                        </div>
+                                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Link Eksternal (Opsional)</label>
-                            <input type="url" class="form-control form-control-glass" name="external_link"
-                                placeholder="https://...">
-                            <small class="text-muted">Jika diisi, tombol Selengkapnya akan membuka link ini (mengabaikan
-                                Konten Detail).</small>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Dokumen yang Diperlukan</label>
+                                            <div id="documentsEditor" class="custom-editor" contenteditable="true"
+                                                style="min-height:200px;background:#1e2330;border:1px solid #2d3444;border-radius:8px;padding:12px;overflow:auto">
+                                                <p>Contoh:</p>
+                                                <ul>
+                                                    <li>Formulir permohonan (bermaterai)</li>
+                                                    <li>Fotocopy KTP semua pengurus</li>
+                                                    <li>Akta pendirian koperasi</li>
+                                                    <li>Berita acara pembentukan</li>
+                                                </ul>
+                                            </div>
+                                            <textarea name="required_documents" id="documentsHidden" class="d-none"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Catatan Penting</label>
+                                            <textarea class="form-control form-control-glass" name="important_notes" rows="3"
+                                                placeholder="Catatan khusus atau informasi penting yang perlu diperhatikan pemohon..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Procedure & Cost Tab -->
+                            <div class="tab-pane fade" id="procedure" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Langkah-langkah Prosedur</label>
+                                            <div id="procedureEditor" class="custom-editor" contenteditable="true"
+                                                style="min-height:250px;background:#1e2330;border:1px solid #2d3444;border-radius:8px;padding:12px;overflow:auto">
+                                                <p>Contoh prosedur:</p>
+                                                <ol>
+                                                    <li>Pemohon datang ke kantor dengan membawa persyaratan</li>
+                                                    <li>Mengisi formulir permohonan</li>
+                                                    <li>Verifikasi dokumen oleh petugas</li>
+                                                    <li>Proses penelitian dan pemeriksaan</li>
+                                                    <li>Penerbitan surat keputusan</li>
+                                                </ol>
+                                            </div>
+                                            <textarea name="procedure_steps" id="procedureHidden" class="d-none"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Biaya Layanan</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">Rp</span>
+                                                <input type="number" class="form-control form-control-glass" name="service_fee"
+                                                    value="0" min="0" placeholder="0">
+                                            </div>
+                                            <small class="text-muted">Isi 0 jika gratis. Gunakan angka tanpa titik/koma</small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Waktu Penyelesaian</label>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input type="number" class="form-control form-control-glass" name="processing_time"
+                                                        placeholder="7" min="1">
+                                                </div>
+                                                <div class="col-6">
+                                                    <select class="form-control form-control-glass" name="processing_time_unit">
+                                                        <option value="hari">Hari Kerja</option>
+                                                        <option value="minggu">Minggu</option>
+                                                        <option value="bulan">Bulan</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small class="text-muted">Estimasi waktu penyelesaian layanan</small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Jam Pelayanan</label>
+                                            <textarea class="form-control form-control-glass" name="service_hours" rows="3"
+                                                placeholder="Senin - Jumat: 08:00 - 16:00 WIB&#10;Istirahat: 12:00 - 13:00 WIB&#10;Sabtu-Minggu: Libur"></textarea>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Lokasi Pelayanan</label>
+                                            <textarea class="form-control form-control-glass" name="service_location" rows="2"
+                                                placeholder="Kantor Dinas Koperasi dan UKM Kabupaten Katingan&#10;Jl. Contoh No. 123, Kasongan"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact & Links Tab -->
+                            <div class="tab-pane fade" id="contact" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Penanggung Jawab</label>
+                                            <input type="text" class="form-control form-control-glass" name="responsible_person"
+                                                placeholder="Nama lengkap penanggung jawab">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Nomor Telefon</label>
+                                            <input type="tel" class="form-control form-control-glass" name="phone_number"
+                                                placeholder="0812-3456-7890">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Email Kontak</label>
+                                            <input type="email" class="form-control form-control-glass" name="contact_email"
+                                                placeholder="layanan@diskopukm-katingan.go.id">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Link Eksternal</label>
+                                            <input type="url" class="form-control form-control-glass" name="external_link"
+                                                placeholder="https://...">
+                                            <small class="text-muted">Link ke website/aplikasi terkait layanan ini</small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Link Download Formulir</label>
+                                            <input type="url" class="form-control form-control-glass" name="form_download_link"
+                                                placeholder="https://...">
+                                            <small class="text-muted">Link untuk mengunduh formulir permohonan</small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Link Panduan/Tutorial</label>
+                                            <input type="url" class="form-control form-control-glass" name="tutorial_link"
+                                                placeholder="https://...">
+                                            <small class="text-muted">Link ke video tutorial atau panduan lengkap</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <strong>Tips:</strong> Lengkapi informasi kontak untuk memudahkan masyarakat menghubungi petugas terkait layanan ini.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -538,64 +768,86 @@
 
 @endsection
 
+
+
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-                    // Initialize Modals
-                    const carouselModal = new bootstrap.Modal(document.getElementById('carouselModal'));
-                    const serviceModal = new bootstrap.Modal(document.getElementById('serviceModal'));
-                    const publicContentModal = new bootstrap.Modal(document.getElementById('publicContentModal'));
+            // Initialize Modals
+            const carouselModal = new bootstrap.Modal(document.getElementById('carouselModal'));
+            const serviceModal = new bootstrap.Modal(document.getElementById('serviceModal'));
+            const publicContentModal = new bootstrap.Modal(document.getElementById('publicContentModal'));
 
-                    // Delete Carousel
-                    const carouselForm = document.getElementById('carouselForm');
-                    const serviceForm = document.getElementById('serviceForm');
-                    const serviceDetailEditor = document.getElementById('serviceDetailEditor');
-                    const serviceDetailHidden = document.getElementById('serviceDetailHidden');
-                    const publicContentForm = document.getElementById('publicContentForm');
+            // Get form elements
+            const carouselForm = document.getElementById('carouselForm');
+            const serviceForm = document.getElementById('serviceForm');
+            const serviceDetailEditor = document.getElementById('serviceDetailEditor');
+            const serviceDetailHidden = document.getElementById('serviceDetailHidden');
+            const publicContentForm = document.getElementById('publicContentForm');
 
-                    // Header "Tambah Konten" Button
-                    const headerAddButton = document.querySelector('[data-bs-target="#publicContentModal"]');
+            // Handle paste events for all editors to remove formatting
+            function handlePaste(e) {
+                e.preventDefault();
 
-                    confirmAction({
-                            title: 'Konfirmasi Hapus',
-                            message: 'Apakah Anda yakin ingin menghapus carousel ini?',
-                            confirmText: 'Hapus',
-                            icon: 'trash',
-                            variant: 'warning'
-                        })
-                        .then(ok => {
-                            if (!ok) return;
-                            showLoading();
-                            fetch(`{{ url('admin/public-content/carousel') }}/${id}`, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                            .getAttribute('content'),
-                                        'Content-Type': 'application/json',
-                                    }
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        queueToast('Carousel berhasil dihapus', 'success');
-                                        location.reload();
-                                    } else {
-                                        showToast('Gagal menghapus carousel', 'error');
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    showToast('Terjadi kesalahan saat menghapus carousel', 'error');
-                                })
-                                .finally(() => hideLoading());
-                        });
+                // Get plain text from clipboard
+                const text = (e.originalEvent || e).clipboardData.getData('text/plain');
 
-                    // Add Service Button
-                    const addServiceBtn = document.getElementById('addService');
+                // Insert plain text without formatting
+                if (window.getSelection) {
+                    const selection = window.getSelection();
+                    if (selection.getRangeAt && selection.rangeCount) {
+                        const range = selection.getRangeAt(0);
+                        range.deleteContents();
+                        range.insertNode(document.createTextNode(text));
+
+                        // Move cursor to end of inserted text
+                        range.setStartAfter(range.endContainer);
+                        range.collapse(true);
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+                }
+            }
+
+            // Apply paste handler to all contenteditable editors
+            const editors = [
+                'serviceDetailEditor',
+                'requirementsEditor',
+                'documentsEditor',
+                'procedureEditor'
+            ];
+
+            editors.forEach(editorId => {
+                const editor = document.getElementById(editorId);
+                if (editor) {
+                    editor.addEventListener('paste', handlePaste);
+                }
+            });
+
+            // Add Service Button
+            const addServiceBtn = document.getElementById('addService');
                     if (addServiceBtn) {
                         addServiceBtn.addEventListener('click', function() {
                             serviceForm.reset();
+
+                            // Reset all editors
                             if (serviceDetailEditor) serviceDetailEditor.innerHTML = '';
+                            const requirementsEditor = document.getElementById('requirementsEditor');
+                            if (requirementsEditor) requirementsEditor.innerHTML = '<p>Contoh:</p><ul><li>KTP pemohon yang masih berlaku</li><li>Surat keterangan domisili</li><li>NPWP (jika ada)</li></ul>';
+                            const documentsEditor = document.getElementById('documentsEditor');
+                            if (documentsEditor) documentsEditor.innerHTML = '<p>Contoh:</p><ul><li>Formulir permohonan (bermaterai)</li><li>Fotocopy KTP semua pengurus</li><li>Akta pendirian koperasi</li><li>Berita acara pembentukan</li></ul>';
+                            const procedureEditor = document.getElementById('procedureEditor');
+                            if (procedureEditor) procedureEditor.innerHTML = '<p>Contoh prosedur:</p><ol><li>Pemohon datang ke kantor dengan membawa persyaratan</li><li>Mengisi formulir permohonan</li><li>Verifikasi dokumen oleh petugas</li><li>Proses penelitian dan pemeriksaan</li><li>Penerbitan surat keputusan</li></ol>';
+
+                            // Set default values
+                            serviceForm.querySelector('[name="service_status"]').value = 'active';
+                            serviceForm.querySelector('[name="service_fee"]').value = '0';
+                            serviceForm.querySelector('[name="processing_time_unit"]').value = 'hari';
+
+                            // Reset to first tab
+                            const firstTab = document.querySelector('#basic-info-tab');
+                            if (firstTab) firstTab.click();
+
                             serviceForm.action = '{{ route('admin.public-content.service.store') }}';
                             serviceForm.querySelector('input[name="_method"]')?.remove();
 
@@ -680,15 +932,38 @@
                                 .then(data => {
                                     if (data.success) {
                                         const service = data.data;
+
+                                        // Basic Information Tab
                                         serviceForm.querySelector('[name="title"]').value = service.title || '';
-                                        serviceForm.querySelector('[name="description"]').value = service
-                                            .description || '';
-                                        if (serviceDetailEditor) serviceDetailEditor.innerHTML = service
-                                            .content_detail || '';
-                                        const externalLinkInput = serviceForm.querySelector(
-                                            '[name="external_link"]');
-                                        if (externalLinkInput) externalLinkInput.value = service
-                                            .external_link || '';
+                                        serviceForm.querySelector('[name="service_category"]').value = service.service_category || '';
+                                        serviceForm.querySelector('[name="description"]').value = service.description || '';
+                                        if (serviceDetailEditor) serviceDetailEditor.innerHTML = service.content_detail || '';
+                                        serviceForm.querySelector('[name="service_status"]').value = service.service_status || 'active';
+                                        serviceForm.querySelector('[name="sort_order"]').value = service.sort_order || '';
+
+                                        // Requirements Tab
+                                        const requirementsEditor = document.getElementById('requirementsEditor');
+                                        if (requirementsEditor) requirementsEditor.innerHTML = service.requirements || '';
+                                        const documentsEditor = document.getElementById('documentsEditor');
+                                        if (documentsEditor) documentsEditor.innerHTML = service.required_documents || '';
+                                        serviceForm.querySelector('[name="important_notes"]').value = service.important_notes || '';
+
+                                        // Procedure & Cost Tab
+                                        const procedureEditor = document.getElementById('procedureEditor');
+                                        if (procedureEditor) procedureEditor.innerHTML = service.procedure_steps || '';
+                                        serviceForm.querySelector('[name="service_fee"]').value = service.service_fee || '';
+                                        serviceForm.querySelector('[name="processing_time"]').value = service.processing_time || '';
+                                        serviceForm.querySelector('[name="processing_time_unit"]').value = service.processing_time_unit || 'hari';
+                                        serviceForm.querySelector('[name="service_hours"]').value = service.service_hours || '';
+                                        serviceForm.querySelector('[name="service_location"]').value = service.service_location || '';
+
+                                        // Contact & Links Tab
+                                        serviceForm.querySelector('[name="responsible_person"]').value = service.responsible_person || '';
+                                        serviceForm.querySelector('[name="phone_number"]').value = service.phone_number || '';
+                                        serviceForm.querySelector('[name="contact_email"]').value = service.contact_email || '';
+                                        serviceForm.querySelector('[name="external_link"]').value = service.external_link || '';
+                                        serviceForm.querySelector('[name="form_download_link"]').value = service.form_download_link || '';
+                                        serviceForm.querySelector('[name="tutorial_link"]').value = service.tutorial_link || '';
 
                                         // Note: File input cannot be pre-filled for security reasons
                                         // Show current image info if exists
@@ -843,9 +1118,30 @@
                     if (serviceForm) {
                         serviceForm.addEventListener('submit', function(e) {
                             e.preventDefault();
+
+                            // Handle all editors content
                             if (serviceDetailEditor && serviceDetailHidden) {
                                 serviceDetailHidden.value = serviceDetailEditor.innerHTML.trim();
                             }
+
+                            const requirementsEditor = document.getElementById('requirementsEditor');
+                            const requirementsHidden = document.getElementById('requirementsHidden');
+                            if (requirementsEditor && requirementsHidden) {
+                                requirementsHidden.value = requirementsEditor.innerHTML.trim();
+                            }
+
+                            const documentsEditor = document.getElementById('documentsEditor');
+                            const documentsHidden = document.getElementById('documentsHidden');
+                            if (documentsEditor && documentsHidden) {
+                                documentsHidden.value = documentsEditor.innerHTML.trim();
+                            }
+
+                            const procedureEditor = document.getElementById('procedureEditor');
+                            const procedureHidden = document.getElementById('procedureHidden');
+                            if (procedureEditor && procedureHidden) {
+                                procedureHidden.value = procedureEditor.innerHTML.trim();
+                            }
+
                             const formData = new FormData(this);
 
                             showLoading();
@@ -941,7 +1237,9 @@
                             })
                             .finally(() => hideLoading());
                     };
+        });
     </script>
+@endpush
 
     <!-- Public Content Modal -->
     <div class="modal fade" id="publicContentModal" tabindex="-1">
@@ -1129,13 +1427,13 @@
                         .then(data => {
                             console.log('Service data received:', data);
                             hideLoading();
-                            
+
                             if (data.success) {
                                 const service = data.data;
                                 serviceForm.querySelector('[name="title"]').value = service.title || '';
                                 serviceForm.querySelector('[name="description"]').value = service
                                     .description || '';
-                                
+
                                 // Handle external_link field (not link)
                                 const externalLinkField = serviceForm.querySelector('[name="external_link"]');
                                 if (externalLinkField) {
@@ -1310,35 +1608,7 @@
                 });
             }
 
-            if (serviceForm) {
-                serviceForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const formData = new FormData(this);
 
-                    fetch(this.action, {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    .getAttribute('content'),
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                serviceModal.hide();
-                                queueToast('Layanan berhasil disimpan', 'success');
-                                location.reload();
-                            } else {
-                                showToast('Gagal menyimpan layanan', 'error');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            showToast('Terjadi kesalahan saat menyimpan layanan', 'error');
-                        });
-                });
-            }
 
             if (publicContentForm) {
                 publicContentForm.addEventListener('submit', function(e) {
@@ -1558,7 +1828,110 @@
         });
     </script>
 
+@push('styles')
     <style>
+        /* Service Form Tabs */
+        .nav-tabs-glass {
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .nav-tabs-glass .nav-link {
+            border: none;
+            background: transparent;
+            color: #8892b0;
+            border-radius: 6px;
+            padding: 10px 16px;
+            margin: 0 2px;
+            font-weight: 500;
+        }
+
+        .nav-tabs-glass .nav-link:hover {
+            background: transparent !important;
+            color: #8892b0 !important;
+            border: none !important;
+        }
+
+        .nav-tabs-glass .nav-link.active {
+            background: #2d5a47;
+            color: #ffffff;
+        }
+
+        .tab-content {
+            padding: 20px 0;
+        }
+
+        .custom-editor {
+            background: #1e2330 !important;
+            border: 1px solid #2d3444 !important;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 180px;
+            overflow: auto;
+            color: #ccd6f6;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        .custom-editor:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+        }
+
+        .custom-editor p {
+            margin-bottom: 12px;
+        }
+
+        .custom-editor ul, .custom-editor ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .custom-editor li {
+            margin-bottom: 6px;
+        }
+
+        /* Form improvements */
+        .form-label {
+            font-weight: 600;
+            color: #ccd6f6;
+            margin-bottom: 8px;
+        }
+
+        .form-control-glass {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #2d3444;
+            color: #ccd6f6;
+            border-radius: 8px;
+        }
+
+        .form-control-glass:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+            color: #ccd6f6;
+        }
+
+        .form-control-glass::placeholder {
+            color: #8892b0;
+        }
+
+        .input-group-text {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #2d3444;
+            color: #8892b0;
+        }
+
+        .alert-info {
+            background: rgba(100, 255, 218, 0.1);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            color: #64ffda;
+            border-radius: 8px;
+        }
+
         .carousel-preview-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;

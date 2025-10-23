@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Config;
 use App\Http\Middleware\SecurityMiddleware;
+use Tests\CreatesApplication;
 
 class SecurityMiddlewarePerformanceTest extends BaseTestCase
 {
@@ -101,7 +102,7 @@ class SecurityMiddlewarePerformanceTest extends BaseTestCase
             "; cat /etc/passwd",
             "<?php system(\$_GET['cmd']); ?>",
             "')(|(objectclass=*))",
-            "eval($_POST['code'])",
+            "eval(\$_POST['code'])",
             "%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd"
         ];
 

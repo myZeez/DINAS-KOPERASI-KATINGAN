@@ -34,10 +34,31 @@
             ],
         ])
 
-        <!-- Account List -->
-        <div class="glass-card">
-            <div class="table-responsive">
-                <table class="table table-glass">
+        <!-- Tab Navigation -->
+        <div class="glass-card mb-4">
+            <ul class="nav nav-tabs nav-tabs-glass" id="accountTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users"
+                        type="button" role="tab" aria-controls="users" aria-selected="true">
+                        <i class="fas fa-users me-2"></i>Kelola Administrator
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="mail-settings-tab" data-bs-toggle="tab" data-bs-target="#mail-settings"
+                        type="button" role="tab" aria-controls="mail-settings" aria-selected="false">
+                        <i class="fas fa-envelope-open-text me-2"></i>Konfigurasi Email SMTP
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="accountTabsContent">
+            <!-- Users Tab -->
+            <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+                <div class="glass-card">
+                    <div class="table-responsive">
+                        <table class="table table-glass">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -125,6 +146,191 @@
                         @endforeach
                     </tbody>
                 </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mail Settings Tab -->
+            <div class="tab-pane fade" id="mail-settings" role="tabpanel" aria-labelledby="mail-settings-tab">
+                <div class="glass-card">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="mb-0"><i class="fas fa-server me-2"></i>Konfigurasi Server SMTP</h5>
+                                <button type="button" class="btn btn-outline-primary btn-sm" id="loadEnvSettings">
+                                    <i class="fas fa-download me-2"></i>Load dari .env
+                                </button>
+                            </div>
+
+                            <form action="{{ route('admin.mail-settings.store') }}" method="POST" id="mailSettingsForm">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Mail Driver</label>
+                                        <div class="custom-dropdown" data-name="mail_mailer" data-value="{{ old('mail_mailer', $mailSettings->mail_mailer ?? 'smtp') }}" data-required="true">
+                                            <div class="dropdown-selected">
+                                                <span class="selected-text">{{ old('mail_mailer', $mailSettings->mail_mailer ?? 'smtp') == 'smtp' ? 'SMTP' : 'Sendmail' }}</span>
+                                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                                            </div>
+                                            <div class="dropdown-options">
+                                                <div class="dropdown-option" data-value="smtp">
+                                                    <i class="fas fa-envelope me-2"></i>SMTP
+                                                </div>
+                                                <div class="dropdown-option" data-value="sendmail">
+                                                    <i class="fas fa-paper-plane me-2"></i>Sendmail
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">SMTP Host</label>
+                                        <input type="text" name="mail_host" class="form-control form-control-glass" id="mail_host"
+                                               value="{{ old('mail_host', $mailSettings->mail_host ?? env('MAIL_HOST', 'smtp.gmail.com')) }}"
+                                               placeholder="smtp.gmail.com" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">SMTP Port</label>
+                                        <div class="custom-dropdown" data-name="mail_port" data-value="{{ old('mail_port', $mailSettings->mail_port ?? env('MAIL_PORT', 587)) }}" data-required="true">
+                                            <div class="dropdown-selected">
+                                                <span class="selected-text">
+                                                    @php
+                                                        $currentPort = old('mail_port', $mailSettings->mail_port ?? env('MAIL_PORT', 587));
+                                                        $portText = $currentPort == 587 ? '587 (TLS)' : ($currentPort == 465 ? '465 (SSL)' : '25 (Non-encrypted)');
+                                                    @endphp
+                                                    {{ $portText }}
+                                                </span>
+                                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                                            </div>
+                                            <div class="dropdown-options">
+                                                <div class="dropdown-option" data-value="587">
+                                                    <i class="fas fa-shield-alt me-2 text-success"></i>587 (TLS)
+                                                </div>
+                                                <div class="dropdown-option" data-value="465">
+                                                    <i class="fas fa-lock me-2 text-warning"></i>465 (SSL)
+                                                </div>
+                                                <div class="dropdown-option" data-value="25">
+                                                    <i class="fas fa-unlock me-2 text-danger"></i>25 (Non-encrypted)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Encryption</label>
+                                        <div class="custom-dropdown" data-name="mail_encryption" data-value="{{ old('mail_encryption', $mailSettings->mail_encryption ?? env('MAIL_ENCRYPTION', 'tls')) }}">
+                                            <div class="dropdown-selected">
+                                                <span class="selected-text">
+                                                    @php
+                                                        $currentEncryption = old('mail_encryption', $mailSettings->mail_encryption ?? env('MAIL_ENCRYPTION', 'tls'));
+                                                        $encText = $currentEncryption == 'tls' ? 'TLS' : ($currentEncryption == 'ssl' ? 'SSL' : 'None');
+                                                    @endphp
+                                                    {{ $encText }}
+                                                </span>
+                                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                                            </div>
+                                            <div class="dropdown-options">
+                                                <div class="dropdown-option" data-value="tls">
+                                                    <i class="fas fa-shield-alt me-2 text-success"></i>TLS
+                                                </div>
+                                                <div class="dropdown-option" data-value="ssl">
+                                                    <i class="fas fa-lock me-2 text-warning"></i>SSL
+                                                </div>
+                                                <div class="dropdown-option" data-value="">
+                                                    <i class="fas fa-unlock me-2 text-muted"></i>None
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Username/Email</label>
+                                        <input type="email" name="mail_username" class="form-control form-control-glass" id="mail_username"
+                                               value="{{ old('mail_username', $mailSettings->mail_username ?? env('MAIL_USERNAME', '')) }}"
+                                               placeholder="your-email@gmail.com" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Password/App Password</label>
+                                        <div class="input-group">
+                                            <input type="password" name="mail_password" id="mailPassword" class="form-control form-control-glass"
+                                                   value="{{ old('mail_password', $mailSettings->mail_password ?? env('MAIL_PASSWORD', '')) }}"
+                                                   placeholder="App Password atau Password Email">
+                                            <button class="btn btn-glass" type="button" id="togglePassword">
+                                                <i class="fas fa-eye" id="eyeIcon"></i>
+                                            </button>
+                                        </div>
+                                        <small class="text-muted">Untuk Gmail, gunakan App Password bukan password biasa</small>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">From Address</label>
+                                        <input type="email" name="mail_from_address" class="form-control form-control-glass" id="mail_from_address"
+                                               value="{{ old('mail_from_address', $mailSettings->mail_from_address ?? env('MAIL_FROM_ADDRESS', '')) }}"
+                                               placeholder="noreply@dinaskoperasi.go.id" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">From Name</label>
+                                        <input type="text" name="mail_from_name" class="form-control form-control-glass" id="mail_from_name"
+                                               value="{{ old('mail_from_name', $mailSettings->mail_from_name ?? env('MAIL_FROM_NAME', 'Dinas Koperasi')) }}"
+                                               placeholder="Dinas Koperasi" required>
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-info mb-4">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Info:</strong> Konfigurasi akan disimpan ke database dan file .env secara bersamaan untuk memastikan konsistensi.
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-warning" id="testEmailBtn">
+                                        <i class="fas fa-paper-plane me-2"></i>Test Email
+                                    </button>
+                                    <button type="submit" class="btn btn-primary-glass" id="saveConfigBtn">
+                                        <i class="fas fa-save me-2"></i>Simpan ke Database & .env
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="info-card">
+                                <h6 class="mb-3"><i class="fas fa-info-circle me-2"></i>Informasi SMTP</h6>
+
+                                <div class="mb-3">
+                                    <strong>Status Konfigurasi:</strong>
+                                    <div class="mt-1">
+                                        @if(isset($mailSettings) && $mailSettings->is_active)
+                                            <span class="badge bg-success">Aktif</span>
+                                        @else
+                                            <span class="badge bg-warning">Menggunakan .env</span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <strong>Gmail Setup:</strong>
+                                    <ol class="small mt-2">
+                                        <li>Aktifkan 2-Factor Authentication</li>
+                                        <li>Generate App Password</li>
+                                        <li>Gunakan App Password, bukan password Gmail</li>
+                                        <li>Host: smtp.gmail.com</li>
+                                        <li>Port: 587 (TLS) atau 465 (SSL)</li>
+                                    </ol>
+                                </div>
+
+                                <div class="alert alert-info">
+                                    <i class="fas fa-lightbulb me-2"></i>
+                                    <strong>Tips:</strong> Setelah menyimpan konfigurasi, gunakan tombol "Test Email" untuk memastikan pengaturan bekerja dengan baik.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -276,6 +482,207 @@
             </div>
         </div>
     </div>
+
+    @push('styles')
+        <style>
+            .nav-tabs-glass {
+                border-bottom: 1px solid rgba(79, 172, 254, 0.2);
+                margin-bottom: 0;
+            }
+
+            .nav-tabs-glass .nav-link {
+                background: transparent;
+                border: 1px solid transparent;
+                color: var(--text-secondary);
+                padding: 1rem 1.5rem;
+                margin-right: 0.5rem;
+                border-radius: 12px 12px 0 0;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .nav-tabs-glass .nav-link:hover {
+                color: var(--primary-color);
+                background: rgba(79, 172, 254, 0.05);
+                border-color: rgba(79, 172, 254, 0.2);
+            }
+
+            .nav-tabs-glass .nav-link.active {
+                color: var(--primary-color);
+                background: rgba(79, 172, 254, 0.1);
+                border-color: rgba(79, 172, 254, 0.3);
+                border-bottom-color: transparent;
+                font-weight: 600;
+            }
+
+            .info-card {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(79, 172, 254, 0.1);
+                border-radius: 12px;
+                padding: 1.5rem;
+                backdrop-filter: blur(10px);
+            }
+
+            .input-group .btn-glass {
+                border: 1px solid rgba(79, 172, 254, 0.2);
+                border-left: none;
+            }
+
+            /* Custom Dropdown Styles */
+            .custom-dropdown {
+                position: relative;
+                width: 100%;
+            }
+
+            .dropdown-selected {
+                background: rgba(30, 41, 59, 0.8);
+                border: 1px solid rgba(79, 172, 254, 0.3);
+                border-radius: 12px;
+                padding: 0.75rem 1rem;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(15px);
+                color: rgba(255, 255, 255, 0.9);
+                font-weight: 500;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .dropdown-selected:hover {
+                border-color: rgba(79, 172, 254, 0.5);
+                background: rgba(79, 172, 254, 0.15);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(79, 172, 254, 0.2);
+                color: #4facfe;
+            }
+
+            .dropdown-selected.active {
+                border-color: #4facfe;
+                background: rgba(79, 172, 254, 0.2);
+                box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+                color: #4facfe;
+            }
+
+            .selected-text {
+                flex: 1;
+                text-align: left;
+            }
+
+            .dropdown-arrow {
+                transition: transform 0.3s ease;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 0.9rem;
+            }
+
+            .dropdown-selected:hover .dropdown-arrow {
+                color: #4facfe;
+            }
+
+            .dropdown-selected.active .dropdown-arrow {
+                transform: rotate(180deg);
+                color: #4facfe;
+                text-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+            }
+
+            .dropdown-options {
+                position: absolute;
+                top: calc(100% + 5px);
+                left: 0;
+                right: 0;
+                background: rgba(30, 41, 59, 0.95);
+                border: 1px solid rgba(79, 172, 254, 0.3);
+                border-radius: 12px;
+                backdrop-filter: blur(20px);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+                transition: all 0.3s ease;
+                max-height: 250px;
+                overflow-y: auto;
+            }
+
+            .dropdown-options.show {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(79, 172, 254, 0.2);
+            }
+
+            .dropdown-option {
+                padding: 0.75rem 1rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                transition: all 0.2s ease;
+                color: rgba(255, 255, 255, 0.9);
+                border-bottom: 1px solid rgba(79, 172, 254, 0.15);
+            }
+
+            .dropdown-option:last-child {
+                border-bottom: none;
+            }
+
+            .dropdown-option:hover {
+                background: rgba(79, 172, 254, 0.2);
+                color: #4facfe;
+                padding-left: 1.2rem;
+                box-shadow: inset 3px 0 0 #4facfe;
+            }
+
+            .dropdown-option.selected {
+                background: rgba(79, 172, 254, 0.25);
+                color: #4facfe;
+                font-weight: 600;
+                position: relative;
+                box-shadow: inset 3px 0 0 #4facfe;
+            }
+
+            .dropdown-option.selected::after {
+                content: '\f00c';
+                font-family: 'Font Awesome 6 Free';
+                font-weight: 900;
+                position: absolute;
+                right: 1rem;
+                color: #4facfe;
+                text-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+            }
+
+            /* Custom scrollbar for dropdown */
+            .dropdown-options::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .dropdown-options::-webkit-scrollbar-track {
+                background: rgba(79, 172, 254, 0.1);
+                border-radius: 6px;
+            }
+
+            .dropdown-options::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, #4facfe, #00f2fe);
+                border-radius: 6px;
+                box-shadow: 0 0 10px rgba(79, 172, 254, 0.3);
+            }
+
+            .dropdown-options::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(135deg, #00f2fe, #4facfe);
+                box-shadow: 0 0 15px rgba(79, 172, 254, 0.5);
+            }
+
+            /* Animation untuk icon */
+            .dropdown-option i {
+                transition: transform 0.2s ease;
+            }
+
+            .dropdown-option:hover i {
+                transform: scale(1.1);
+            }
+        </style>
+    @endpush
 
     @push('scripts')
         <script>
@@ -432,6 +839,74 @@
                         });
                     }
                 });
+
+                // Toggle password visibility
+                $('#togglePassword').click(function() {
+                    const passwordField = $('#mailPassword');
+                    const eyeIcon = $('#eyeIcon');
+
+                    if (passwordField.attr('type') === 'password') {
+                        passwordField.attr('type', 'text');
+                        eyeIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+                    } else {
+                        passwordField.attr('type', 'password');
+                        eyeIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+                    }
+                });
+
+                // Test Email functionality
+                $('#testEmailBtn').click(function() {
+                    const btn = $(this);
+                    const originalText = btn.html();
+
+                    // Validate form first
+                    const form = $('#mailSettingsForm')[0];
+                    if (!form.checkValidity()) {
+                        form.reportValidity();
+                        return;
+                    }
+
+                    btn.prop('disabled', true);
+                    btn.html('<i class="fas fa-spinner fa-spin me-2"></i>Mengirim...');
+
+                    $.ajax({
+                        url: '{{ route("admin.mail-settings.test") }}',
+                        method: 'POST',
+                        data: $('#mailSettingsForm').serialize(),
+                        success: function(response) {
+                            if (response.success) {
+                                showNotification('success', 'Test email berhasil dikirim! Periksa inbox Anda.');
+                            } else {
+                                showNotification('error', response.message || 'Gagal mengirim test email');
+                            }
+                        },
+                        error: function(xhr) {
+                            const response = xhr.responseJSON;
+                            showNotification('error', response?.message || 'Terjadi kesalahan saat mengirim test email');
+                        },
+                        complete: function() {
+                            btn.prop('disabled', false);
+                            btn.html(originalText);
+                        }
+                    });
+                });
+
+                // Handle tab switching from URL parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const tabParam = urlParams.get('tab');
+                if (tabParam === 'mail-settings') {
+                    $('#mail-settings-tab').click();
+                }
+
+                // Initialize Custom Dropdowns
+                initCustomDropdowns();
+
+                // Load .env settings button
+                $('#loadEnvSettings').click(function() {
+                    if (confirm('Apakah Anda yakin ingin memuat konfigurasi dari file .env? Ini akan menimpa pengaturan yang sedang diisi.')) {
+                        loadEnvSettings();
+                    }
+                });
             });
 
             function updateStatistics() {
@@ -457,6 +932,180 @@
                 setTimeout(() => {
                     notification.alert('close');
                 }, 3000);
+            }
+
+            function initCustomDropdowns() {
+                // Handle dropdown click
+                $(document).on('click', '.dropdown-selected', function(e) {
+                    e.stopPropagation();
+                    const dropdown = $(this).parent();
+                    const options = dropdown.find('.dropdown-options');
+                    const selected = $(this);
+
+                    // Close other dropdowns
+                    $('.custom-dropdown').not(dropdown).find('.dropdown-selected').removeClass('active');
+                    $('.custom-dropdown').not(dropdown).find('.dropdown-options').removeClass('show');
+
+                    // Toggle current dropdown
+                    selected.toggleClass('active');
+                    options.toggleClass('show');
+                });
+
+                // Handle option selection
+                $(document).on('click', '.dropdown-option', function(e) {
+                    e.stopPropagation();
+                    const option = $(this);
+                    const dropdown = option.closest('.custom-dropdown');
+                    const selected = dropdown.find('.dropdown-selected');
+                    const options = dropdown.find('.dropdown-options');
+                    const selectedText = dropdown.find('.selected-text');
+
+                    const value = option.data('value');
+                    const text = option.html();
+
+                    // Update selected text and value
+                    selectedText.html(text);
+                    dropdown.attr('data-value', value);
+
+                    // Update visual state
+                    dropdown.find('.dropdown-option').removeClass('selected');
+                    option.addClass('selected');
+
+                    // Close dropdown
+                    selected.removeClass('active');
+                    options.removeClass('show');
+
+                    // Create hidden input for form submission
+                    const name = dropdown.data('name');
+                    let hiddenInput = $(`input[name="${name}"]`);
+                    if (hiddenInput.length === 0) {
+                        hiddenInput = $('<input type="hidden">').attr('name', name);
+                        dropdown.after(hiddenInput);
+                    }
+                    hiddenInput.val(value);
+
+                    // Trigger change event for validation
+                    hiddenInput.trigger('change');
+                });
+
+                // Close dropdowns when clicking outside
+                $(document).on('click', function(e) {
+                    if (!$(e.target).closest('.custom-dropdown').length) {
+                        $('.dropdown-selected').removeClass('active');
+                        $('.dropdown-options').removeClass('show');
+                    }
+                });
+
+                // Initialize hidden inputs for existing values
+                $('.custom-dropdown').each(function() {
+                    const dropdown = $(this);
+                    const name = dropdown.data('name');
+                    const value = dropdown.data('value');
+                    const required = dropdown.data('required');
+
+                    // Create hidden input
+                    let hiddenInput = $(`input[name="${name}"]`);
+                    if (hiddenInput.length === 0) {
+                        hiddenInput = $('<input type="hidden">').attr('name', name);
+                        if (required) {
+                            hiddenInput.attr('required', 'required');
+                        }
+                        dropdown.after(hiddenInput);
+                    }
+                    hiddenInput.val(value);
+
+                    // Mark selected option
+                    dropdown.find('.dropdown-option').each(function() {
+                        if ($(this).data('value') == value) {
+                            $(this).addClass('selected');
+                        }
+                    });
+                });
+
+                // Keyboard navigation
+                $(document).on('keydown', '.custom-dropdown', function(e) {
+                    const dropdown = $(this);
+                    const options = dropdown.find('.dropdown-option');
+                    const selected = dropdown.find('.dropdown-option.selected');
+
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        dropdown.find('.dropdown-selected').click();
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const next = selected.next('.dropdown-option');
+                        if (next.length) {
+                            next.click();
+                        } else {
+                            options.first().click();
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prev = selected.prev('.dropdown-option');
+                        if (prev.length) {
+                            prev.click();
+                        } else {
+                            options.last().click();
+                        }
+                    } else if (e.key === 'Escape') {
+                        dropdown.find('.dropdown-selected').removeClass('active');
+                        dropdown.find('.dropdown-options').removeClass('show');
+                    }
+                });
+
+                // Make dropdowns focusable for keyboard navigation
+                $('.custom-dropdown').attr('tabindex', '0');
+            }
+
+            function loadEnvSettings() {
+                // Set values from .env
+                const envSettings = {
+                    mail_mailer: '{{ env("MAIL_MAILER", "smtp") }}',
+                    mail_host: '{{ env("MAIL_HOST", "smtp.gmail.com") }}',
+                    mail_port: '{{ env("MAIL_PORT", "587") }}',
+                    mail_username: '{{ env("MAIL_USERNAME", "") }}',
+                    mail_password: '{{ env("MAIL_PASSWORD", "") }}',
+                    mail_encryption: '{{ env("MAIL_ENCRYPTION", "tls") }}',
+                    mail_from_address: '{{ str_replace('"', '', env("MAIL_FROM_ADDRESS", "")) }}',
+                    mail_from_name: '{{ str_replace('"', '', env("MAIL_FROM_NAME", "Dinas Koperasi")) }}'
+                };
+
+                // Update form inputs
+                $('#mail_host').val(envSettings.mail_host);
+                $('#mail_username').val(envSettings.mail_username);
+                $('#mailPassword').val(envSettings.mail_password);
+                $('#mail_from_address').val(envSettings.mail_from_address);
+                $('#mail_from_name').val(envSettings.mail_from_name);
+
+                // Update dropdowns
+                updateDropdown('mail_mailer', envSettings.mail_mailer);
+                updateDropdown('mail_port', envSettings.mail_port);
+                updateDropdown('mail_encryption', envSettings.mail_encryption);
+
+                showNotification('success', 'Konfigurasi dari .env berhasil dimuat');
+            }
+
+            function updateDropdown(name, value) {
+                const dropdown = $(`.custom-dropdown[data-name="${name}"]`);
+                const option = dropdown.find(`.dropdown-option[data-value="${value}"]`);
+
+                if (option.length) {
+                    // Update selected text
+                    dropdown.find('.selected-text').html(option.html());
+                    dropdown.attr('data-value', value);
+
+                    // Update visual state
+                    dropdown.find('.dropdown-option').removeClass('selected');
+                    option.addClass('selected');
+
+                    // Update hidden input
+                    let hiddenInput = $(`input[name="${name}"]`);
+                    if (hiddenInput.length === 0) {
+                        hiddenInput = $('<input type="hidden">').attr('name', name);
+                        dropdown.after(hiddenInput);
+                    }
+                    hiddenInput.val(value);
+                }
             }
         </script>
     @endpush

@@ -346,10 +346,31 @@ class PublicContentController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'service_category' => 'required|string|max:100',
             'description' => 'required|string|max:500',
             'content_detail' => 'nullable|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'external_link' => 'nullable|url|max:255'
+            'service_status' => 'required|in:active,inactive,maintenance',
+            'sort_order' => 'nullable|integer|min:1|max:100',
+            // Requirements
+            'requirements' => 'nullable|string',
+            'required_documents' => 'nullable|string',
+            'important_notes' => 'nullable|string',
+            // Procedure and cost
+            'procedure_steps' => 'nullable|string',
+            'service_fee' => 'nullable|numeric|min:0',
+            'processing_time' => 'nullable|integer|min:1',
+            'processing_time_unit' => 'nullable|in:hari,minggu,bulan',
+            'service_hours' => 'nullable|string',
+            'service_location' => 'nullable|string',
+            // Contact information
+            'responsible_person' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'contact_email' => 'nullable|email|max:255',
+            // Links
+            'external_link' => 'nullable|url|max:255',
+            'form_download_link' => 'nullable|url|max:255',
+            'tutorial_link' => 'nullable|url|max:255'
         ]);
 
         try {
@@ -360,12 +381,32 @@ class PublicContentController extends Controller
 
             $service = FeaturedService::create([
                 'title' => $request->title,
+                'service_category' => $request->service_category,
                 'description' => $request->description,
                 'content_detail' => $request->content_detail,
                 'image' => $imagePath,
+                'service_status' => $request->service_status ?? 'active',
+                'sort_order' => $request->sort_order ?? (FeaturedService::max('sort_order') + 1),
+                'is_active' => $request->service_status === 'active',
+                // Requirements
+                'requirements' => $request->requirements,
+                'required_documents' => $request->required_documents,
+                'important_notes' => $request->important_notes,
+                // Procedure and cost
+                'procedure_steps' => $request->procedure_steps,
+                'service_fee' => $request->service_fee ?? 0,
+                'processing_time' => $request->processing_time,
+                'processing_time_unit' => $request->processing_time_unit ?? 'hari',
+                'service_hours' => $request->service_hours,
+                'service_location' => $request->service_location,
+                // Contact information
+                'responsible_person' => $request->responsible_person,
+                'phone_number' => $request->phone_number,
+                'contact_email' => $request->contact_email,
+                // Links
                 'external_link' => $request->external_link,
-                'sort_order' => FeaturedService::max('sort_order') + 1,
-                'is_active' => true
+                'form_download_link' => $request->form_download_link,
+                'tutorial_link' => $request->tutorial_link
             ]);
 
             return response()->json([
@@ -393,10 +434,31 @@ class PublicContentController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'service_category' => 'required|string|max:100',
             'description' => 'required|string|max:500',
             'content_detail' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'external_link' => 'nullable|url|max:255'
+            'service_status' => 'required|in:active,inactive,maintenance',
+            'sort_order' => 'nullable|integer|min:1|max:100',
+            // Requirements
+            'requirements' => 'nullable|string',
+            'required_documents' => 'nullable|string',
+            'important_notes' => 'nullable|string',
+            // Procedure and cost
+            'procedure_steps' => 'nullable|string',
+            'service_fee' => 'nullable|numeric|min:0',
+            'processing_time' => 'nullable|integer|min:1',
+            'processing_time_unit' => 'nullable|in:hari,minggu,bulan',
+            'service_hours' => 'nullable|string',
+            'service_location' => 'nullable|string',
+            // Contact information
+            'responsible_person' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'contact_email' => 'nullable|email|max:255',
+            // Links
+            'external_link' => 'nullable|url|max:255',
+            'form_download_link' => 'nullable|url|max:255',
+            'tutorial_link' => 'nullable|url|max:255'
         ]);
 
         try {
@@ -416,10 +478,32 @@ class PublicContentController extends Controller
 
             $service->update([
                 'title' => $request->title,
+                'service_category' => $request->service_category,
                 'description' => $request->description,
                 'content_detail' => $request->content_detail,
                 'image' => $imagePath,
+                'service_status' => $request->service_status,
+                'sort_order' => $request->sort_order,
+                'is_active' => $request->service_status === 'active',
+                // Requirements
+                'requirements' => $request->requirements,
+                'required_documents' => $request->required_documents,
+                'important_notes' => $request->important_notes,
+                // Procedure and cost
+                'procedure_steps' => $request->procedure_steps,
+                'service_fee' => $request->service_fee ?? 0,
+                'processing_time' => $request->processing_time,
+                'processing_time_unit' => $request->processing_time_unit ?? 'hari',
+                'service_hours' => $request->service_hours,
+                'service_location' => $request->service_location,
+                // Contact information
+                'responsible_person' => $request->responsible_person,
+                'phone_number' => $request->phone_number,
+                'contact_email' => $request->contact_email,
+                // Links
                 'external_link' => $request->external_link,
+                'form_download_link' => $request->form_download_link,
+                'tutorial_link' => $request->tutorial_link
             ]);
 
             return response()->json([

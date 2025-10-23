@@ -81,6 +81,12 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{user}', [AccountController::class, 'destroy'])->name('destroy');
             Route::patch('/{user}/toggle-status', [AccountController::class, 'toggleStatus'])->name('toggle-status');
         });
+
+        // Mail Settings Routes
+        Route::prefix('admin/mail-settings')->name('admin.mail-settings.')->group(function () {
+            Route::post('/', [AccountController::class, 'storeMailSettings'])->name('store');
+            Route::post('/test', [AccountController::class, 'testMailSettings'])->name('test');
+        });
     });
 
     // Content Management Routes (admin dan super_admin)

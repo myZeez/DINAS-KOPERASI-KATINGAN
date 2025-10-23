@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\MailSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 
 class AccountController extends Controller
@@ -20,12 +23,16 @@ class AccountController extends Controller
         $inactiveAdmins = User::where('is_active', false)->count();
         $todayLogins = User::whereDate('last_login_at', today())->count();
 
+        // Get mail settings
+        $mailSettings = MailSetting::getActive();
+
         return view('admin.accounts.index', compact(
             'users',
             'totalAdmins',
             'activeAdmins',
             'inactiveAdmins',
-            'todayLogins'
+            'todayLogins',
+            'mailSettings'
         ));
     }
 
@@ -182,5 +189,144 @@ class AccountController extends Controller
             'success' => true,
             'message' => 'User berhasil dihapus'
         ]);
+    }
+
+    public function storeMailSettings(Request $request)
+    {
+        try {
+            $request->validate([
+                'mail_mailer' => 'required|string',
+                'mail_host' => 'required|string',
+                'mail_port' => 'required|integer',
+                'mail_username' => 'required|email',
+                'mail_password' => 'required|string',
+                'mail_encryption' => 'nullable|string',
+                'mail_from_address' => 'required|email',
+                'mail_from_name' => 'required|string',
+            ]);
+
+            // Update .env file
+            $this->updateEnvFile([
+                'MAIL_MAILER' => $request->mail_mailer,
+                'MAIL_HOST' => $request->mail_host,
+                'MAIL_PORT' => $request->mail_port,
+                'MAIL_USERNAME' => $request->mail_username,
+                'MAIL_PASSWORD' => $request->mail_password,
+                'MAIL_ENCRYPTION' => $request->mail_encryption ?: '',
+                'MAIL_FROM_ADDRESS' => '"' . $request->mail_from_address . '"',
+                'MAIL_FROM_NAME' => '"' . $request->mail_from_name . '"',
+            ]);
+
+            // Create or update mail settings in database
+            $mailSettings = MailSetting::updateOrCreate(
+                ['is_active' => true],
+                $request->only([
+                    'mail_mailer',
+                    'mail_host',
+                    'mail_port',
+                    'mail_username',
+                    'mail_password',
+                    'mail_encryption',
+                    'mail_from_address',
+                    'mail_from_name'
+                ]) + ['is_active' => true]
+            );
+
+            // Apply configuration
+            $mailSettings->applyConfig();
+
+            return redirect()->route('admin.accounts.index', ['tab' => 'mail-settings'])
+                ->with('success', 'Konfigurasi email SMTP berhasil disimpan ke database dan file .env');
+
+        } catch (\Exception $e) {
+            Log::error('Mail settings save failed', ['error' => $e->getMessage()]);
+
+            return redirect()->route('admin.accounts.index', ['tab' => 'mail-settings'])
+                ->with('error', 'Gagal menyimpan konfigurasi: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Update .env file with new values
+     */
+    private function updateEnvFile(array $data)
+    {
+        $envFile = base_path('.env');
+        $envContent = file_get_contents($envFile);
+
+        foreach ($data as $key => $value) {
+            // Handle empty values
+            if (empty($value) && $value !== '0') {
+                $value = '';
+            }
+
+            // Escape special characters for regex
+            $escapedKey = preg_quote($key, '/');
+
+            // Pattern to match the key=value line
+            $pattern = "/^{$escapedKey}=.*$/m";
+
+            // New line to replace
+            $newLine = "{$key}={$value}";
+
+            if (preg_match($pattern, $envContent)) {
+                // Key exists, replace it
+                $envContent = preg_replace($pattern, $newLine, $envContent);
+            } else {
+                // Key doesn't exist, add it at the end
+                $envContent .= "\n{$newLine}";
+            }
+        }
+
+        // Write back to .env file
+        file_put_contents($envFile, $envContent);
+
+        Log::info('Updated .env file with mail settings');
+    }
+
+    public function testMailSettings(Request $request)
+    {
+        try {
+            $request->validate([
+                'mail_host' => 'required|string',
+                'mail_port' => 'required|integer',
+                'mail_username' => 'required|email',
+                'mail_password' => 'required|string',
+                'mail_encryption' => 'nullable|string',
+                'mail_from_address' => 'required|email',
+                'mail_from_name' => 'required|string',
+            ]);
+
+            // Temporarily set mail configuration
+            Config::set([
+                'mail.default' => $request->mail_mailer ?? 'smtp',
+                'mail.mailers.smtp.host' => $request->mail_host,
+                'mail.mailers.smtp.port' => $request->mail_port,
+                'mail.mailers.smtp.username' => $request->mail_username,
+                'mail.mailers.smtp.password' => $request->mail_password,
+                'mail.mailers.smtp.encryption' => $request->mail_encryption,
+                'mail.from.address' => $request->mail_from_address,
+                'mail.from.name' => $request->mail_from_name,
+            ]);
+
+            // Send test email
+            Mail::raw('Ini adalah test email dari sistem Dinas Koperasi. Jika Anda menerima email ini, konfigurasi SMTP Anda sudah benar.', function ($message) use ($request) {
+                $message->to($request->mail_username)
+                        ->subject('Test Email - Konfigurasi SMTP Berhasil');
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Test email berhasil dikirim! Periksa inbox Anda.'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Mail test failed', ['error' => $e->getMessage()]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengirim test email: ' . $e->getMessage()
+            ], 422);
+        }
     }
 }
