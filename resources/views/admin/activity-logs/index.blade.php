@@ -34,66 +34,71 @@
 
         <!-- Filter & Search -->
         <div class="glass-card mb-4">
-            <div class="card-header-glass">
-                <h6 class="mb-0" style="color: var(--text-primary);">
-                    <i class="fas fa-filter me-2"></i>Filter Log
+            <div class="filter-header">
+                <h6 class="filter-title">
+                    <i class="fas fa-filter"></i>
+                    <span>Filter Log</span>
                 </h6>
             </div>
-            <div class="card-body-glass">
-                <form method="GET" action="{{ route('admin.activity-logs.index') }}">
-                    <div class="row g-3">
-                        <div class="col-md-3">
-                            <label for="action" class="form-label-glass">Aksi</label>
-                            <select name="action" id="action" class="form-control-glass">
+            <div class="filter-body">
+                <form method="GET" action="{{ route('admin.activity-logs.index') }}" class="filter-form">
+                    <div class="filter-grid">
+                        <!-- Row 1: Dropdowns -->
+                        <div class="filter-group">
+                            <label class="filter-label">Aksi</label>
+                            <select name="action" class="filter-select">
                                 <option value="">Semua Aksi</option>
                                 @foreach ($actions as $action)
-                                    <option value="{{ $action }}"
-                                        {{ request('action') == $action ? 'selected' : '' }}>
+                                    <option value="{{ $action }}" {{ request('action') == $action ? 'selected' : '' }}>
                                         {{ ucfirst($action) }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label for="model_type" class="form-label-glass">Tipe Model</label>
-                            <select name="model_type" id="model_type" class="form-control-glass">
+
+                        <div class="filter-group">
+                            <label class="filter-label">Tipe Model</label>
+                            <select name="model_type" class="filter-select">
                                 <option value="">Semua Model</option>
                                 @foreach ($modelTypes as $modelType)
-                                    <option value="{{ $modelType }}"
-                                        {{ request('model_type') == $modelType ? 'selected' : '' }}>
+                                    <option value="{{ $modelType }}" {{ request('model_type') == $modelType ? 'selected' : '' }}>
                                         {{ class_basename($modelType) }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label for="user_id" class="form-label-glass">Admin</label>
-                            <select name="user_id" id="user_id" class="form-control-glass">
+
+                        <div class="filter-group">
+                            <label class="filter-label">Admin</label>
+                            <select name="user_id" class="filter-select">
                                 <option value="">Semua Admin</option>
                                 @foreach ($users as $user)
-                                    <option value="{{ $user->id }}"
-                                        {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                                    <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
                                         {{ $user->name }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label for="date_from" class="form-label-glass">Dari Tanggal</label>
-                            <input type="date" name="date_from" id="date_from" class="form-control-glass"
-                                value="{{ request('date_from') }}">
+
+                        <!-- Row 2: Date inputs and buttons -->
+                        <div class="filter-group">
+                            <label class="filter-label">Dari Tanggal</label>
+                            <input type="date" name="date_from" class="filter-input" value="{{ request('date_from') }}" placeholder="dd/mm/yyyy">
                         </div>
-                        <div class="col-md-3">
-                            <label for="date_to" class="form-label-glass">Sampai Tanggal</label>
-                            <input type="date" name="date_to" id="date_to" class="form-control-glass"
-                                value="{{ request('date_to') }}">
+
+                        <div class="filter-group">
+                            <label class="filter-label">Sampai Tanggal</label>
+                            <input type="date" name="date_to" class="filter-input" value="{{ request('date_to') }}" placeholder="dd/mm/yyyy">
                         </div>
-                        <div class="col-md-3 d-flex align-items-end">
-                            <button type="submit" class="btn btn-glass me-2">
-                                <i class="fas fa-search me-1"></i>Filter
+
+                        <div class="filter-actions">
+                            <button type="submit" class="filter-btn filter-btn-primary">
+                                <i class="fas fa-search"></i>
+                                <span>Filter</span>
                             </button>
-                            <a href="{{ route('admin.activity-logs.index') }}" class="btn btn-glass-outline">
-                                <i class="fas fa-times me-1"></i>Reset
+                            <a href="{{ route('admin.activity-logs.index') }}" class="filter-btn filter-btn-secondary">
+                                <i class="fas fa-times"></i>
+                                <span>Reset</span>
                             </a>
                         </div>
                     </div>
@@ -336,6 +341,248 @@
 
     @push('styles')
         <style>
+            /* Enhanced Filter Layout Styles */
+            .filter-header {
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                background: rgba(255, 255, 255, 0.02);
+            }
+
+            .filter-title {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin: 0;
+                color: var(--text-primary);
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            .filter-title i {
+                color: var(--primary-color);
+                font-size: 1rem;
+            }
+
+            .filter-body {
+                padding: 1.5rem;
+            }
+
+            .filter-form {
+                width: 100%;
+            }
+
+            .filter-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.25rem;
+                align-items: end;
+            }
+
+            .filter-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .filter-label {
+                color: var(--text-primary);
+                font-size: 0.875rem;
+                font-weight: 500;
+                margin: 0;
+                line-height: 1.2;
+            }
+
+            .filter-select,
+            .filter-input {
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 8px;
+                color: var(--text-primary);
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+                transition: all 0.25s ease;
+                backdrop-filter: blur(10px);
+                height: 44px;
+                width: 100%;
+            }
+
+            .filter-select {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 0.75rem center;
+                background-size: 16px 12px;
+                appearance: none;
+                padding-right: 2.5rem;
+            }
+
+            .filter-select:focus,
+            .filter-input:focus {
+                background: rgba(255, 255, 255, 0.12);
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15);
+                outline: none;
+            }
+
+            .filter-select option {
+                background: var(--glass-bg);
+                color: var(--text-primary);
+                padding: 0.5rem;
+            }
+
+            .filter-actions {
+                display: flex;
+                gap: 0.75rem;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .filter-btn {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.75rem 1.25rem;
+                border-radius: 8px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.25s ease;
+                border: none;
+                cursor: pointer;
+                height: 44px;
+                white-space: nowrap;
+            }
+
+            .filter-btn-primary {
+                background: linear-gradient(135deg, var(--primary-color), #0056b3);
+                color: white;
+                box-shadow: 0 2px 4px rgba(79, 172, 254, 0.3);
+            }
+
+            .filter-btn-primary:hover {
+                background: linear-gradient(135deg, #0056b3, var(--primary-color));
+                transform: translateY(-1px);
+                box-shadow: 0 4px 8px rgba(79, 172, 254, 0.4);
+                color: white;
+                text-decoration: none;
+            }
+
+            .filter-btn-secondary {
+                background: rgba(255, 255, 255, 0.08);
+                color: var(--text-secondary);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+            }
+
+            .filter-btn-secondary:hover {
+                background: rgba(255, 255, 255, 0.12);
+                color: var(--text-primary);
+                border-color: rgba(255, 255, 255, 0.25);
+                transform: translateY(-1px);
+                text-decoration: none;
+            }
+
+            .filter-btn i {
+                font-size: 0.875rem;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 1200px) {
+                .filter-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .filter-actions {
+                    grid-column: span 2;
+                    justify-content: center;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .filter-grid {
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                }
+
+                .filter-actions {
+                    grid-column: span 1;
+                    justify-content: stretch;
+                }
+
+                .filter-btn {
+                    flex: 1;
+                    justify-content: center;
+                }
+
+                .filter-body {
+                    padding: 1rem;
+                }
+
+                .filter-header {
+                    padding: 0.75rem 1rem;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .filter-actions {
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+
+                .filter-btn {
+                    width: 100%;
+                }
+
+                .filter-select,
+                .filter-input {
+                    padding: 0.625rem 0.875rem;
+                    font-size: 0.8125rem;
+                    height: 40px;
+                }
+
+                .filter-btn {
+                    padding: 0.625rem 1rem;
+                    height: 40px;
+                    font-size: 0.8125rem;
+                }
+            }
+
+            /* Input placeholder styling */
+            .filter-input::placeholder {
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 0.875rem;
+            }
+
+            .filter-input::-webkit-input-placeholder {
+                color: rgba(255, 255, 255, 0.5);
+            }
+
+            .filter-input::-moz-placeholder {
+                color: rgba(255, 255, 255, 0.5);
+                opacity: 1;
+            }
+
+            .filter-input:-ms-input-placeholder {
+                color: rgba(255, 255, 255, 0.5);
+            }
+
+            /* Date input styling */
+            .filter-input[type="date"] {
+                position: relative;
+            }
+
+            .filter-input[type="date"]::-webkit-calendar-picker-indicator {
+                background: transparent;
+                bottom: 0;
+                color: var(--text-primary);
+                cursor: pointer;
+                height: auto;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: auto;
+                filter: invert(1);
+            }
+
             /* Custom Pagination Styles */
             .pagination-container {
                 display: flex;

@@ -12,24 +12,7 @@
                 'Selamat datang! Monitor dan kelola seluruh sistem informasi Dinas Koperasi dalam satu tempat',
             'icon' => 'fas fa-tachometer-alt',
             'breadcrumb' => 'Dashboard',
-            'badge' => 'Live',
-            'quickStats' => [
-                [
-                    'value' => $totalViews ?? 0,
-                    'label' => 'Total Views',
-                    'icon' => 'fas fa-eye',
-                ],
-                [
-                    'value' => $activeUsers ?? 0,
-                    'label' => 'Active Users',
-                    'icon' => 'fas fa-users',
-                ],
-                [
-                    'value' => $systemUptime ?? '100%',
-                    'label' => 'Uptime',
-                    'icon' => 'fas fa-server',
-                ],
-            ],
+
             'showProgress' => true,
             'progressValue' => 75,
         ])
@@ -110,11 +93,13 @@
                                 <i class="fas fa-code"></i> API Documentation
                             </a>
                         </div>
+                        @if (auth()->check() && auth()->user()->role === 'super_admin')
                         <div class="col-md-3 mb-2">
                             <a href="{{ route('admin.accounts.index') }}" class="btn btn-glass w-100">
                                 <i class="fas fa-users"></i> Kelola Akun
                             </a>
                         </div>
+                        @endif
                         <div class="col-md-3 mb-2">
                             <a href="{{ route('admin.reviews') }}" class="btn btn-glass w-100">
                                 <i class="fas fa-star"></i> Review & Ulasan
@@ -147,34 +132,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>{{ date('H:i') }}</td>
-                                    <td>Admin login ke sistem</td>
-                                    <td><span class="badge-glass"
-                                            style="background: rgba(0, 255, 136, 0.2); color: var(--accent-color);">Berhasil</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ date('H:i', strtotime('-30 minutes')) }}</td>
-                                    <td>Berita baru dipublikasikan</td>
-                                    <td><span class="badge-glass"
-                                            style="background: rgba(0, 255, 136, 0.2); color: var(--accent-color);">Berhasil</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ date('H:i', strtotime('-1 hour')) }}</td>
-                                    <td>Galeri foto diperbarui</td>
-                                    <td><span class="badge-glass"
-                                            style="background: rgba(255, 215, 61, 0.2); color: var(--warning-color);">Pending</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ date('H:i', strtotime('-2 hours')) }}</td>
-                                    <td>Complaint baru diterima</td>
-                                    <td><span class="badge-glass"
-                                            style="background: rgba(255, 107, 107, 0.2); color: var(--danger-color);">Perlu
-                                            Review</span></td>
-                                </tr>
+                                @forelse($recentActivities as $activity)
+                                    <tr>
+                                        <td>{{ $activity['time'] }}</td>
+                                        <td>{{ $activity['description'] }}</td>
+                                        <td>
+                                            <span class="badge-glass"
+                                                style="background: {{ $activity['badge_class'] }}; color: var(--accent-color);">
+                                                {{ $activity['status'] }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td>{{ date('H:i') }}</td>
+                                        <td>Tidak ada aktivitas terbaru</td>
+                                        <td>
+                                            <span class="badge-glass"
+                                                style="background: rgba(255, 215, 61, 0.2); color: var(--warning-color);">
+                                                Info
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -229,36 +209,29 @@
                     <h5 class="mb-3">
                         <i class="fas fa-bell"></i> Notifikasi
                     </h5>
-                    <div class="notification-item d-flex align-items-center mb-3">
-                        <div class="notification-icon me-3"
-                            style="width: 40px; height: 40px; background: rgba(255, 107, 107, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-exclamation text-danger"></i>
+                    @forelse($notifications as $notification)
+                        <div class="notification-item d-flex align-items-center mb-3">
+                            <div class="notification-icon me-3"
+                                style="width: 40px; height: 40px; background: {{ $notification['icon_bg'] }}; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="{{ $notification['icon'] }} {{ $notification['icon_color'] }}"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold" style="font-size: 14px;">{{ $notification['title'] }}</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">{{ $notification['time'] }}</div>
+                            </div>
                         </div>
-                        <div>
-                            <div class="fw-bold" style="font-size: 14px;">Complaint Baru</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">2 menit yang lalu</div>
+                    @empty
+                        <div class="notification-item d-flex align-items-center">
+                            <div class="notification-icon me-3"
+                                style="width: 40px; height: 40px; background: rgba(0, 255, 136, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-check-circle text-success"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold" style="font-size: 14px;">Tidak Ada Notifikasi</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Semua dalam kondisi normal</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="notification-item d-flex align-items-center mb-3">
-                        <div class="notification-icon me-3"
-                            style="width: 40px; height: 40px; background: rgba(0, 255, 136, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-star text-success"></i>
-                        </div>
-                        <div>
-                            <div class="fw-bold" style="font-size: 14px;">Ulasan Positif</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">15 menit yang lalu</div>
-                        </div>
-                    </div>
-                    <div class="notification-item d-flex align-items-center">
-                        <div class="notification-icon me-3"
-                            style="width: 40px; height: 40px; background: rgba(255, 215, 61, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-image text-warning"></i>
-                        </div>
-                        <div>
-                            <div class="fw-bold" style="font-size: 14px;">Foto Perlu Approval</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">1 jam yang lalu</div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>

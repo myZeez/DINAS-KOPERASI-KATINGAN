@@ -1543,8 +1543,8 @@
                     </a>
                 @endif
 
-                <!-- Activity Logs (admin dan super_admin) -->
-                @if (auth()->check() && in_array(auth()->user()->role, ['admin', 'super_admin']))
+                <!-- Activity Logs (hanya super_admin) -->
+                @if (auth()->check() && auth()->user()->role === 'super_admin')
                     <a href="{{ route('admin.activity-logs.index') }}"
                         class="nav-item {{ request()->routeIs('admin.activity-logs.*') ? 'active' : '' }}">
                         <i class="fas fa-history"></i>

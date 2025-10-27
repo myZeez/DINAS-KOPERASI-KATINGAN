@@ -289,7 +289,7 @@
 
         <!-- Modal Edit Profile -->
         <div class="modal fade" id="editProfileModal" tabindex="-1">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content modal-glass">
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -301,100 +301,106 @@
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
+                            <!-- Grid 2 Kolom -->
                             <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">Nama Dinas</label>
-                                    <input type="text" name="name" class="form-control form-control-glass"
-                                        value="{{ old('name', $profile->name) }}" required>
+                                <!-- Kolom Kiri -->
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nama Dinas</label>
+                                        <input type="text" name="name" class="form-control form-control-glass"
+                                            value="{{ old('name', $profile->name) }}" required>
+                                    </div>
+
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Info:</strong> Data Kepala Dinas akan otomatis diambil dari halaman Struktur
+                                        Organisasi.
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Alamat Lengkap</label>
+                                        <textarea name="address" class="form-control form-control-glass" rows="3">{{ old('address', $profile->address) }}</textarea>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Nomor Telepon</label>
+                                            <input type="tel" name="phone" class="form-control form-control-glass"
+                                                value="{{ old('phone', $profile->phone) }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Email Resmi</label>
+                                            <input type="email" name="email" class="form-control form-control-glass"
+                                                value="{{ old('email', $profile->email) }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Visi</label>
+                                        <textarea name="vision" class="form-control form-control-glass vision-textarea" rows="5"
+                                            placeholder="Masukkan visi organisasi yang jelas dan inspiratif...">{{ old('vision', $profile->vision) }}</textarea>
+                                        <div class="form-text">Pernyataan visi yang menggambarkan cita-cita organisasi di masa depan</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Misi</label>
+                                        <textarea name="mission" class="form-control form-control-glass mission-textarea" rows="6"
+                                            placeholder="Masukkan misi organisasi dalam bentuk poin-poin atau paragraf...">{{ old('mission', $profile->mission) }}</textarea>
+                                        <div class="form-text">Langkah-langkah strategis untuk mencapai visi yang telah ditetapkan</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Detail Profil</label>
+                                        <textarea name="detail" class="form-control form-control-glass" rows="4"
+                                            placeholder="Masukkan detail lengkap tentang dinas...">{{ old('detail', $profile->detail) }}</textarea>
+                                        <div class="form-text">Informasi detail tentang dinas</div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle me-2"></i>
-                                <strong>Info:</strong> Data Kepala Dinas akan otomatis diambil dari halaman Struktur
-                                Organisasi.
-                                Pastikan sudah menambahkan posisi "Kepala Dinas" di halaman struktur.
-                            </div>
+                                <!-- Kolom Kanan -->
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Quotes/Motto</label>
+                                        <textarea name="quotes" class="form-control form-control-glass" rows="3"
+                                            placeholder="Masukkan quotes, motto, atau kata-kata inspiratif...">{{ old('quotes', $profile->quotes) }}</textarea>
+                                        <div class="form-text">Quotes atau motto inspiratif</div>
+                                    </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Alamat Lengkap</label>
-                                <textarea name="address" class="form-control form-control-glass" rows="3">{{ old('address', $profile->address) }}</textarea>
-                            </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Tujuan</label>
+                                        <textarea name="tujuan" class="form-control form-control-glass" rows="3"
+                                            placeholder="Masukkan tujuan utama organisasi...">{{ old('tujuan', $profile->tujuan) }}</textarea>
+                                        <div class="form-text">Tujuan utama organisasi</div>
+                                    </div>
 
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Nomor Telepon</label>
-                                    <input type="tel" name="phone" class="form-control form-control-glass"
-                                        value="{{ old('phone', $profile->phone) }}">
+                                    <div class="mb-3">
+                                        <label class="form-label">Tentang</label>
+                                        <textarea name="tentang" class="form-control form-control-glass" rows="4"
+                                            placeholder="Masukkan informasi tentang organisasi...">{{ old('tentang', $profile->tentang) }}</textarea>
+                                        <div class="form-text">Informasi lengkap tentang organisasi</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Tugas Pokok</label>
+                                        <textarea name="tugas_pokok" class="form-control form-control-glass" rows="3"
+                                            placeholder="Masukkan tugas pokok dan fungsi...">{{ old('tugas_pokok', $profile->tugas_pokok) }}</textarea>
+                                        <div class="form-text">Tugas pokok dan fungsi utama</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Peran</label>
+                                        <textarea name="peran" class="form-control form-control-glass" rows="3"
+                                            placeholder="Masukkan peran organisasi dalam masyarakat...">{{ old('peran', $profile->peran) }}</textarea>
+                                        <div class="form-text">Peran strategis dalam masyarakat</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Fokus Utama</label>
+                                        <textarea name="fokus_utama" class="form-control form-control-glass" rows="3"
+                                            placeholder="Masukkan fokus utama dan prioritas...">{{ old('fokus_utama', $profile->fokus_utama) }}</textarea>
+                                        <div class="form-text">Area fokus utama dan prioritas kerja</div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Email Resmi</label>
-                                    <input type="email" name="email" class="form-control form-control-glass"
-                                        value="{{ old('email', $profile->email) }}">
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Visi</label>
-                                <textarea name="vision" class="form-control form-control-glass" rows="3">{{ old('vision', $profile->vision) }}</textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Misi</label>
-                                <textarea name="mission" class="form-control form-control-glass" rows="4">{{ old('mission', $profile->mission) }}</textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Detail Profil</label>
-                                <textarea name="detail" class="form-control form-control-glass" rows="5"
-                                    placeholder="Masukkan detail lengkap tentang dinas, sejarah, tugas pokok, fungsi, dan informasi penting lainnya...">{{ old('detail', $profile->detail) }}</textarea>
-                                <div class="form-text">Informasi detail tentang dinas yang akan ditampilkan di halaman
-                                    utama
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Quotes/Motto</label>
-                                <textarea name="quotes" class="form-control form-control-glass" rows="3"
-                                    placeholder="Masukkan quotes, motto, atau kata-kata inspiratif dinas...">{{ old('quotes', $profile->quotes) }}</textarea>
-                                <div class="form-text">Quotes atau motto yang akan ditampilkan sebagai inspirasi
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Tujuan</label>
-                                <textarea name="tujuan" class="form-control form-control-glass" rows="4"
-                                    placeholder="Masukkan tujuan utama organisasi...">{{ old('tujuan', $profile->tujuan) }}</textarea>
-                                <div class="form-text">Tujuan utama yang ingin dicapai oleh organisasi</div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Tentang</label>
-                                <textarea name="tentang" class="form-control form-control-glass" rows="5"
-                                    placeholder="Masukkan informasi tentang organisasi secara detail...">{{ old('tentang', $profile->tentang) }}</textarea>
-                                <div class="form-text">Informasi lengkap tentang sejarah, profil, dan karakteristik
-                                    organisasi</div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Tugas Pokok</label>
-                                <textarea name="tugas_pokok" class="form-control form-control-glass" rows="4"
-                                    placeholder="Masukkan tugas pokok dan fungsi organisasi...">{{ old('tugas_pokok', $profile->tugas_pokok) }}</textarea>
-                                <div class="form-text">Tugas pokok dan fungsi utama yang dijalankan</div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Peran</label>
-                                <textarea name="peran" class="form-control form-control-glass" rows="4"
-                                    placeholder="Masukkan peran organisasi dalam masyarakat...">{{ old('peran', $profile->peran) }}</textarea>
-                                <div class="form-text">Peran strategis organisasi dalam pembangunan dan masyarakat</div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Fokus Utama</label>
-                                <textarea name="fokus_utama" class="form-control form-control-glass" rows="4"
-                                    placeholder="Masukkan fokus utama dan prioritas organisasi...">{{ old('fokus_utama', $profile->fokus_utama) }}</textarea>
-                                <div class="form-text">Area fokus utama dan prioritas kerja saat ini</div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -659,6 +665,73 @@
             .btn-glass .fas {
                 color: inherit !important;
                 fill: inherit !important;
+            }
+
+            /* Modal 2 Grid Optimization */
+            .modal-xl .modal-body {
+                max-height: 70vh;
+                overflow-y: auto;
+                padding: 1.5rem;
+            }
+
+            .modal-xl .modal-body::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .modal-xl .modal-body::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 3px;
+            }
+
+            .modal-xl .modal-body::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 3px;
+            }
+
+            .modal-xl .modal-body::-webkit-scrollbar-thumb:hover {
+                background: rgba(255, 255, 255, 0.5);
+            }
+
+            /* Form spacing optimization for 2-grid layout */
+            .modal-xl .form-control-glass {
+                font-size: 14px;
+            }
+
+            .modal-xl .form-text {
+                font-size: 11px;
+                margin-top: 4px;
+            }
+
+            .modal-xl textarea.form-control-glass {
+                min-height: auto;
+            }
+
+            /* Vision and Mission textarea enhancements */
+            .vision-textarea {
+                min-height: 120px !important;
+                resize: vertical;
+            }
+
+            .mission-textarea {
+                min-height: 140px !important;
+                resize: vertical;
+            }
+
+            .vision-textarea:focus,
+            .mission-textarea:focus {
+                box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+                border-color: rgba(255, 255, 255, 0.8);
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 992px) {
+                .modal-xl .modal-body {
+                    max-height: 60vh;
+                }
+
+                .modal-xl .col-lg-6 {
+                    margin-bottom: 1rem;
+                }
             }
         </style>
     @endpush

@@ -45,32 +45,40 @@
         }
 
         /* Card Headers */
-        .card-header {
+        .card-title-header {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 28px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0;
+            border: none;
+            background: none;
+            box-shadow: none;
         }
 
-        .card-header h4 {
+        .card-title-header h4 {
             color: var(--text-primary);
             font-weight: 600;
             margin: 0;
             font-size: 1.3rem;
+            background: none;
+            border: none;
         }
 
-        .card-header i {
+        .card-title-header i {
             color: var(--accent-color);
             font-size: 1.4rem;
-            width: 30px;
-            height: 30px;
-            display: flex;
+            width: auto;
+            height: auto;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 255, 136, 0.1);
-            border-radius: 8px;
+            background: none !important;
+            border: none !important;
+            border-radius: 0;
+            padding: 0;
+            margin: 0;
+            box-shadow: none;
         }
 
         /* Back Button */
@@ -481,7 +489,7 @@
                     <div class="col-lg-8">
                         <!-- Article Information -->
                         <div class="glass-card">
-                            <div class="card-header">
+                            <div class="card-title-header">
                                 <i class="fas fa-edit"></i>
                                 <h4>Edit Informasi Artikel</h4>
                             </div>
@@ -602,7 +610,7 @@
                     <div class="col-lg-4">
                         <!-- Publish Settings -->
                         <div class="glass-card">
-                            <div class="card-header">
+                            <div class="card-title-header">
                                 <i class="fas fa-cogs"></i>
                                 <h4>Pengaturan Publikasi</h4>
                             </div>

@@ -34,28 +34,27 @@
             ],
         ])
 
-        <!-- Tab Navigation -->
+        <!-- Custom Tab Navigation -->
         <div class="glass-card mb-4">
-            <ul class="nav nav-tabs nav-tabs-glass" id="accountTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users"
-                        type="button" role="tab" aria-controls="users" aria-selected="true">
-                        <i class="fas fa-users me-2"></i>Kelola Administrator
+            <div class="custom-tab-container">
+                <div class="custom-tab-wrapper">
+                    <button class="custom-tab-button active" data-tab="users">
+                        <i class="fas fa-users"></i>
+                        <span>Kelola Administrator</span>
                     </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="mail-settings-tab" data-bs-toggle="tab" data-bs-target="#mail-settings"
-                        type="button" role="tab" aria-controls="mail-settings" aria-selected="false">
-                        <i class="fas fa-envelope-open-text me-2"></i>Konfigurasi Email SMTP
+                    <button class="custom-tab-button" data-tab="mail-settings">
+                        <i class="fas fa-envelope-open-text"></i>
+                        <span>Konfigurasi Email SMTP</span>
                     </button>
-                </li>
-            </ul>
+                </div>
+                <div class="custom-tab-indicator"></div>
+            </div>
         </div>
 
         <!-- Tab Content -->
         <div class="tab-content" id="accountTabsContent">
             <!-- Users Tab -->
-            <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+            <div class="tab-pane fade show active tab-content-animation" id="users" role="tabpanel">
                 <div class="glass-card">
                     <div class="table-responsive">
                         <table class="table table-glass">
@@ -151,7 +150,7 @@
             </div>
 
             <!-- Mail Settings Tab -->
-            <div class="tab-pane fade" id="mail-settings" role="tabpanel" aria-labelledby="mail-settings-tab">
+            <div class="tab-pane fade tab-content-animation" id="mail-settings" role="tabpanel">
                 <div class="glass-card">
                     <div class="row">
                         <div class="col-lg-8">
@@ -485,35 +484,134 @@
 
     @push('styles')
         <style>
-            .nav-tabs-glass {
-                border-bottom: 1px solid rgba(79, 172, 254, 0.2);
-                margin-bottom: 0;
-            }
-
-            .nav-tabs-glass .nav-link {
-                background: transparent;
-                border: 1px solid transparent;
-                color: var(--text-secondary);
-                padding: 1rem 1.5rem;
-                margin-right: 0.5rem;
-                border-radius: 12px 12px 0 0;
-                transition: all 0.3s ease;
+            /* Custom Manual Tab Navigation - No Bootstrap Dependencies */
+            .custom-tab-container {
                 position: relative;
+                background: transparent;
+                border-bottom: 2px solid rgba(79, 172, 254, 0.15);
                 overflow: hidden;
             }
 
-            .nav-tabs-glass .nav-link:hover {
-                color: var(--primary-color);
-                background: rgba(79, 172, 254, 0.05);
-                border-color: rgba(79, 172, 254, 0.2);
+            .custom-tab-wrapper {
+                display: flex;
+                position: relative;
+                gap: 0;
             }
 
-            .nav-tabs-glass .nav-link.active {
-                color: var(--primary-color);
-                background: rgba(79, 172, 254, 0.1);
-                border-color: rgba(79, 172, 254, 0.3);
-                border-bottom-color: transparent;
+            .custom-tab-button {
+                position: relative;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 16px 24px;
+                background: transparent;
+                border: none;
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 15px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                border-radius: 0;
+                outline: none;
+                white-space: nowrap;
+                z-index: 2;
+            }
+
+            .custom-tab-button i {
+                font-size: 16px;
+                opacity: 0.8;
+                transition: all 0.25s ease;
+            }
+
+            .custom-tab-button span {
+                transition: all 0.25s ease;
+            }
+
+            /* Hover State */
+            .custom-tab-button:hover {
+                color: rgba(255, 255, 255, 0.9);
+                background: rgba(79, 172, 254, 0.08);
+            }
+
+            .custom-tab-button:hover i {
+                opacity: 1;
+                transform: translateY(-1px);
+            }
+
+            /* Active State */
+            .custom-tab-button.active {
+                color: #4facfe;
                 font-weight: 600;
+                background: rgba(79, 172, 254, 0.12);
+            }
+
+            .custom-tab-button.active i {
+                opacity: 1;
+                color: #4facfe;
+                text-shadow: 0 0 8px rgba(79, 172, 254, 0.4);
+            }
+
+            .custom-tab-button.active span {
+                color: #4facfe;
+            }
+
+            /* Moving Indicator */
+            .custom-tab-indicator {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+                border-radius: 2px 2px 0 0;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 0 12px rgba(79, 172, 254, 0.5);
+                z-index: 3;
+            }
+
+            /* Focus States for Accessibility */
+            .custom-tab-button:focus {
+                outline: 2px solid rgba(79, 172, 254, 0.5);
+                outline-offset: -2px;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .custom-tab-button {
+                    padding: 12px 16px;
+                    font-size: 14px;
+                }
+
+                .custom-tab-button span {
+                    display: none;
+                }
+
+                .custom-tab-button i {
+                    font-size: 18px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .custom-tab-wrapper {
+                    justify-content: space-around;
+                }
+
+                .custom-tab-button {
+                    flex: 1;
+                    justify-content: center;
+                    padding: 14px 8px;
+                }
+            }
+
+            /* Animation for tab content */
+            .tab-content-animation {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.3s ease;
+            }
+
+            .tab-content-animation.active {
+                opacity: 1;
+                transform: translateY(0);
             }
 
             .info-card {
@@ -689,6 +787,9 @@
             // Ensure jQuery is loaded and DOM is ready
             $(document).ready(function() {
                 console.log('jQuery loaded and DOM ready');
+
+                // Initialize Custom Tabs
+                initCustomTabs();
 
                 // Test if buttons are found
                 console.log('Edit buttons found:', $('.edit-user-btn').length);
@@ -1106,6 +1207,91 @@
                     }
                     hiddenInput.val(value);
                 }
+            }
+
+            // Custom Tab Functionality - Manual Implementation
+            function initCustomTabs() {
+                const tabButtons = $('.custom-tab-button');
+                const tabContents = $('.tab-pane');
+                const indicator = $('.custom-tab-indicator');
+
+                // Set initial indicator position
+                updateIndicatorPosition();
+
+                // Tab button click handler
+                tabButtons.on('click', function() {
+                    const targetTab = $(this).data('tab');
+
+                    // Remove active class from all buttons and contents
+                    tabButtons.removeClass('active');
+                    tabContents.removeClass('show active').addClass('fade');
+
+                    // Add active class to clicked button
+                    $(this).addClass('active');
+
+                    // Show target content with animation
+                    const targetContent = $(`#${targetTab}`);
+                    setTimeout(() => {
+                        targetContent.removeClass('fade').addClass('show active');
+                    }, 50);
+
+                    // Update indicator position
+                    updateIndicatorPosition();
+
+                    // Update URL without page reload
+                    const newUrl = new URL(window.location);
+                    newUrl.searchParams.set('tab', targetTab === 'users' ? '' : targetTab);
+                    if (targetTab === 'users') {
+                        newUrl.searchParams.delete('tab');
+                    }
+                    window.history.pushState({}, '', newUrl);
+                });
+
+                // Update indicator position function
+                function updateIndicatorPosition() {
+                    const activeButton = $('.custom-tab-button.active');
+                    if (activeButton.length) {
+                        const buttonOffset = activeButton.offset();
+                        const containerOffset = $('.custom-tab-wrapper').offset();
+                        const leftPosition = buttonOffset.left - containerOffset.left;
+                        const buttonWidth = activeButton.outerWidth();
+
+                        indicator.css({
+                            'left': leftPosition + 'px',
+                            'width': buttonWidth + 'px'
+                        });
+                    }
+                }
+
+                // Handle browser back/forward
+                window.addEventListener('popstate', function() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const tabParam = urlParams.get('tab') || 'users';
+
+                    // Activate correct tab
+                    tabButtons.removeClass('active');
+                    $(`.custom-tab-button[data-tab="${tabParam}"]`).addClass('active');
+
+                    // Show correct content
+                    tabContents.removeClass('show active').addClass('fade');
+                    setTimeout(() => {
+                        $(`#${tabParam}`).removeClass('fade').addClass('show active');
+                    }, 50);
+
+                    updateIndicatorPosition();
+                });
+
+                // Initialize from URL parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const initialTab = urlParams.get('tab');
+                if (initialTab && initialTab !== 'users') {
+                    $(`.custom-tab-button[data-tab="${initialTab}"]`).click();
+                }
+
+                // Handle window resize
+                $(window).on('resize', function() {
+                    setTimeout(updateIndicatorPosition, 100);
+                });
             }
         </script>
     @endpush

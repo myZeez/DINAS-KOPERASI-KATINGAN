@@ -75,7 +75,7 @@
                         <div class="glass-card h-100">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <div class="file-icon">
-                                    <i class="fas fa-file-{{ getFileIcon($file->file_extension) }} fa-2x text-primary"></i>
+                                    <i class="fas fa-file-{{ getFileIcon($file->file_extension) }} fa-2x" style="color: #00ff88;"></i>
                                 </div>
                                 <div class="dropdown">
                                     <button class="btn btn-glass btn-sm dropdown-toggle" type="button"
@@ -189,9 +189,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(13, 110, 253, 0.1);
+            background: rgba(0, 255, 136, 0.15);
             border-radius: 12px;
             margin-bottom: 1rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
         }
 
         /* Dropdown styling for glass theme */

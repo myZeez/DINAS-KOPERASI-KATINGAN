@@ -73,9 +73,7 @@
                                         <p class="nip">NIP: {{ $kepala->nip }}</p>
                                     @endif
                                 </div>
-                                <div class="edit-icon">
-                                    <i class="fas fa-edit"></i>
-                                </div>
+
                             </div>
                         </div>
 
@@ -103,9 +101,6 @@
                                     @if ($sekretaris->nip)
                                         <p class="nip">NIP: {{ $sekretaris->nip }}</p>
                                     @endif
-                                </div>
-                                <div class="edit-icon">
-                                    <i class="fas fa-edit"></i>
                                 </div>
                             </div>
                         </div>
@@ -136,9 +131,7 @@
                                                 <p class="nip">NIP: {{ $kb->nip }}</p>
                                             @endif
                                         </div>
-                                        <div class="edit-icon">
-                                            <i class="fas fa-edit"></i>
-                                        </div>
+
                                     </div>
                                 @endforeach
                             </div>
@@ -173,9 +166,7 @@
                                                 <p class="nip">NIP: {{ $st->nip }}</p>
                                             @endif
                                         </div>
-                                        <div class="edit-icon">
-                                            <i class="fas fa-edit"></i>
-                                        </div>
+
                                     </div>
                                 @endforeach
                             </div>

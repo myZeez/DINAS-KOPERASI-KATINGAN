@@ -1206,7 +1206,7 @@
 
         .service-image {
             position: relative;
-            height: 220px;
+            height: 280px;
             overflow: hidden;
         }
 
@@ -1351,7 +1351,7 @@
             }
 
             .service-image {
-                height: 180px;
+                height: 240px;
             }
 
             .service-icon-container {
@@ -1521,8 +1521,7 @@
         }
 
         .gallery-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            /* Removed excessive hover effects */
         }
 
         .gallery-item {
@@ -1541,7 +1540,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
+            /* Removed transform transition */
         }
 
         .gallery-overlay {
@@ -1550,7 +1549,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(29, 78, 216, 0.8);
+            background: rgba(0, 0, 0, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1563,17 +1562,18 @@
         }
 
         .gallery-card:hover .gallery-img {
-            transform: scale(1.05);
+            /* Removed scale transform */
         }
 
         .gallery-icon {
             color: white;
-            font-size: 1.5rem;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 2rem;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover .gallery-icon {
+            transform: scale(1);
         }
 
         .gallery-info {
@@ -1631,8 +1631,7 @@
             }
 
             .gallery-icon {
-                font-size: 1.2rem;
-                padding: 10px;
+                font-size: 1.5rem;
             }
         }
 
@@ -2540,7 +2539,7 @@
             }
 
             .service-image {
-                height: 160px;
+                height: 200px;
             }
 
             .service-icon-container {
@@ -3904,6 +3903,19 @@
             margin: 0 15px;
         }
 
+        /* Remove any edit icons and other unwanted elements */
+        .org-card::after,
+        .org-card::before,
+        .org-card .edit-icon,
+        .org-card .fa-edit,
+        .org-card .fa-pencil-alt,
+        .org-card .fas.fa-edit,
+        .org-card .fas.fa-pencil-alt,
+        .org-card [class*="edit"],
+        .org-card [class*="pencil"] {
+            display: none !important;
+        }
+
         .org-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
@@ -4002,21 +4014,7 @@
             font-weight: 500;
         }
 
-        /* Edit Icon */
-        .edit-icon {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 30px;
-            height: 30px;
-            background: rgba(102, 126, 234, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #667eea;
-            font-size: 0.8rem;
-        }
+
 
         /* Containers for Multiple Items */
         .kabid-container {

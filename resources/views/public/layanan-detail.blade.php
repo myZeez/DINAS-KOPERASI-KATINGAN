@@ -7,29 +7,30 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10 col-xl-9">
-                    <article class="modern-card p-4 p-md-5">
-                        <nav aria-label="breadcrumb" class="mb-4">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="{{ route('public.home') }}">Beranda</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('public.layanan') }}">Layanan</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ $service->title }}</li>
-                            </ol>
-                        </nav>
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="{{ route('public.home') }}">Beranda</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('public.layanan') }}">Layanan</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $service->title }}</li>
+                        </ol>
+                    </nav>
 
-                        <h1 class="mb-3">{{ $service->title }}</h1>
-                        <p class="lead text-muted mb-4">{{ $service->description }}</p>
+                    <h1 class="mb-3">{{ $service->title }}</h1>
+                    <p class="lead text-muted mb-4">{{ $service->description }}</p>
 
-                        @if ($service->image)
-                            <div class="mb-4 text-center">
-                                <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}"
-                                    class="img-fluid rounded-4 shadow-sm" style="max-height:420px; object-fit:cover;">
-                            </div>
-                        @endif
+                    @if ($service->image)
+                        <div class="mb-4">
+                            <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}"
+                                class="w-100 rounded-4 shadow-sm" style="max-height:420px; object-fit:cover;">
+                        </div>
+                    @endif
+
+                    <div class="service-content">
 
                         <!-- Service Information Cards -->
-                        <div class="row g-4 mb-5">
+                        <div class="row g-3 mb-5">
                             @if ($service->service_category)
-                                <div class="col-md-4">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="info-card">
                                         <div class="d-flex align-items-center">
                                             <div class="info-icon me-3">
@@ -45,7 +46,7 @@
                             @endif
 
                             @if ($service->service_fee !== null)
-                                <div class="col-md-4">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="info-card">
                                         <div class="d-flex align-items-center">
                                             <div class="info-icon me-3">
@@ -67,7 +68,7 @@
                             @endif
 
                             @if ($service->processing_time)
-                                <div class="col-md-4">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="info-card">
                                         <div class="d-flex align-items-center">
                                             <div class="info-icon me-3">
@@ -148,9 +149,9 @@
                         @if ($service->service_hours || $service->service_location)
                             <div class="mb-5">
                                 <h3 class="mb-4"><i class="fas fa-building me-2 text-primary"></i>Informasi Pelayanan</h3>
-                                <div class="row g-4">
+                                <div class="row g-3">
                                     @if ($service->service_hours)
-                                        <div class="col-md-6">
+                                        <div class="col-sm-12 col-lg-6">
                                             <div class="content-card">
                                                 <h5 class="mb-3 text-muted"><i class="fas fa-clock me-2"></i>Jam Pelayanan</h5>
                                                 <div class="service-content">
@@ -161,7 +162,7 @@
                                     @endif
 
                                     @if ($service->service_location)
-                                        <div class="col-md-6">
+                                        <div class="col-sm-12 col-lg-6">
                                             <div class="content-card">
                                                 <h5 class="mb-3 text-muted"><i class="fas fa-map-marker-alt me-2"></i>Lokasi Pelayanan</h5>
                                                 <div class="service-content">
@@ -181,7 +182,7 @@
                                 <div class="content-card">
                                     <div class="row g-3">
                                         @if ($service->responsible_person)
-                                            <div class="col-md-4">
+                                            <div class="col-sm-6 col-lg-4">
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-user-tie me-2 text-muted"></i>
                                                     <div>
@@ -193,7 +194,7 @@
                                         @endif
 
                                         @if ($service->phone_number)
-                                            <div class="col-md-4">
+                                            <div class="col-sm-6 col-lg-4">
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-phone me-2 text-muted"></i>
                                                     <div>
@@ -205,7 +206,7 @@
                                         @endif
 
                                         @if ($service->contact_email)
-                                            <div class="col-md-4">
+                                            <div class="col-sm-6 col-lg-4">
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-envelope me-2 text-muted"></i>
                                                     <div>
@@ -250,7 +251,7 @@
                                 </a>
                             @endif
                         </div>
-                    </article>
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,75 +3,62 @@
 @section('title', $news->title)
 
 @section('content')
-    <!-- Header Section -->
-    <section class="hero" style="min-height: 60vh;">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 mx-auto text-center">
-                    <div class="hero-content">
-                        <nav aria-label="breadcrumb" class="mb-4">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="{{ route('public.home') }}"
-                                        class="text-white-50">Beranda</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('public.berita') }}"
-                                        class="text-white-50">Berita</a></li>
-                                <li class="breadcrumb-item active text-white" aria-current="page">{{ $news->title }}</li>
-                            </ol>
-                        </nav>
-                        <h1 class="mb-4">{{ $news->title }}</h1>
-                        <div class="d-flex justify-content-center align-items-center gap-3 text-white-50">
-                            <i class="fas fa-calendar"></i>
-                            <span>{{ $news->published_at->format('d F Y') }}</span>
-                            <span>•</span>
-                            <i class="fas fa-user"></i>
-                            <span>{{ $news->user->name ?? 'Admin' }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- News Content -->
-    <section class="section">
+    <!-- Content Section -->
+    <section class="section" style="padding-top: 140px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 mx-auto">
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ route('public.home') }}">Beranda</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('public.berita') }}">Berita</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $news->title }}</li>
+                        </ol>
+                    </nav>
+
+                    <h1 class="mb-3">{{ $news->title }}</h1>
+                    <p class="text-muted mb-3">{{ \Illuminate\Support\Str::limit(strip_tags($news->content), 150) }}</p>
+                    <div class="d-flex align-items-center gap-3 text-muted mb-4">
+                        <i class="fas fa-calendar"></i>
+                        <span>{{ $news->published_at->format('d F Y') }}</span>
+                        <span>•</span>
+                        <i class="fas fa-user"></i>
+                        <span>{{ $news->user->name ?? 'Admin Dinas Koperasi' }}</span>
+                    </div>
+
                     @if ($news->image)
                         <div class="news-cover mb-4">
                             <img src="{{ asset('storage/' . $news->image) }}" class="w-100" alt="{{ $news->title }}">
                         </div>
                     @endif
 
-                    <article class="modern-card p-4 p-md-5">
-                        <div class="news-content">
-                            {!! $news->content !!}
-                        </div>
+                    <div class="news-content mb-5">
+                        {!! $news->content !!}
+                    </div>
 
-                        <!-- Share Buttons -->
-                        <div class="mt-5 pt-4 border-top">
-                            <h6 class="mb-3">Bagikan Berita Ini:</h6>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
-                                    target="_blank" class="btn btn-outline-primary btn-sm">
-                                    <i class="fab fa-facebook-f me-2"></i>Facebook
-                                </a>
-                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($news->title) }}"
-                                    target="_blank" class="btn btn-outline-dark btn-sm">
-                                    <i class="fab fa-x-twitter me-2"></i>X
-                                </a>
-                                <a href="https://www.instagram.com/" target="_blank"
-                                    onclick="navigator.clipboard.writeText('{{ $news->title }} - {{ request()->fullUrl() }}'); alert('Link berita disalin! Silakan paste di Instagram.');"
-                                    class="btn btn-outline-danger btn-sm">
-                                    <i class="fab fa-instagram me-2"></i>Instagram
-                                </a>
-                                <a href="https://wa.me/?text={{ urlencode($news->title . ' - ' . request()->fullUrl()) }}"
-                                    target="_blank" class="btn btn-outline-success btn-sm">
-                                    <i class="fab fa-whatsapp me-2"></i>WhatsApp
-                                </a>
-                            </div>
+                    <!-- Share Buttons -->
+                    <div class="share-section pt-4 border-top">
+                        <h6 class="mb-3">Bagikan Berita Ini:</h6>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
+                                target="_blank" class="btn btn-outline-primary btn-sm">
+                                <i class="fab fa-facebook-f me-2"></i>Facebook
+                            </a>
+                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($news->title) }}"
+                                target="_blank" class="btn btn-outline-dark btn-sm">
+                                <i class="fab fa-x-twitter me-2"></i>X
+                            </a>
+                            <a href="https://www.instagram.com/" target="_blank"
+                                onclick="navigator.clipboard.writeText('{{ $news->title }} - {{ request()->fullUrl() }}'); alert('Link berita disalin! Silakan paste di Instagram.');"
+                                class="btn btn-outline-danger btn-sm">
+                                <i class="fab fa-instagram me-2"></i>Instagram
+                            </a>
+                            <a href="https://wa.me/?text={{ urlencode($news->title . ' - ' . request()->fullUrl()) }}"
+                                target="_blank" class="btn btn-outline-success btn-sm">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </a>
                         </div>
-                    </article>
+                    </div>
                 </div>
             </div>
         </div>
@@ -180,7 +167,16 @@
 
         .breadcrumb-item+.breadcrumb-item::before {
             content: ">";
-            color: rgba(255, 255, 255, 0.5);
+            color: #6c757d;
+        }
+
+        .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
         }
 
         /* Limit the width and provide comfortable reading measure */

@@ -89,7 +89,7 @@
                 <!-- Main Form -->
                 <div class="col-lg-8">
                     <div class="glass-card">
-                        <div class="card-header">
+                        <div class="card-titile-header">
                             <i class="fas fa-image"></i>
                             <h4>Edit Informasi Foto</h4>
                         </div>
@@ -167,7 +167,7 @@
                 <div class="col-lg-4">
                     <!-- Settings -->
                     <div class="glass-card">
-                        <div class="card-header">
+                        <div class="card-titile-header">
                             <i class="fas fa-cogs"></i>
                             <h4>Pengaturan</h4>
                         </div>
@@ -245,43 +245,6 @@
                         </div>
                     </div>
 
-                    <!-- Current Stats -->
-                    <div class="glass-card">
-                        <div class="card-header">
-                            <i class="fas fa-chart-bar"></i>
-                            <h4>Statistik</h4>
-                        </div>
-
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <div class="stat-icon">
-                                    <i class="fas fa-eye"></i>
-                                </div>
-                                <div class="stat-info">
-                                    <div class="stat-value">1,234</div>
-                                    <div class="stat-label">Views</div>
-                                </div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-icon">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                                <div class="stat-info">
-                                    <div class="stat-value">45</div>
-                                    <div class="stat-label">Likes</div>
-                                </div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-icon">
-                                    <i class="fas fa-download"></i>
-                                </div>
-                                <div class="stat-info">
-                                    <div class="stat-value">12</div>
-                                    <div class="stat-label">Downloads</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </form>
@@ -340,7 +303,7 @@
             transition: all 0.3s ease;
         }
 
-        .card-header {
+        .card-titile-header {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -349,14 +312,14 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .card-header h4 {
+        h4 {
             color: var(--text-primary);
             font-weight: 600;
             margin: 0;
             font-size: 1.3rem;
         }
 
-        .card-header i {
+        .card-title-header i {
             color: var(--accent-color);
             font-size: 1.4rem;
             width: 30px;
@@ -371,6 +334,7 @@
         .form-group {
             margin-bottom: 24px;
             position: relative;
+            width: 100%;
         }
 
         .form-label {
@@ -389,27 +353,34 @@
             margin-left: 2px;
         }
 
-        .form-control-modern {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: var(--text-primary);
-            padding: 14px 18px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            width: 100%;
+        .form-control-glass {
+            background: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 12px !important;
+            color: var(--text-primary) !important;
+            padding: 14px 18px !important;
+            font-size: 14px !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
         }
 
-        .form-control-modern::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+        .form-control-glass::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
         }
 
-        .form-control-modern:focus {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
-            outline: none;
+        .form-control-glass:focus {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border-color: var(--accent-color) !important;
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1) !important;
+            outline: none !important;
+        }
+
+        /* Textarea specific styling */
+        textarea.form-control-glass {
+            resize: vertical !important;
+            min-height: 100px !important;
         }
 
         /* Glass Select Dropdown Styling */
@@ -423,6 +394,8 @@
             transition: all 0.3s ease !important;
             backdrop-filter: blur(10px) !important;
             width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
             cursor: pointer !important;
             appearance: none !important;
             -webkit-appearance: none !important;
@@ -559,6 +532,7 @@
 
         .setting-item {
             margin-bottom: 20px;
+            width: 100%;
         }
 
         .setting-item:last-child {

@@ -309,24 +309,21 @@
             <div class="row g-4">
                 @forelse($galleries as $index => $g)
                     <div class="col-6 col-md-4 col-lg-3">
-                        <div class="gallery-card">
-                            <a class="gallery-item" href="{{ asset('storage/' . $g->image) }}" target="_blank"
-                                rel="noopener" data-title="{{ $g->title }}">
-                                <div class="gallery-image">
-                                    <img src="{{ asset('storage/' . $g->image) }}" alt="{{ $g->title }}"
-                                        class="gallery-img">
-                                    <div class="gallery-overlay">
-                                        <div class="gallery-icon">
-                                            <i class="fas fa-search-plus"></i>
-                                        </div>
+                        <div class="gallery-card" onclick="openLightbox('{{ asset('storage/' . $g->image) }}', '{{ $g->title }}', '{{ $g->description }}')">
+                            <div class="gallery-image">
+                                <img src="{{ asset('storage/' . $g->image) }}" alt="{{ $g->title }}"
+                                    class="gallery-img">
+                                <div class="gallery-overlay">
+                                    <div class="gallery-icon">
+                                        <i class="fas fa-search-plus"></i>
                                     </div>
                                 </div>
-                                @if ($g->title)
-                                    <div class="gallery-info">
-                                        <h6 class="gallery-title">{{ Str::limit($g->title, 40) }}</h6>
-                                    </div>
-                                @endif
-                            </a>
+                            </div>
+                            @if ($g->title)
+                                <div class="gallery-info">
+                                    <h6 class="gallery-title">{{ Str::limit($g->title, 40) }}</h6>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @empty
@@ -352,6 +349,24 @@
             @endif
         </div>
     </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-header">
+                <div class="lightbox-header-content">
+                    <h5 id="lightbox-title"></h5>
+                    <p id="lightbox-description" class="lightbox-subtitle"></p>
+                </div>
+                <button class="lightbox-close" onclick="closeLightbox()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="lightbox-body">
+                <img id="lightbox-image" src="" alt="">
+            </div>
+        </div>
+    </div>
 
     <!-- Ulasan Section -->
     <section id="ulasan" class="section section-alternate scroll-reveal">
@@ -435,3 +450,206 @@
         </div>
     </section>
 @endsection
+
+@push('styles')
+<style>
+/* Custom Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.lightbox.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 85%;
+    max-height: 85%;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(79, 172, 254, 0.3);
+    border-radius: 15px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: slideIn 0.3s ease;
+}
+
+.lightbox-header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(79, 172, 254, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.05), rgba(0, 242, 254, 0.02));
+}
+
+.lightbox-header-content {
+    flex: 1;
+    padding-right: 1rem;
+}
+
+.lightbox-header h5 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.4;
+}
+
+.lightbox-subtitle {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+.lightbox-close {
+    background: rgba(79, 172, 254, 0.1);
+    border: 1px solid rgba(79, 172, 254, 0.2);
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.lightbox-close:hover {
+    background: rgba(220, 53, 69, 0.15);
+    border-color: rgba(220, 53, 69, 0.3);
+    transform: scale(1.05);
+}
+
+.lightbox-close:hover i {
+    color: #dc3545;
+}
+
+.lightbox-close i {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.lightbox-body {
+    padding: 1.5rem;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-body img {
+    max-width: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(79, 172, 254, 0.1);
+}
+
+/* Hide navigation when lightbox is open */
+body.lightbox-open {
+    overflow: hidden;
+}
+
+body.lightbox-open .navbar,
+body.lightbox-open .navigation,
+body.lightbox-open nav {
+    display: none !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Gallery card cursor */
+.gallery-card {
+    cursor: pointer;
+}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    function openLightbox(imageSrc, title, description) {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxDescription = document.getElementById('lightbox-description');
+
+        // Set content
+        lightboxImage.src = imageSrc;
+        lightboxTitle.textContent = title || '';
+        lightboxDescription.textContent = description || '';
+
+        // Show/hide description based on content
+        if (description && description.trim()) {
+            lightboxDescription.style.display = 'block';
+        } else {
+            lightboxDescription.style.display = 'none';
+        }
+
+        // Show lightbox
+        lightbox.classList.add('active');
+        document.body.classList.add('lightbox-open');
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.classList.remove('active');
+        document.body.classList.remove('lightbox-open');
+
+        // Reset image src to avoid flash
+        setTimeout(() => {
+            document.getElementById('lightbox-image').src = '';
+        }, 300);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('lightbox');
+
+        // Close lightbox when clicking outside content
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    });
+</script>
+@endpush

@@ -25,62 +25,53 @@
                         <p class="text-muted">Semua data aman tersimpan</p>
                     </div>
                 @else
-                    <!-- Tabs for different content types -->
-                    <ul class="nav nav-tabs" id="trashTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="news-tab" data-bs-toggle="tab" data-bs-target="#news"
-                                type="button" role="tab">
-                                <i class="fas fa-newspaper me-1"></i>
-                                Berita <span class="badge bg-danger ms-1">{{ $trashedNews->count() }}</span>
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery"
-                                type="button" role="tab">
-                                <i class="fas fa-images me-1"></i>
-                                Galeri <span class="badge bg-danger ms-1">{{ $trashedGalleries->count() }}</span>
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review"
-                                type="button" role="tab">
-                                <i class="fas fa-star me-1"></i>
-                                Ulasan <span class="badge bg-danger ms-1">{{ $trashedReviews->count() }}</span>
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="carousel-tab" data-bs-toggle="tab" data-bs-target="#carousel"
-                                type="button" role="tab">
-                                <i class="fas fa-carousel me-1"></i>
-                                Carousel <span class="badge bg-danger ms-1">{{ $trashedCarousels->count() }}</span>
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="service-tab" data-bs-toggle="tab" data-bs-target="#service"
-                                type="button" role="tab">
-                                <i class="fas fa-cogs me-1"></i>
-                                Layanan <span class="badge bg-danger ms-1">{{ $trashedServices->count() }}</span>
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="content-tab" data-bs-toggle="tab" data-bs-target="#content"
-                                type="button" role="tab">
-                                <i class="fas fa-file-alt me-1"></i>
-                                Konten <span class="badge bg-danger ms-1">{{ $trashedContent->count() }}</span>
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="structure-tab" data-bs-toggle="tab" data-bs-target="#structure"
-                                type="button" role="tab">
-                                <i class="fas fa-sitemap me-1"></i>
-                                Struktur <span class="badge bg-danger ms-1">{{ $trashedStructures->count() }}</span>
-                            </button>
-                        </li>
-                    </ul>
+                    <!-- Custom Tab Navigation for Trash -->
+                    <div class="glass-card mb-4">
+                        <div class="custom-tab-container">
+                            <div class="custom-tab-wrapper">
+                                <button class="custom-tab-button active" data-tab="news">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>Berita</span>
+                                    <span class="tab-badge">{{ $trashedNews->count() }}</span>
+                                </button>
+                                <button class="custom-tab-button" data-tab="gallery">
+                                    <i class="fas fa-images"></i>
+                                    <span>Galeri</span>
+                                    <span class="tab-badge">{{ $trashedGalleries->count() }}</span>
+                                </button>
+                                <button class="custom-tab-button" data-tab="review">
+                                    <i class="fas fa-star"></i>
+                                    <span>Ulasan</span>
+                                    <span class="tab-badge">{{ $trashedReviews->count() }}</span>
+                                </button>
+                                <button class="custom-tab-button" data-tab="carousel">
+                                    <i class="fas fa-images"></i>
+                                    <span>Carousel</span>
+                                    <span class="tab-badge">{{ $trashedCarousels->count() }}</span>
+                                </button>
+                                <button class="custom-tab-button" data-tab="service">
+                                    <i class="fas fa-cogs"></i>
+                                    <span>Layanan</span>
+                                    <span class="tab-badge">{{ $trashedServices->count() }}</span>
+                                </button>
+                                <button class="custom-tab-button" data-tab="content">
+                                    <i class="fas fa-file-alt"></i>
+                                    <span>Konten</span>
+                                    <span class="tab-badge">{{ $trashedContent->count() }}</span>
+                                </button>
+                                <button class="custom-tab-button" data-tab="structure">
+                                    <i class="fas fa-sitemap"></i>
+                                    <span>Struktur</span>
+                                    <span class="tab-badge">{{ $trashedStructures->count() }}</span>
+                                </button>
+                            </div>
+                            <div class="custom-tab-indicator"></div>
+                        </div>
+                    </div>
 
                     <div class="tab-content" id="trashTabsContent">
                         <!-- News Tab -->
-                        <div class="tab-pane fade show active" id="news" role="tabpanel">
+                        <div class="tab-pane fade show active tab-content-animation" id="news" role="tabpanel">
                             @include('admin.trash.partials.content-table', [
                                 'items' => $trashedNews,
                                 'type' => 'news',
@@ -90,7 +81,7 @@
                         </div>
 
                         <!-- Gallery Tab -->
-                        <div class="tab-pane fade" id="gallery" role="tabpanel">
+                        <div class="tab-pane fade tab-content-animation" id="gallery" role="tabpanel">
                             @include('admin.trash.partials.content-table', [
                                 'items' => $trashedGalleries,
                                 'type' => 'gallery',
@@ -100,7 +91,7 @@
                         </div>
 
                         <!-- Review Tab -->
-                        <div class="tab-pane fade" id="review" role="tabpanel">
+                        <div class="tab-pane fade tab-content-animation" id="review" role="tabpanel">
                             @include('admin.trash.partials.content-table', [
                                 'items' => $trashedReviews,
                                 'type' => 'review',
@@ -114,7 +105,7 @@
                         </div>
 
                         <!-- Carousel Tab -->
-                        <div class="tab-pane fade" id="carousel" role="tabpanel">
+                        <div class="tab-pane fade tab-content-animation" id="carousel" role="tabpanel">
                             @include('admin.trash.partials.content-table', [
                                 'items' => $trashedCarousels,
                                 'type' => 'carousel',
@@ -124,7 +115,7 @@
                         </div>
 
                         <!-- Service Tab -->
-                        <div class="tab-pane fade" id="service" role="tabpanel">
+                        <div class="tab-pane fade tab-content-animation" id="service" role="tabpanel">
                             @include('admin.trash.partials.content-table', [
                                 'items' => $trashedServices,
                                 'type' => 'service',
@@ -134,7 +125,7 @@
                         </div>
 
                         <!-- Content Tab -->
-                        <div class="tab-pane fade" id="content" role="tabpanel">
+                        <div class="tab-pane fade tab-content-animation" id="content" role="tabpanel">
                             @include('admin.trash.partials.content-table', [
                                 'items' => $trashedContent,
                                 'type' => 'content',
@@ -148,7 +139,7 @@
                         </div>
 
                         <!-- Structure Tab -->
-                        <div class="tab-pane fade" id="structure" role="tabpanel">
+                        <div class="tab-pane fade tab-content-animation" id="structure" role="tabpanel">
                             @include('admin.trash.partials.content-table', [
                                 'items' => $trashedStructures,
                                 'type' => 'structure',
@@ -262,12 +253,191 @@
         </div>
     </div>
 
+    @push('styles')
+        <style>
+            /* Custom Manual Tab Navigation - Trash Page */
+            .custom-tab-container {
+                position: relative;
+                background: transparent;
+                border-bottom: 2px solid rgba(79, 172, 254, 0.15);
+                overflow: hidden;
+            }
+
+            .custom-tab-wrapper {
+                display: flex;
+                position: relative;
+                gap: 0;
+                flex-wrap: wrap;
+            }
+
+            .custom-tab-button {
+                position: relative;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 16px;
+                background: transparent;
+                border: none;
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                border-radius: 0;
+                outline: none;
+                white-space: nowrap;
+                z-index: 2;
+                flex: 1;
+                justify-content: center;
+                min-width: 0;
+            }
+
+            .custom-tab-button i {
+                font-size: 15px;
+                opacity: 0.8;
+                transition: all 0.25s ease;
+                flex-shrink: 0;
+            }
+
+            .custom-tab-button span:not(.tab-badge) {
+                transition: all 0.25s ease;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .tab-badge {
+                background: rgba(220, 53, 69, 0.8);
+                color: white;
+                font-size: 11px;
+                font-weight: 600;
+                padding: 2px 6px;
+                border-radius: 10px;
+                margin-left: 4px;
+                min-width: 18px;
+                text-align: center;
+                transition: all 0.25s ease;
+            }
+
+            /* Hover State */
+            .custom-tab-button:hover {
+                color: rgba(255, 255, 255, 0.9);
+                background: rgba(79, 172, 254, 0.08);
+            }
+
+            .custom-tab-button:hover i {
+                opacity: 1;
+                transform: translateY(-1px);
+            }
+
+            .custom-tab-button:hover .tab-badge {
+                background: rgba(220, 53, 69, 1);
+                transform: scale(1.05);
+            }
+
+            /* Active State */
+            .custom-tab-button.active {
+                color: #4facfe;
+                font-weight: 600;
+                background: rgba(79, 172, 254, 0.12);
+            }
+
+            .custom-tab-button.active i {
+                opacity: 1;
+                color: #4facfe;
+                text-shadow: 0 0 8px rgba(79, 172, 254, 0.4);
+            }
+
+            .custom-tab-button.active span:not(.tab-badge) {
+                color: #4facfe;
+            }
+
+            .custom-tab-button.active .tab-badge {
+                background: #dc3545;
+                box-shadow: 0 0 8px rgba(220, 53, 69, 0.4);
+            }
+
+            /* Moving Indicator */
+            .custom-tab-indicator {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+                border-radius: 2px 2px 0 0;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 0 12px rgba(79, 172, 254, 0.5);
+                z-index: 3;
+            }
+
+            /* Focus States for Accessibility */
+            .custom-tab-button:focus {
+                outline: 2px solid rgba(79, 172, 254, 0.5);
+                outline-offset: -2px;
+            }
+
+            /* Animation for tab content */
+            .tab-content-animation {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.3s ease;
+            }
+
+            .tab-content-animation.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Responsive Design */
+            @media (max-width: 992px) {
+                .custom-tab-button {
+                    font-size: 13px;
+                    padding: 12px 14px;
+                }
+
+                .custom-tab-button span:not(.tab-badge) {
+                    display: none;
+                }
+
+                .custom-tab-button i {
+                    font-size: 16px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .custom-tab-wrapper {
+                    justify-content: space-around;
+                }
+
+                .custom-tab-button {
+                    flex: 1;
+                    min-width: 60px;
+                    padding: 12px 8px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .custom-tab-button {
+                    padding: 10px 6px;
+                    font-size: 12px;
+                }
+
+                .tab-badge {
+                    font-size: 10px;
+                    padding: 1px 4px;
+                }
+            }
+        </style>
+    @endpush
+
     @push('scripts')
         <script>
             $(document).ready(function() {
                 console.log('Trash page scripts loaded');
                 let currentType = '';
                 let currentId = '';
+
+                // Initialize Custom Tabs for Trash Page
+                initTrashTabs();
 
                 // Restore functionality
                 $('.restore-btn').on('click', function() {
@@ -361,6 +531,91 @@
                             showToast('Terjadi kesalahan. Silakan coba lagi.', 'error');
                         });
                 });
+
+                // Custom Tab Functionality for Trash Page
+                function initTrashTabs() {
+                    const tabButtons = $('.custom-tab-button');
+                    const tabContents = $('.tab-pane');
+                    const indicator = $('.custom-tab-indicator');
+
+                    // Set initial indicator position
+                    updateIndicatorPosition();
+
+                    // Tab button click handler
+                    tabButtons.on('click', function() {
+                        const targetTab = $(this).data('tab');
+
+                        // Remove active class from all buttons and contents
+                        tabButtons.removeClass('active');
+                        tabContents.removeClass('show active').addClass('fade');
+
+                        // Add active class to clicked button
+                        $(this).addClass('active');
+
+                        // Show target content with animation
+                        const targetContent = $(`#${targetTab}`);
+                        setTimeout(() => {
+                            targetContent.removeClass('fade').addClass('show active');
+                        }, 50);
+
+                        // Update indicator position
+                        updateIndicatorPosition();
+
+                        // Update URL without page reload
+                        const newUrl = new URL(window.location);
+                        newUrl.searchParams.set('tab', targetTab === 'news' ? '' : targetTab);
+                        if (targetTab === 'news') {
+                            newUrl.searchParams.delete('tab');
+                        }
+                        window.history.pushState({}, '', newUrl);
+                    });
+
+                    // Update indicator position function
+                    function updateIndicatorPosition() {
+                        const activeButton = $('.custom-tab-button.active');
+                        if (activeButton.length) {
+                            const buttonOffset = activeButton.offset();
+                            const containerOffset = $('.custom-tab-wrapper').offset();
+                            const leftPosition = buttonOffset.left - containerOffset.left;
+                            const buttonWidth = activeButton.outerWidth();
+
+                            indicator.css({
+                                'left': leftPosition + 'px',
+                                'width': buttonWidth + 'px'
+                            });
+                        }
+                    }
+
+                    // Handle browser back/forward
+                    window.addEventListener('popstate', function() {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const tabParam = urlParams.get('tab') || 'news';
+
+                        // Activate correct tab
+                        tabButtons.removeClass('active');
+                        $(`.custom-tab-button[data-tab="${tabParam}"]`).addClass('active');
+
+                        // Show correct content
+                        tabContents.removeClass('show active').addClass('fade');
+                        setTimeout(() => {
+                            $(`#${tabParam}`).removeClass('fade').addClass('show active');
+                        }, 50);
+
+                        updateIndicatorPosition();
+                    });
+
+                    // Initialize from URL parameter
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const initialTab = urlParams.get('tab');
+                    if (initialTab && initialTab !== 'news') {
+                        $(`.custom-tab-button[data-tab="${initialTab}"]`).click();
+                    }
+
+                    // Handle window resize
+                    $(window).on('resize', function() {
+                        setTimeout(updateIndicatorPosition, 100);
+                    });
+                }
             });
         </script>
     @endpush

@@ -87,6 +87,14 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/', [AccountController::class, 'storeMailSettings'])->name('store');
             Route::post('/test', [AccountController::class, 'testMailSettings'])->name('test');
         });
+
+        // Activity Log Management Routes (Super Admin Only)
+        Route::prefix('admin/activity-logs')->name('admin.activity-logs.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('index');
+            Route::get('/{activityLog}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'show'])->name('show');
+            Route::delete('/{activityLog}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'destroy'])->name('destroy');
+            Route::post('/clear', [\App\Http\Controllers\Admin\ActivityLogController::class, 'clear'])->name('clear');
+        });
     });
 
     // Content Management Routes (admin dan super_admin)
@@ -185,14 +193,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/restore', [\App\Http\Controllers\Admin\TrashController::class, 'restore'])->name('restore');
             Route::post('/force-delete', [\App\Http\Controllers\Admin\TrashController::class, 'forceDelete'])->name('force-delete');
             Route::post('/empty', [\App\Http\Controllers\Admin\TrashController::class, 'emptyTrash'])->name('empty');
-        });
-
-        // Activity Log Management Routes
-        Route::prefix('admin/activity-logs')->name('admin.activity-logs.')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('index');
-            Route::get('/{activityLog}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'show'])->name('show');
-            Route::delete('/{activityLog}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'destroy'])->name('destroy');
-            Route::post('/clear', [\App\Http\Controllers\Admin\ActivityLogController::class, 'clear'])->name('clear');
         });
 
         // File Download Management Routes
