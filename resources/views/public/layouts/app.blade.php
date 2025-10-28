@@ -3900,6 +3900,7 @@
             transition: all 0.3s ease;
             position: relative;
             min-width: 280px;
+            max-width: 400px;
             margin: 0 15px;
         }
 
@@ -3925,24 +3926,29 @@
         .org-card.kepala {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05));
             border-color: rgba(239, 68, 68, 0.3);
-            min-width: 320px;
+            min-width: 300px;
+            max-width: 450px;
         }
 
         .org-card.sekretaris {
             background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05));
             border-color: rgba(34, 197, 94, 0.3);
+            min-width: 300px;
+            max-width: 450px;
         }
 
         .org-card.kabid {
             background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
             border-color: rgba(251, 191, 36, 0.3);
             min-width: 260px;
+            max-width: 350px;
         }
 
         .org-card.staff {
             background: linear-gradient(135deg, rgba(139, 192, 216, 0.1), rgba(125, 211, 252, 0.05));
             border-color: rgba(139, 192, 216, 0.3);
             min-width: 220px;
+            max-width: 300px;
             padding: 20px;
         }
 
@@ -3986,32 +3992,79 @@
         /* Card Info */
         .card-info h4 {
             color: #1f2937;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 700;
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
         .card-info h5 {
             color: #374151;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             margin-bottom: 5px;
+            line-height: 1.3;
         }
 
         .card-info h6 {
             color: #374151;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 5px;
+            line-height: 1.3;
         }
 
         .card-info .nip {
             color: #6b7280;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             margin: 0;
             font-weight: 500;
+        }
+
+        /* PLT Badge Styling */
+        .plt-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff9800, #ff5722);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin: 8px 0;
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plt-badge i {
+            margin-right: 4px;
+            font-size: 0.7rem;
+        }
+
+        .plt-badge-small {
+            padding: 4px 10px;
+            font-size: 0.7rem;
+        }
+
+        .plt-info {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 12px;
+            padding: 10px;
+            margin: 8px 0 0 0;
+        }
+
+        .plt-info small {
+            color: #6b7280;
+            font-size: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .plt-info strong {
+            color: #374151;
+            font-weight: 600;
         }
 
 

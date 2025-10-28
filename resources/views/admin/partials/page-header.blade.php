@@ -83,6 +83,12 @@
                                         <i class="{{ $primaryAction['icon'] ?? 'fas fa-plus' }}"></i>
                                         <span>{{ $primaryAction['text'] ?? 'Aksi Utama' }}</span>
                                     </button>
+                                @elseif (isset($primaryAction['onclick']))
+                                    <button type="button" class="btn btn-primary-glow" onclick="{{ $primaryAction['onclick'] }}">
+                                        <div class="btn-ripple"></div>
+                                        <i class="{{ $primaryAction['icon'] ?? 'fas fa-plus' }}"></i>
+                                        <span>{{ $primaryAction['text'] ?? 'Aksi Utama' }}</span>
+                                    </button>
                                 @else
                                     <a href="{{ $primaryAction['url'] ?? '#' }}" class="btn btn-primary-glow">
                                         <div class="btn-ripple"></div>

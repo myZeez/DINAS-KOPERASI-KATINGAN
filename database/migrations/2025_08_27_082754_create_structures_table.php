@@ -13,20 +13,23 @@ return new class extends Migration
     {
         Schema::create('structures', function (Blueprint $table) {
             $table->id();
+            $table->string('name'); // Nama lengkap pejabat
             $table->string('position'); // Jabatan/Posisi
-            $table->string('name'); // Nama lengkap
+            $table->string('unit'); // Unit Kerja (Sekretariat, Bidang Koperasi, dll)
+            $table->enum('level', ['pimpinan', 'sekretariat', 'bidang', 'subbag', 'fungsional'])->default('fungsional'); // Tingkat jabatan
+            $table->enum('type', ['struktural', 'fungsional'])->default('struktural'); // Jenis jabatan
             $table->string('nip')->nullable(); // Nomor Induk Pegawai
+            $table->string('rank')->nullable(); // Pangkat/Golongan
+            $table->string('education')->nullable(); // Pendidikan (S.E, M.Si, dll)
             $table->string('email')->nullable(); // Email
             $table->string('phone')->nullable(); // Telepon
-            $table->string('rank')->nullable(); // Pangkat/Golongan
-            $table->integer('level')->default(1); // Level hierarki (1=tertinggi)
-            $table->integer('parent_id')->nullable(); // Parent structure ID
+            $table->string('photo')->nullable(); // Foto pejabat
+            $table->integer('parent_id')->nullable(); // Parent structure ID untuk hierarki
             $table->integer('sort_order')->default(0); // Urutan tampilan
-            $table->string('color')->nullable(); // Warna untuk visual
-            $table->string('icon')->default('fas fa-user'); // Icon
-            $table->boolean('is_active')->default(true); // Status aktif
-            $table->text('description')->nullable(); // Deskripsi tugas
+            $table->boolean('is_active')->default(true); // Status aktif/kosong
+            $table->text('description')->nullable(); // Deskripsi tugas/keterangan
             $table->timestamps();
+            $table->softDeletes(); // Untuk fitur trash
         });
     }
 

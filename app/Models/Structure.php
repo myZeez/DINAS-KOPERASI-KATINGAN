@@ -20,11 +20,22 @@ class Structure extends Model
         'parent_id',
         'sort_order',
         'photo',
-        'is_active'
+        'is_active',
+        'is_plt',
+        'plt_from_structure_id',
+        'plt_name',
+        'plt_nip',
+        'plt_rank',
+        'plt_start_date',
+        'plt_end_date',
+        'plt_notes'
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'is_plt' => 'boolean',
+        'plt_start_date' => 'date',
+        'plt_end_date' => 'date'
     ];
 
     // Relationship untuk parent structure
@@ -37,6 +48,18 @@ class Structure extends Model
     public function children()
     {
         return $this->hasMany(Structure::class, 'parent_id')->orderBy('sort_order');
+    }
+
+    // Relationship untuk PLT dari struktur lain
+    public function pltFromStructure()
+    {
+        return $this->belongsTo(Structure::class, 'plt_from_structure_id');
+    }
+
+    // Relationship untuk struktur yang dijabat sebagai PLT
+    public function structuresAsPlt()
+    {
+        return $this->hasMany(Structure::class, 'plt_from_structure_id');
     }
 
     // Scope untuk struktur aktif

@@ -54,7 +54,15 @@ class StructureController extends Controller
             'level' => ['required', 'integer', 'min:1'],
             'parent_id' => ['nullable', 'integer', 'exists:structures,id'],
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'is_active' => ['nullable']
+            'is_active' => ['nullable'],
+            'is_plt' => ['nullable', 'boolean'],
+            'plt_from_structure_id' => ['nullable', 'integer', 'exists:structures,id'],
+            'plt_name' => ['nullable', 'string', 'max:255'],
+            'plt_nip' => ['nullable', 'string', 'max:20'],
+            'plt_rank' => ['nullable', 'string', 'max:255'],
+            'plt_start_date' => ['nullable', 'date'],
+            'plt_end_date' => ['nullable', 'date', 'after_or_equal:plt_start_date'],
+            'plt_notes' => ['nullable', 'string']
         ]);
 
         $position = $this->resolvePosition($request);
@@ -79,6 +87,14 @@ class StructureController extends Controller
                 'sort_order' => $sortOrder,
                 'photo' => $photoPath,
                 'is_active' => $request->boolean('is_active', true),
+                'is_plt' => $request->boolean('is_plt', false),
+                'plt_from_structure_id' => $validated['plt_from_structure_id'] ?? null,
+                'plt_name' => $validated['plt_name'] ?? null,
+                'plt_nip' => $validated['plt_nip'] ?? null,
+                'plt_rank' => $validated['plt_rank'] ?? null,
+                'plt_start_date' => $validated['plt_start_date'] ?? null,
+                'plt_end_date' => $validated['plt_end_date'] ?? null,
+                'plt_notes' => $validated['plt_notes'] ?? null,
             ];
 
             $structure = Structure::create($data);
@@ -103,6 +119,8 @@ class StructureController extends Controller
      */
     public function show(Structure $structure): JsonResponse
     {
+        $structure->load('pltFromStructure');
+
         return response()->json([
             'success' => true,
             'data' => $structure,
@@ -123,7 +141,15 @@ class StructureController extends Controller
             'level' => ['required', 'integer', 'min:1'],
             'parent_id' => ['nullable', 'integer', 'exists:structures,id'],
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'is_active' => ['nullable']
+            'is_active' => ['nullable'],
+            'is_plt' => ['nullable', 'boolean'],
+            'plt_from_structure_id' => ['nullable', 'integer', 'exists:structures,id'],
+            'plt_name' => ['nullable', 'string', 'max:255'],
+            'plt_nip' => ['nullable', 'string', 'max:20'],
+            'plt_rank' => ['nullable', 'string', 'max:255'],
+            'plt_start_date' => ['nullable', 'date'],
+            'plt_end_date' => ['nullable', 'date', 'after_or_equal:plt_start_date'],
+            'plt_notes' => ['nullable', 'string']
         ]);
 
         $position = $this->resolvePosition($request);
@@ -143,6 +169,14 @@ class StructureController extends Controller
                 'level' => (int) $validated['level'],
                 'parent_id' => $validated['parent_id'] ?? null,
                 'is_active' => $request->boolean('is_active', true),
+                'is_plt' => $request->boolean('is_plt', false),
+                'plt_from_structure_id' => $validated['plt_from_structure_id'] ?? null,
+                'plt_name' => $validated['plt_name'] ?? null,
+                'plt_nip' => $validated['plt_nip'] ?? null,
+                'plt_rank' => $validated['plt_rank'] ?? null,
+                'plt_start_date' => $validated['plt_start_date'] ?? null,
+                'plt_end_date' => $validated['plt_end_date'] ?? null,
+                'plt_notes' => $validated['plt_notes'] ?? null,
             ];
 
             // Replace photo if provided

@@ -72,8 +72,25 @@
                                     @if ($kepala->nip)
                                         <p class="nip">NIP: {{ $kepala->nip }}</p>
                                     @endif
+                                    @if ($kepala->is_plt)
+                                        <div class="plt-badge">
+                                            <i class="fas fa-user-clock"></i> PLT
+                                        </div>
+                                        @if ($kepala->pltFromStructure)
+                                            <p class="plt-info">
+                                                <small>Dijabat oleh: <strong>{{ $kepala->pltFromStructure->name }}</strong></small>
+                                                <small class="d-block">{{ $kepala->pltFromStructure->position }}</small>
+                                            </p>
+                                        @elseif ($kepala->plt_name)
+                                            <p class="plt-info">
+                                                <small>Dijabat oleh: <strong>{{ $kepala->plt_name }}</strong></small>
+                                                @if($kepala->plt_nip)
+                                                    <small class="d-block">NIP: {{ $kepala->plt_nip }}</small>
+                                                @endif
+                                            </p>
+                                        @endif
+                                    @endif
                                 </div>
-
                             </div>
                         </div>
 
@@ -100,6 +117,24 @@
                                     <h5>{{ $sekretaris->name }}</h5>
                                     @if ($sekretaris->nip)
                                         <p class="nip">NIP: {{ $sekretaris->nip }}</p>
+                                    @endif
+                                    @if ($sekretaris->is_plt)
+                                        <div class="plt-badge">
+                                            <i class="fas fa-user-clock"></i> PLT
+                                        </div>
+                                        @if ($sekretaris->pltFromStructure)
+                                            <p class="plt-info">
+                                                <small>Dijabat oleh: <strong>{{ $sekretaris->pltFromStructure->name }}</strong></small>
+                                                <small class="d-block">{{ $sekretaris->pltFromStructure->position }}</small>
+                                            </p>
+                                        @elseif ($sekretaris->plt_name)
+                                            <p class="plt-info">
+                                                <small>Dijabat oleh: <strong>{{ $sekretaris->plt_name }}</strong></small>
+                                                @if($sekretaris->plt_nip)
+                                                    <small class="d-block">NIP: {{ $sekretaris->plt_nip }}</small>
+                                                @endif
+                                            </p>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -130,8 +165,25 @@
                                             @if ($kb->nip)
                                                 <p class="nip">NIP: {{ $kb->nip }}</p>
                                             @endif
+                                            @if ($kb->is_plt)
+                                                <div class="plt-badge">
+                                                    <i class="fas fa-user-clock"></i> PLT
+                                                </div>
+                                                @if ($kb->pltFromStructure)
+                                                    <p class="plt-info">
+                                                        <small>Dijabat oleh: <strong>{{ $kb->pltFromStructure->name }}</strong></small>
+                                                        <small class="d-block">{{ $kb->pltFromStructure->position }}</small>
+                                                    </p>
+                                                @elseif ($kb->plt_name)
+                                                    <p class="plt-info">
+                                                        <small>Dijabat oleh: <strong>{{ $kb->plt_name }}</strong></small>
+                                                        @if($kb->plt_nip)
+                                                            <small class="d-block">NIP: {{ $kb->plt_nip }}</small>
+                                                        @endif
+                                                    </p>
+                                                @endif
+                                            @endif
                                         </div>
-
                                     </div>
                                 @endforeach
                             </div>
@@ -165,8 +217,21 @@
                                             @if ($st->nip)
                                                 <p class="nip">NIP: {{ $st->nip }}</p>
                                             @endif
+                                            @if ($st->is_plt)
+                                                <div class="plt-badge plt-badge-small">
+                                                    <i class="fas fa-user-clock"></i> PLT
+                                                </div>
+                                                @if ($st->pltFromStructure)
+                                                    <p class="plt-info">
+                                                        <small>Dijabat: <strong>{{ $st->pltFromStructure->name }}</strong></small>
+                                                    </p>
+                                                @elseif ($st->plt_name)
+                                                    <p class="plt-info">
+                                                        <small>Dijabat: <strong>{{ $st->plt_name }}</strong></small>
+                                                    </p>
+                                                @endif
+                                            @endif
                                         </div>
-
                                     </div>
                                 @endforeach
                             </div>

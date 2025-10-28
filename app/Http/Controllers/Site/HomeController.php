@@ -75,7 +75,7 @@ class HomeController extends Controller
     public function struktur(): View
     {
         $profile = Profile::first();
-        $structures = Structure::active()->ordered()->get();
+        $structures = Structure::with('pltFromStructure')->active()->ordered()->get();
 
         return view('public.struktur', compact('profile', 'structures'));
     }

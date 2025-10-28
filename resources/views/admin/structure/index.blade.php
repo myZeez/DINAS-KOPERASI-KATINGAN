@@ -15,10 +15,10 @@
             'icon' => 'fas fa-sitemap',
             'breadcrumb' => 'Struktur',
             'primaryAction' => [
-                'url' => '#',
+                'url' => 'javascript:void(0)',
                 'text' => 'Tambah Posisi',
                 'icon' => 'fas fa-plus',
-                'modal' => 'structureModal',
+                'onclick' => 'createStructure()',
             ],
             'quickStats' => [
                 [
@@ -309,7 +309,7 @@
                 <h5 style="color: var(--text-secondary);">Belum Ada Struktur Organisasi</h5>
                 <p style="color: var(--text-secondary); opacity: 0.8;">Tambahkan posisi pertama untuk memulai struktur
                     organisasi</p>
-                <button class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#structureModal">
+                <button class="btn btn-accent" onclick="createStructure()">
                     <i class="fas fa-plus me-2"></i>Tambah Posisi
                 </button>
             </div>
@@ -320,7 +320,7 @@
     <div class="glass-card">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h5><i class="fas fa-list"></i> Daftar Posisi</h5>
-            <button class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#structureModal">
+            <button class="btn btn-accent" onclick="createStructure()">
                 <i class="fas fa-plus me-2"></i>Tambah Posisi
             </button>
         </div>
@@ -423,7 +423,7 @@
                 <h5 style="color: var(--text-secondary);">Belum Ada Data Struktur</h5>
                 <p style="color: var(--text-secondary); opacity: 0.8;">Tambahkan posisi pertama untuk memulai struktur
                     organisasi</p>
-                <button class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#structureModal">
+                <button class="btn btn-accent" onclick="createStructure()">
                     <i class="fas fa-plus me-2"></i>Tambah Posisi
                 </button>
             </div>
@@ -466,90 +466,24 @@
                                 <select class="form-control form-control-glass" id="position" name="position" required>
                                     <option value="">Pilih Nama Posisi</option>
 
-                                    <!-- Level Pimpinan -->
-                                    <optgroup label="🏛️ Level Pimpinan">
-                                        <option value="Kepala Dinas">Kepala Dinas</option>
-                                        <option value="Wakil Kepala Dinas">Wakil Kepala Dinas</option>
-                                        <option value="Direktur">Direktur</option>
-                                        <option value="Wakil Direktur">Wakil Direktur</option>
-                                        <option value="Pimpinan">Pimpinan</option>
+                                    <!-- Jabatan Struktural -->
+                                    <optgroup label="🏛️ Jabatan Struktural">
+                                        <option value="Kepala Dinas Koperinsi, Usaha Kecil Menengah dan Perdagangan Kabupaten Katingan">Kepala Dinas Koperinsi, Usaha Kecil Menengah dan Perdagangan Kabupaten Katingan</option>
+                                        <option value="Sekretaris Dinas Koperinsi, Usaha Kecil Menengah dan Perdagangan Kabupaten">Sekretaris Dinas Koperinsi, Usaha Kecil Menengah dan Perdagangan Kabupaten</option>
+                                        <option value="Kepala Sub Bagian Umum dan Kepegawaian">Kepala Sub Bagian Umum dan Kepegawaian</option>
+                                        <option value="Kepala Sub Bagian Keuangan dan Pelaporan">Kepala Sub Bagian Keuangan dan Pelaporan</option>
+                                        <option value="Kepala Bidang Koperasi dan UMKM">Kepala Bidang Koperasi dan UMKM</option>
+                                        <option value="Kepala Bidang Pengembangan Perdagangan">Kepala Bidang Pengembangan Perdagangan</option>
+                                        <option value="Kepala Bidang Kemetrologian">Kepala Bidang Kemetrologian</option>
                                     </optgroup>
 
-                                    <!-- Level Sekretariat -->
-                                    <optgroup label="📋 Sekretariat">
-                                        <option value="Sekretaris Dinas">Sekretaris Dinas</option>
-                                        <option value="Wakil Sekretaris">Wakil Sekretaris</option>
-                                        <option value="Sekretaris">Sekretaris</option>
-                                    </optgroup>
-
-                                    <!-- Level Bidang -->
-                                    <optgroup label="🏢 Kepala Bidang">
-                                        <option value="Kepala Bidang">Kepala Bidang</option>
-                                        <option value="Kepala Bidang Koperasi">Kepala Bidang Koperasi</option>
-                                        <option value="Kepala Bidang UMKM">Kepala Bidang UMKM</option>
-                                        <option value="Kepala Bidang Pemasaran">Kepala Bidang Pemasaran</option>
-                                        <option value="Kepala Bidang Pengembangan">Kepala Bidang Pengembangan</option>
-                                        <option value="Kepala Bidang Keuangan">Kepala Bidang Keuangan</option>
-                                        <option value="Kepala Bidang SDM">Kepala Bidang SDM</option>
-                                    </optgroup>
-
-                                    <!-- Level Sub Bagian -->
-                                    <optgroup label="📂 Sub Bagian">
-                                        <option value="Kepala Sub Bagian">Kepala Sub Bagian</option>
-                                        <option value="Kepala Sub Bagian Tata Usaha">Kepala Sub Bagian Tata Usaha</option>
-                                        <option value="Kepala Sub Bagian Keuangan">Kepala Sub Bagian Keuangan</option>
-                                        <option value="Kepala Sub Bagian Umum">Kepala Sub Bagian Umum</option>
-                                        <option value="Kepala Sub Bagian Program">Kepala Sub Bagian Program</option>
-                                    </optgroup>
-
-                                    <!-- Level Seksi -->
-                                    <optgroup label="📁 Kepala Seksi">
-                                        <option value="Kepala Seksi">Kepala Seksi</option>
-                                        <option value="Kepala Seksi Koperasi">Kepala Seksi Koperasi</option>
-                                        <option value="Kepala Seksi UMKM">Kepala Seksi UMKM</option>
-                                        <option value="Kepala Seksi Pemasaran">Kepala Seksi Pemasaran</option>
-                                        <option value="Kepala Seksi Pengembangan">Kepala Seksi Pengembangan</option>
-                                        <option value="Kepala Seksi Keuangan">Kepala Seksi Keuangan</option>
-                                        <option value="Kepala Seksi Administrasi">Kepala Seksi Administrasi</option>
-                                    </optgroup>
-
-                                    <!-- Level Staff -->
-                                    <optgroup label="👥 Staff & Pelaksana">
-                                        <option value="Staff">Staff</option>
-                                        <option value="Staff Ahli">Staff Ahli</option>
-                                        <option value="Staff Administrasi">Staff Administrasi</option>
-                                        <option value="Staff Keuangan">Staff Keuangan</option>
-                                        <option value="Staff IT">Staff IT</option>
-                                        <option value="Staff Humas">Staff Humas</option>
-                                        <option value="Analis">Analis</option>
-                                        <option value="Pelaksana">Pelaksana</option>
-                                        <option value="Pelaksana Lanjutan">Pelaksana Lanjutan</option>
-                                        <option value="Operator">Operator</option>
-                                    </optgroup>
-
-                                    <!-- Level Fungsional -->
-                                    <optgroup label="🎯 Jabatan Fungsional">
-                                        <option value="Pengawas">Pengawas</option>
-                                        <option value="Auditor">Auditor</option>
-                                        <option value="Peneliti">Peneliti</option>
-                                        <option value="Perencana">Perencana</option>
-                                        <option value="Pranata Komputer">Pranata Komputer</option>
-                                        <option value="Pranata Keuangan">Pranata Keuangan</option>
-                                        <option value="Arsiparis">Arsiparis</option>
-                                    </optgroup>
-
-                                    <!-- Posisi Khusus -->
-                                    <optgroup label="⭐ Posisi Khusus">
-                                        <option value="Koordinator">Koordinator</option>
-                                        <option value="Supervisor">Supervisor</option>
-                                        <option value="Konsultan">Konsultan</option>
-                                        <option value="Penasehat">Penasehat</option>
-                                        <option value="Bendahara">Bendahara</option>
-                                        <option value="Kasir">Kasir</option>
-                                        <option value="Resepsionis">Resepsionis</option>
-                                        <option value="Security">Security</option>
-                                        <option value="Driver">Driver</option>
-                                        <option value="Cleaning Service">Cleaning Service</option>
+                                    <!-- Jabatan Fungsional Tertentu (JFT) -->
+                                    <optgroup label="🎯 Jabatan Fungsional Tertentu (JFT)">
+                                        <option value="JFT Pengawas Koperasi Ahli Muda">JFT Pengawas Koperasi Ahli Muda</option>
+                                        <option value="JFT Pengawas Perdagangan Ahli Muda">JFT Pengawas Perdagangan Ahli Muda</option>
+                                        <option value="JFT Penera Ahli Muda">JFT Penera Ahli Muda</option>
+                                        <option value="JFT Pengawas Kemetrologian Ahli Muda">JFT Pengawas Kemetrologian Ahli Muda</option>
+                                        <option value="Fungsional Perencana Ahli Muda (JPT Perencana)">Fungsional Perencana Ahli Muda (JPT Perencana)</option>
                                     </optgroup>
 
                                     <!-- Custom -->
@@ -650,6 +584,106 @@
                                 </select>
                             </div>
                         </div>
+
+                        <!-- PLT Section -->
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="form-check form-switch" style="padding-left: 2.5em;">
+                                    <input class="form-check-input" type="checkbox" id="is_plt" name="is_plt" value="1"
+                                        style="width: 3em; height: 1.5em; cursor: pointer;">
+                                    <label class="form-check-label" for="is_plt" style="margin-left: 0.5em; cursor: pointer; font-weight: 500;">
+                                        <i class="fas fa-user-clock"></i> PLT (Pelaksana Tugas)
+                                    </label>
+                                    <small class="text-muted d-block" style="margin-left: 3.5em;">
+                                        Aktifkan jika jabatan ini sedang dijabat PLT
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PLT Form Fields (hidden by default) -->
+                        <div id="pltFields" style="display: none; border-top: 1px solid var(--glass-border); padding-top: 20px; margin-top: 10px;">
+                            <h6 class="mb-3" style="color: var(--text-primary);">
+                                <i class="fas fa-user-tie"></i> Data PLT (Pelaksana Tugas)
+                            </h6>
+
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="plt_source" id="plt_from_existing" value="existing" checked>
+                                        <label class="form-check-label" for="plt_from_existing">
+                                            Ambil dari Jabatan yang Ada
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="plt_source" id="plt_manual" value="manual">
+                                        <label class="form-check-label" for="plt_manual">
+                                            Input Manual (dari luar/jabatan lain)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Option 1: Pilih dari struktur yang ada -->
+                            <div id="pltFromExisting" class="plt-option">
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Pilih Pejabat yang Menjabat PLT</label>
+                                        <select class="form-control form-control-glass" id="plt_from_structure_id" name="plt_from_structure_id">
+                                            <option value="">-- Pilih Pejabat --</option>
+                                            @foreach ($structures->where('is_active', true) as $struct)
+                                                <option value="{{ $struct->id }}">
+                                                    {{ $struct->position }} - {{ $struct->name }}
+                                                    @if($struct->nip) (NIP: {{ $struct->nip }})@endif
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <small class="text-muted">Pilih pejabat yang akan menjabat sebagai PLT untuk posisi ini</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Option 2: Input manual -->
+                            <div id="pltManualInput" class="plt-option" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Nama PLT *</label>
+                                        <input type="text" class="form-control form-control-glass" id="plt_name" name="plt_name" placeholder="Nama lengkap PLT">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">NIP PLT</label>
+                                        <input type="text" class="form-control form-control-glass" id="plt_nip" name="plt_nip" placeholder="NIP PLT">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Pangkat/Golongan PLT</label>
+                                        <input type="text" class="form-control form-control-glass" id="plt_rank" name="plt_rank" placeholder="Contoh: Pembina - IV/a">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Common PLT Fields -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tanggal Mulai PLT</label>
+                                    <input type="date" class="form-control form-control-glass" id="plt_start_date" name="plt_start_date">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tanggal Selesai PLT (Estimasi)</label>
+                                    <input type="date" class="form-control form-control-glass" id="plt_end_date" name="plt_end_date">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Keterangan PLT</label>
+                                    <textarea class="form-control form-control-glass" id="plt_notes" name="plt_notes" rows="2" placeholder="Keterangan atau catatan tentang PLT ini..."></textarea>
+                                    <small class="text-muted">Contoh: SK Nomor xxx, alasan PLT, dll</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="modal-footer footer-alternative"
@@ -710,6 +744,13 @@
                 $('#position').val('');
                 $('#position_custom').hide().removeAttr('required').val('');
 
+                // Reset PLT fields
+                $('#is_plt').prop('checked', false);
+                $('#pltFields').hide();
+                $('#plt_from_existing').prop('checked', true);
+                $('#pltFromExisting').show();
+                $('#pltManualInput').hide();
+
                 $('#structureModal').modal('show');
             }
 
@@ -754,6 +795,36 @@
                             $('#rank').val(structure.rank);
                             $('#parent_id').val(structure.parent_id);
                             $('#is_active').val(structure.is_active ? 1 : 0);
+
+                            // Handle PLT data
+                            if (structure.is_plt) {
+                                $('#is_plt').prop('checked', true);
+                                $('#pltFields').show();
+
+                                if (structure.plt_from_structure_id) {
+                                    // PLT from existing structure
+                                    $('#plt_from_existing').prop('checked', true);
+                                    $('#pltFromExisting').show();
+                                    $('#pltManualInput').hide();
+                                    $('#plt_from_structure_id').val(structure.plt_from_structure_id);
+                                } else if (structure.plt_name) {
+                                    // PLT manual input
+                                    $('#plt_manual').prop('checked', true);
+                                    $('#pltFromExisting').hide();
+                                    $('#pltManualInput').show();
+                                    $('#plt_name').val(structure.plt_name);
+                                    $('#plt_nip').val(structure.plt_nip);
+                                    $('#plt_rank').val(structure.plt_rank);
+                                }
+
+                                // Common PLT fields
+                                $('#plt_start_date').val(structure.plt_start_date);
+                                $('#plt_end_date').val(structure.plt_end_date);
+                                $('#plt_notes').val(structure.plt_notes);
+                            } else {
+                                $('#is_plt').prop('checked', false);
+                                $('#pltFields').hide();
+                            }
 
                             $('#modalTitle').text('Edit Posisi');
                             $('#submitText, #submitTextHeader').text('Update');
@@ -965,6 +1036,44 @@
                     } else {
                         customInput.hide().removeAttr('required').val('');
                         customInput.attr('placeholder', 'Tulis nama posisi custom...');
+                    }
+                });
+
+                // PLT Checkbox Toggle
+                $('#is_plt').off('change').on('change', function() {
+                    const isChecked = $(this).is(':checked');
+                    if (isChecked) {
+                        $('#pltFields').slideDown(300);
+                    } else {
+                        $('#pltFields').slideUp(300);
+                        // Reset PLT fields
+                        $('#plt_from_structure_id').val('');
+                        $('#plt_name').val('');
+                        $('#plt_nip').val('');
+                        $('#plt_rank').val('');
+                        $('#plt_start_date').val('');
+                        $('#plt_end_date').val('');
+                        $('#plt_notes').val('');
+                    }
+                });
+
+                // PLT Source Radio Toggle
+                $('input[name="plt_source"]').off('change').on('change', function() {
+                    const source = $(this).val();
+                    if (source === 'existing') {
+                        $('#pltFromExisting').show();
+                        $('#pltManualInput').hide();
+                        // Clear manual inputs
+                        $('#plt_name').val('').removeAttr('required');
+                        $('#plt_nip').val('');
+                        $('#plt_rank').val('');
+                    } else {
+                        $('#pltFromExisting').hide();
+                        $('#pltManualInput').show();
+                        // Clear existing selection
+                        $('#plt_from_structure_id').val('');
+                        // Set nama PLT as required for manual input
+                        $('#plt_name').attr('required', true);
                     }
                 });
 
