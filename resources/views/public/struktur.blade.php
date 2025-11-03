@@ -29,130 +29,69 @@
         <div class="container">
             @if ($structures->count() > 0)
                 @php
-                    // Group structures by hierarchy
-                    $kepala = $structures
-                        ->filter(function ($item) {
-                            return stripos($item->position, 'kepala') !== false;
-                        })
-                        ->first();
-
-                    $sekretaris = $structures
-                        ->filter(function ($item) {
-                            return stripos($item->position, 'sekretaris') !== false;
-                        })
-                        ->first();
-
-                    $kabid = $structures->filter(function ($item) {
-                        return stripos($item->position, 'kabid') !== false ||
-                            stripos($item->position, 'kepala bidang') !== false;
-                    });
-
-                    $staff = $structures->filter(function ($item) {
-                        return stripos($item->position, 'staff') !== false;
-                    });
+                    // Group structures by level (hierarki sebenarnya dari database)
+                    $level1 = $structures->where('level', 1); // Kepala Dinas
+                    $level2 = $structures->where('level', 2); // Sekretaris, Kabid, JPT Fungsional
+                    $level3 = $structures->where('level', 3); // Kasubbag dan JFT per bidang
                 @endphp
 
                 <div class="org-chart">
                     <!-- Level 1: Kepala Dinas -->
-                    @if ($kepala)
+                    @if ($level1->count() > 0)
                         <div class="org-level level-1">
-                            <div class="org-card kepala">
-                                <div class="card-photo">
-                                    @if ($kepala->photo)
-                                        <img src="{{ asset('storage/' . $kepala->photo) }}" alt="{{ $kepala->name }}">
-                                    @else
-                                        <div class="photo-placeholder">
-                                            <i class="fas fa-user"></i>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="card-info">
-                                    <h4>{{ $kepala->position }}</h4>
-                                    <h5>{{ $kepala->name }}</h5>
-                                    @if ($kepala->nip)
-                                        <p class="nip">NIP: {{ $kepala->nip }}</p>
-                                    @endif
-                                    @if ($kepala->is_plt)
-                                        <div class="plt-badge">
-                                            <i class="fas fa-user-clock"></i> PLT
-                                        </div>
-                                        @if ($kepala->pltFromStructure)
-                                            <p class="plt-info">
-                                                <small>Dijabat oleh: <strong>{{ $kepala->pltFromStructure->name }}</strong></small>
-                                                <small class="d-block">{{ $kepala->pltFromStructure->position }}</small>
-                                            </p>
-                                        @elseif ($kepala->plt_name)
-                                            <p class="plt-info">
-                                                <small>Dijabat oleh: <strong>{{ $kepala->plt_name }}</strong></small>
-                                                @if($kepala->plt_nip)
-                                                    <small class="d-block">NIP: {{ $kepala->plt_nip }}</small>
-                                                @endif
-                                            </p>
+                            @foreach ($level1 as $kepala)
+                                <div class="org-card kepala">
+                                    <div class="card-photo">
+                                        @if ($kepala->photo)
+                                            <img src="{{ asset('storage/' . $kepala->photo) }}" alt="{{ $kepala->name }}">
+                                        @else
+                                            <div class="photo-placeholder">
+                                                <i class="fas fa-user"></i>
+                                            </div>
                                         @endif
-                                    @endif
+                                    </div>
+                                    <div class="card-info">
+                                        <h4>{{ $kepala->position }}</h4>
+                                        <h5>{{ $kepala->name }}</h5>
+                                        @if ($kepala->nip)
+                                            <p class="nip">NIP: {{ $kepala->nip }}</p>
+                                        @endif
+                                        @if ($kepala->is_plt)
+                                            <div class="plt-badge">
+                                                <i class="fas fa-user-clock"></i> PLT
+                                            </div>
+                                            @if ($kepala->pltFromStructure)
+                                                <p class="plt-info">
+                                                    <small>Dijabat oleh: <strong>{{ $kepala->pltFromStructure->name }}</strong></small>
+                                                    <small class="d-block">{{ $kepala->pltFromStructure->position }}</small>
+                                                </p>
+                                            @elseif ($kepala->plt_name)
+                                                <p class="plt-info">
+                                                    <small>Dijabat oleh: <strong>{{ $kepala->plt_name }}</strong></small>
+                                                    @if($kepala->plt_nip)
+                                                        <small class="d-block">NIP: {{ $kepala->plt_nip }}</small>
+                                                    @endif
+                                                </p>
+                                            @endif
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
 
                         <!-- Connection Line -->
                         <div class="org-connector vertical"></div>
                     @endif
 
-                    <!-- Level 2: Sekretaris -->
-                    @if ($sekretaris)
+                    <!-- Level 2: Sekretaris, Kepala Bidang, JPT Fungsional -->
+                    @if ($level2->count() > 0)
                         <div class="org-level level-2">
-                            <div class="org-card sekretaris">
-                                <div class="card-photo">
-                                    @if ($sekretaris->photo)
-                                        <img src="{{ asset('storage/' . $sekretaris->photo) }}"
-                                            alt="{{ $sekretaris->name }}">
-                                    @else
-                                        <div class="photo-placeholder">
-                                            <i class="fas fa-user"></i>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="card-info">
-                                    <h4>{{ $sekretaris->position }}</h4>
-                                    <h5>{{ $sekretaris->name }}</h5>
-                                    @if ($sekretaris->nip)
-                                        <p class="nip">NIP: {{ $sekretaris->nip }}</p>
-                                    @endif
-                                    @if ($sekretaris->is_plt)
-                                        <div class="plt-badge">
-                                            <i class="fas fa-user-clock"></i> PLT
-                                        </div>
-                                        @if ($sekretaris->pltFromStructure)
-                                            <p class="plt-info">
-                                                <small>Dijabat oleh: <strong>{{ $sekretaris->pltFromStructure->name }}</strong></small>
-                                                <small class="d-block">{{ $sekretaris->pltFromStructure->position }}</small>
-                                            </p>
-                                        @elseif ($sekretaris->plt_name)
-                                            <p class="plt-info">
-                                                <small>Dijabat oleh: <strong>{{ $sekretaris->plt_name }}</strong></small>
-                                                @if($sekretaris->plt_nip)
-                                                    <small class="d-block">NIP: {{ $sekretaris->plt_nip }}</small>
-                                                @endif
-                                            </p>
-                                        @endif
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Connection Line -->
-                        <div class="org-connector vertical"></div>
-                    @endif
-
-                    <!-- Level 3: Kabid -->
-                    @if ($kabid->count() > 0)
-                        <div class="org-level level-3">
-                            <div class="kabid-container">
-                                @foreach ($kabid as $index => $kb)
-                                    <div class="org-card kabid kabid-{{ $index + 1 }}">
+                            <div class="level2-container">
+                                @foreach ($level2 as $index => $staff2)
+                                    <div class="org-card level2 level2-{{ $index + 1 }}">
                                         <div class="card-photo">
-                                            @if ($kb->photo)
-                                                <img src="{{ asset('storage/' . $kb->photo) }}" alt="{{ $kb->name }}">
+                                            @if ($staff2->photo)
+                                                <img src="{{ asset('storage/' . $staff2->photo) }}" alt="{{ $staff2->name }}">
                                             @else
                                                 <div class="photo-placeholder">
                                                     <i class="fas fa-user"></i>
@@ -160,25 +99,25 @@
                                             @endif
                                         </div>
                                         <div class="card-info">
-                                            <h4>{{ $kb->position }}</h4>
-                                            <h5>{{ $kb->name }}</h5>
-                                            @if ($kb->nip)
-                                                <p class="nip">NIP: {{ $kb->nip }}</p>
+                                            <h4>{{ $staff2->position }}</h4>
+                                            <h5>{{ $staff2->name }}</h5>
+                                            @if ($staff2->nip)
+                                                <p class="nip">NIP: {{ $staff2->nip }}</p>
                                             @endif
-                                            @if ($kb->is_plt)
+                                            @if ($staff2->is_plt)
                                                 <div class="plt-badge">
                                                     <i class="fas fa-user-clock"></i> PLT
                                                 </div>
-                                                @if ($kb->pltFromStructure)
+                                                @if ($staff2->pltFromStructure)
                                                     <p class="plt-info">
-                                                        <small>Dijabat oleh: <strong>{{ $kb->pltFromStructure->name }}</strong></small>
-                                                        <small class="d-block">{{ $kb->pltFromStructure->position }}</small>
+                                                        <small>Dijabat oleh: <strong>{{ $staff2->pltFromStructure->name }}</strong></small>
+                                                        <small class="d-block">{{ $staff2->pltFromStructure->position }}</small>
                                                     </p>
-                                                @elseif ($kb->plt_name)
+                                                @elseif ($staff2->plt_name)
                                                     <p class="plt-info">
-                                                        <small>Dijabat oleh: <strong>{{ $kb->plt_name }}</strong></small>
-                                                        @if($kb->plt_nip)
-                                                            <small class="d-block">NIP: {{ $kb->plt_nip }}</small>
+                                                        <small>Dijabat oleh: <strong>{{ $staff2->plt_name }}</strong></small>
+                                                        @if($staff2->plt_nip)
+                                                            <small class="d-block">NIP: {{ $staff2->plt_nip }}</small>
                                                         @endif
                                                     </p>
                                                 @endif
@@ -189,22 +128,19 @@
                             </div>
                         </div>
 
-                        <!-- Horizontal Connector for Kabid -->
-                        <div class="org-connector horizontal kabid-connector"></div>
-
                         <!-- Connection Line -->
                         <div class="org-connector vertical"></div>
                     @endif
 
-                    <!-- Level 4: Staff -->
-                    @if ($staff->count() > 0)
-                        <div class="org-level level-4">
-                            <div class="staff-container">
-                                @foreach ($staff as $index => $st)
-                                    <div class="org-card staff staff-{{ $index + 1 }}">
-                                        <div class="card-photo small">
-                                            @if ($st->photo)
-                                                <img src="{{ asset('storage/' . $st->photo) }}" alt="{{ $st->name }}">
+                    <!-- Level 3: Kasubbag dan JFT -->
+                    @if ($level3->count() > 0)
+                        <div class="org-level level-3">
+                            <div class="level3-container">
+                                @foreach ($level3 as $index => $staff3)
+                                    <div class="org-card level3 level3-{{ $index + 1 }}">
+                                        <div class="card-photo">
+                                            @if ($staff3->photo)
+                                                <img src="{{ asset('storage/' . $staff3->photo) }}" alt="{{ $staff3->name }}">
                                             @else
                                                 <div class="photo-placeholder">
                                                     <i class="fas fa-user"></i>
@@ -212,22 +148,26 @@
                                             @endif
                                         </div>
                                         <div class="card-info">
-                                            <h5>{{ $st->position }}</h5>
-                                            <h6>{{ $st->name }}</h6>
-                                            @if ($st->nip)
-                                                <p class="nip">NIP: {{ $st->nip }}</p>
+                                            <h4>{{ $staff3->position }}</h4>
+                                            <h5>{{ $staff3->name }}</h5>
+                                            @if ($staff3->nip)
+                                                <p class="nip">NIP: {{ $staff3->nip }}</p>
                                             @endif
-                                            @if ($st->is_plt)
-                                                <div class="plt-badge plt-badge-small">
+                                            @if ($staff3->is_plt)
+                                                <div class="plt-badge">
                                                     <i class="fas fa-user-clock"></i> PLT
                                                 </div>
-                                                @if ($st->pltFromStructure)
+                                                @if ($staff3->pltFromStructure)
                                                     <p class="plt-info">
-                                                        <small>Dijabat: <strong>{{ $st->pltFromStructure->name }}</strong></small>
+                                                        <small>Dijabat oleh: <strong>{{ $staff3->pltFromStructure->name }}</strong></small>
+                                                        <small class="d-block">{{ $staff3->pltFromStructure->position }}</small>
                                                     </p>
-                                                @elseif ($st->plt_name)
+                                                @elseif ($staff3->plt_name)
                                                     <p class="plt-info">
-                                                        <small>Dijabat: <strong>{{ $st->plt_name }}</strong></small>
+                                                        <small>Dijabat oleh: <strong>{{ $staff3->plt_name }}</strong></small>
+                                                        @if($staff3->plt_nip)
+                                                            <small class="d-block">NIP: {{ $staff3->plt_nip }}</small>
+                                                        @endif
                                                     </p>
                                                 @endif
                                             @endif
@@ -236,10 +176,132 @@
                                 @endforeach
                             </div>
                         </div>
-
-                        <!-- Horizontal Connector for Staff -->
-                        <div class="org-connector horizontal staff-connector"></div>
                     @endif
+                </div>
+
+                <!-- Data Table Section -->
+                <div class="structure-table-section mt-5">
+                    <div class="section-header text-center mb-4">
+                        <h3 class="section-title">Daftar Lengkap Struktur Organisasi</h3>
+                        <p class="section-subtitle">Data lengkap pegawai dan jabatan struktural</p>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered align-middle">
+                            <thead class="table-gradient">
+                                <tr>
+                                    <th width="5%" class="text-center">No</th>
+                                    <th width="30%">Jabatan</th>
+                                    <th width="25%">Nama</th>
+                                    <th width="20%">NIP</th>
+                                    <th width="10%" class="text-center">Level</th>
+                                    <th width="10%" class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($structures as $index => $structure)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 }}</td>
+                                        <td>
+                                            <strong>{{ $structure->position }}</strong>
+                                            @if ($structure->is_plt)
+                                                <span class="badge bg-warning text-dark ms-2">
+                                                    <i class="fas fa-user-clock"></i> PLT
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $structure->name }}
+                                            @if ($structure->is_plt && $structure->pltFromStructure)
+                                                <br>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-info-circle"></i> Dijabat oleh:
+                                                    <strong>{{ $structure->pltFromStructure->name }}</strong>
+                                                </small>
+                                            @elseif ($structure->is_plt && $structure->plt_name)
+                                                <br>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-info-circle"></i> Dijabat oleh:
+                                                    <strong>{{ $structure->plt_name }}</strong>
+                                                </small>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <code class="text-primary">{{ $structure->nip ?? '-' }}</code>
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($structure->level == 1)
+                                                <span class="badge bg-danger">Level {{ $structure->level }}</span>
+                                            @elseif ($structure->level == 2)
+                                                <span class="badge bg-success">Level {{ $structure->level }}</span>
+                                            @else
+                                                <span class="badge bg-info">Level {{ $structure->level }}</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($structure->is_active)
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-check-circle"></i> Aktif
+                                                </span>
+                                            @else
+                                                <span class="badge bg-secondary">
+                                                    <i class="fas fa-times-circle"></i> Tidak Aktif
+                                                </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Summary Statistics -->
+                    <div class="row mt-4 g-3">
+                        <div class="col-md-3 col-6">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-danger">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4>{{ $level1->count() }}</h4>
+                                    <p>Kepala Dinas</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-success">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4>{{ $level2->count() }}</h4>
+                                    <p>Level 2</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-info">
+                                    <i class="fas fa-user-friends"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4>{{ $level3->count() }}</h4>
+                                    <p>Level 3</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-primary">
+                                    <i class="fas fa-users-cog"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h4>{{ $structures->count() }}</h4>
+                                    <p>Total Pegawai</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @else
                 <div class="empty-state">

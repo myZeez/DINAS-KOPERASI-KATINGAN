@@ -1879,20 +1879,24 @@
 
         .profile-card {
             position: relative;
-            width: 350px;
-            height: 350px;
+            width: 400px;
+            height: 400px;
             border-radius: 20px;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.1);
+            background: white;
             backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .profile-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
         }
 
         .profile-placeholder {
@@ -1911,19 +1915,21 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            padding: 30px 20px 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 40px 20px 15px;
             color: white;
         }
 
         .profile-info h5 {
             margin: 0 0 5px 0;
             font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.3;
         }
 
         .profile-info p {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             opacity: 0.9;
         }
 
@@ -2229,9 +2235,17 @@
             }
 
             .profile-card {
-                width: 200px;
-                height: 200px;
+                width: 280px;
+                height: 280px;
                 margin: 2rem auto 0;
+            }
+
+            .profile-info h5 {
+                font-size: 0.85rem;
+            }
+
+            .profile-info p {
+                font-size: 0.7rem;
             }
 
             .section-modern,
@@ -2382,8 +2396,8 @@
 
             /* ===== PROFILE CARDS ===== */
             .profile-card {
-                width: 250px;
-                height: 250px;
+                width: 280px;
+                height: 280px;
                 margin: 0 auto;
             }
 
@@ -2392,15 +2406,16 @@
             }
 
             .profile-overlay {
-                padding: 20px 15px 15px;
+                padding: 30px 15px 12px;
             }
 
             .profile-info h5 {
-                font-size: 1rem;
+                font-size: 0.8rem;
+                line-height: 1.2;
             }
 
             .profile-info p {
-                font-size: 0.8rem;
+                font-size: 0.65rem;
             }
 
             /* ===== MODERN CARDS ===== */
@@ -2771,6 +2786,8 @@
                 height: 50px;
             }
 
+            .level2-container,
+            .level3-container,
             .kabid-container,
             .staff-container {
                 flex-direction: column;
@@ -4070,6 +4087,7 @@
 
 
         /* Containers for Multiple Items */
+        .level2-container,
         .kabid-container {
             display: flex;
             justify-content: center;
@@ -4077,6 +4095,7 @@
             flex-wrap: wrap;
         }
 
+        .level3-container,
         .staff-container {
             display: flex;
             justify-content: center;
@@ -4122,10 +4141,12 @@
             color: #dc2626;
         }
 
+        .org-card.level2 .card-photo,
         .org-card.sekretaris .card-photo {
             border-color: rgba(34, 197, 94, 0.4);
         }
 
+        .org-card.level2 .card-info h4,
         .org-card.sekretaris .card-info h4 {
             color: #16a34a;
         }
@@ -4138,12 +4159,126 @@
             color: #d97706;
         }
 
+        .org-card.level3 .card-photo,
         .org-card.staff .card-photo {
             border-color: rgba(139, 192, 216, 0.4);
         }
 
+        .org-card.level3 .card-info h4,
         .org-card.staff .card-info h4 {
             color: #0369a1;
+        }
+
+        /* Structure Table Section */
+        .structure-table-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .structure-table-section .section-header {
+            margin-bottom: 30px;
+        }
+
+        .structure-table-section .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .structure-table-section .section-subtitle {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .table-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .table-gradient th {
+            font-weight: 600;
+            padding: 15px 12px;
+            border: none;
+            vertical-align: middle;
+        }
+
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+            transform: scale(1.01);
+        }
+
+        .table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.bg-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .stat-icon.bg-success {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        .stat-icon.bg-info {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .stat-icon.bg-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stat-content h4 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            color: #1f2937;
+        }
+
+        .stat-content p {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin: 0;
         }
 
         /* Responsive Design */
@@ -4152,10 +4287,12 @@
                 padding: 30px 15px;
             }
 
+            .level2-container,
             .kabid-container {
                 gap: 20px;
             }
 
+            .level3-container,
             .staff-container {
                 gap: 15px;
             }
@@ -4165,8 +4302,27 @@
                 margin: 0 10px;
             }
 
+            .org-card.level3,
             .org-card.staff {
                 min-width: 200px;
+            }
+
+            .structure-table-section {
+                padding: 20px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .stat-content h4 {
+                font-size: 1.5rem;
             }
         }
 
@@ -4180,6 +4336,8 @@
                 padding: 20px 10px;
             }
 
+            .level2-container,
+            .level3-container,
             .kabid-container,
             .staff-container {
                 flex-direction: column;
@@ -4190,6 +4348,42 @@
             .org-card {
                 min-width: 260px;
                 margin: 0;
+            }
+
+            .structure-table-section {
+                padding: 15px;
+            }
+
+            .structure-table-section .section-title {
+                font-size: 1.4rem;
+            }
+
+            .structure-table-section .section-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .table {
+                font-size: 0.85rem;
+            }
+
+            .table thead th {
+                padding: 10px 8px;
+                font-size: 0.8rem;
+            }
+
+            .table tbody td {
+                padding: 8px;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .stat-icon {
+                width: 60px;
+                height: 60px;
             }
 
             .org-card.staff {
