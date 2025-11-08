@@ -55,7 +55,19 @@ class StructureSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // 4. KEPALA SUB BAGIAN KEUANGAN DAN PELAPORAN
+        // 4. JPT PERENCANA (Sejajar dengan Kasubbag - Level 3)
+        Structure::create([
+            'position' => 'Fungsional Perencana Ahli Muda (JPT Perencana)',
+            'name' => 'SIRMANIK STEPHAN, A.Md',
+            'nip' => null,
+            'rank' => null,
+            'level' => 3,
+            'parent_id' => $kepala->id,
+            'sort_order' => 2,
+            'is_active' => true,
+        ]);
+
+        // 5. KEPALA SUB BAGIAN KEUANGAN DAN PELAPORAN
         Structure::create([
             'position' => 'Kepala Sub Bagian Keuangan dan Pelaporan',
             'name' => 'ESRA, S.Sos',
@@ -63,11 +75,23 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $sekretaris->id,
-            'sort_order' => 2,
+            'sort_order' => 3,
             'is_active' => true,
         ]);
 
-        // 5. KEPALA BIDANG KOPERASI DAN UMKM
+        // 5. KEPALA SUB BAGIAN KEUANGAN DAN PELAPORAN
+        Structure::create([
+            'position' => 'Kepala Sub Bagian Keuangan dan Pelaporan',
+            'name' => 'ESRA, S.Sos',
+            'nip' => null,
+            'rank' => null,
+            'level' => 3,
+            'parent_id' => $sekretaris->id,
+            'sort_order' => 3,
+            'is_active' => true,
+        ]);
+
+        // 6. KEPALA BIDANG KOPERASI DAN UMKM
         $kabidKoperasi = Structure::create([
             'position' => 'Kepala Bidang Koperasi dan UMKM',
             'name' => 'BENYAMIN FRANKLIN JAKOB, S.E',
@@ -87,7 +111,7 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $kabidKoperasi->id,
-            'sort_order' => 1,
+            'sort_order' => 4,
             'is_active' => true,
         ]);
 
@@ -98,7 +122,7 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $kabidKoperasi->id,
-            'sort_order' => 2,
+            'sort_order' => 5,
             'is_active' => true,
         ]);
 
@@ -109,11 +133,11 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $kabidKoperasi->id,
-            'sort_order' => 3,
+            'sort_order' => 6,
             'is_active' => true,
         ]);
 
-        // 6. KEPALA BIDANG PENGEMBANGAN PERDAGANGAN (Dijabat oleh Sekretaris sebagai rangkap)
+        // 7. KEPALA BIDANG PENGEMBANGAN PERDAGANGAN (Dijabat oleh Sekretaris sebagai rangkap)
         $kabidPerdagangan = Structure::create([
             'position' => 'Kepala Bidang Pengembangan Perdagangan',
             'name' => 'Drs. SETIADY YUYU',
@@ -133,7 +157,7 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $kabidPerdagangan->id,
-            'sort_order' => 1,
+            'sort_order' => 7,
             'is_active' => false, // Posisi kosong
         ]);
 
@@ -144,7 +168,7 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $kabidPerdagangan->id,
-            'sort_order' => 2,
+            'sort_order' => 8,
             'is_active' => true,
         ]);
 
@@ -155,11 +179,11 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $kabidPerdagangan->id,
-            'sort_order' => 3,
+            'sort_order' => 9,
             'is_active' => true,
         ]);
 
-        // 7. KEPALA BIDANG KEMETROLOGIAN
+        // 8. KEPALA BIDANG KEMETROLOGIAN
         $kabidKemetrologian = Structure::create([
             'position' => 'Kepala Bidang Kemetrologian',
             'name' => 'ALEXANDRA SUHARYONO MIKA LAMBANG, S.Si.Pi',
@@ -179,7 +203,7 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $kabidKemetrologian->id,
-            'sort_order' => 1,
+            'sort_order' => 10,
             'is_active' => true,
         ]);
 
@@ -190,7 +214,7 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $kabidKemetrologian->id,
-            'sort_order' => 2,
+            'sort_order' => 11,
             'is_active' => true,
         ]);
 
@@ -201,19 +225,7 @@ class StructureSeeder extends Seeder
             'rank' => null,
             'level' => 3,
             'parent_id' => $kabidKemetrologian->id,
-            'sort_order' => 3,
-            'is_active' => true,
-        ]);
-
-        // 8. JPT PERENCANA (Langsung di bawah Kepala Dinas)
-        Structure::create([
-            'position' => 'Fungsional Perencana Ahli Muda (JPT Perencana)',
-            'name' => 'SIRMANIK STEPHAN, A.Md',
-            'nip' => null,
-            'rank' => null,
-            'level' => 2,
-            'parent_id' => $kepala->id,
-            'sort_order' => 5,
+            'sort_order' => 12,
             'is_active' => true,
         ]);
     }

@@ -226,8 +226,8 @@
             display: none;
         }
 
-        /* ===== TABLET RESPONSIVE ===== */
-        @media (max-width: 1024px) {
+        /* ===== TABLET RESPONSIVE (iPad and similar) ===== */
+        @media (max-width: 1024px) and (min-width: 769px) {
             .floating-navbar {
                 top: 15px;
                 padding: 10px 20px;
@@ -235,8 +235,26 @@
             }
         }
 
+        /* ===== iPad Air & Similar Tablets (820px - 1024px) ===== */
+        @media (max-width: 1024px) and (min-width: 768px) {
+            /* Hide floating navbar on iPad Air */
+            .floating-navbar {
+                display: none !important;
+            }
+
+            body {
+                padding-top: 0;
+                padding-bottom: 90px;
+            }
+
+            /* Show bottom navigation on iPad Air */
+            .bottom-nav {
+                display: block !important;
+            }
+        }
+
         /* ===== SMARTPHONE MODE (Hide Top Navbar) ===== */
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             body {
                 padding-top: 20px;
                 /* Remove top padding for navbar */
@@ -293,8 +311,25 @@
         }
 
         /* Force center positioning - override any conflicting styles */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) and (min-width: 768px) {
+            /* iPad Air and similar tablets */
             .bottom-nav {
+                display: block !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                max-width: 500px !important;
+                bottom: 20px !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .bottom-nav {
+                display: block !important;
                 margin-left: 0 !important;
                 margin-right: 0 !important;
                 inset-inline-start: 50% !important;
@@ -311,7 +346,7 @@
         }
 
         /* Ensure stable positioning on page load */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .bottom-nav:not(.loaded) {
                 opacity: 1 !important;
                 transform: translateX(-50%) !important;
@@ -438,7 +473,7 @@
         }
 
         /* Show bottom nav only on smartphones */
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             .bottom-nav {
                 display: block !important;
                 /* Force show on smartphones */
@@ -455,6 +490,45 @@
 
             body {
                 padding-bottom: 85px;
+            }
+        }
+
+        /* iPad Air & Tablet optimized (768px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 768px) {
+            .bottom-nav {
+                display: block !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                max-width: 550px !important;
+                width: calc(100% - 40px) !important;
+                opacity: 1 !important;
+                bottom: 20px !important;
+                position: fixed !important;
+                padding: 10px 8px;
+            }
+
+            .bottom-nav-container {
+                gap: 8px;
+            }
+
+            .bottom-nav-item {
+                min-width: 70px;
+                padding: 12px 8px;
+                border-radius: 14px;
+            }
+
+            .bottom-nav-item i {
+                font-size: 1.3rem;
+                margin-bottom: 4px;
+            }
+
+            .bottom-nav-item span {
+                font-size: 0.8rem;
+            }
+
+            body {
+                padding-bottom: 100px;
             }
         }
 
@@ -2787,12 +2861,17 @@
             }
 
             .level2-container,
-            .level3-container,
-            .kabid-container,
-            .staff-container {
+            .kabid-container {
                 flex-direction: column;
                 align-items: center;
                 gap: 15px;
+            }
+
+            .level3-container,
+            .staff-container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 0 10px;
             }
 
             .org-connector.horizontal {
@@ -4097,10 +4176,16 @@
 
         .level3-container,
         .staff-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .level3-container .org-card,
+        .staff-container .org-card {
+            margin: 0;
         }
 
         /* Organization Connectors */
@@ -4294,17 +4379,19 @@
 
             .level3-container,
             .staff-container {
-                gap: 15px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                padding: 0 20px;
             }
 
             .org-card {
-                min-width: 240px;
-                margin: 0 10px;
+                min-width: unset;
+                margin: 0;
             }
 
             .org-card.level3,
             .org-card.staff {
-                min-width: 200px;
+                min-width: unset;
             }
 
             .structure-table-section {
@@ -4337,17 +4424,24 @@
             }
 
             .level2-container,
-            .level3-container,
-            .kabid-container,
-            .staff-container {
+            .kabid-container {
                 flex-direction: column;
                 align-items: center;
                 gap: 15px;
             }
 
+            .level3-container,
+            .staff-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 0 10px;
+            }
+
             .org-card {
-                min-width: 260px;
-                margin: 0;
+                min-width: unset;
+                width: 100%;
+                max-width: 350px;
+                margin: 0 auto;
             }
 
             .structure-table-section {
@@ -4728,14 +4822,14 @@
             <!-- Menu Utama 2: Profil -->
             <a href="{{ route('public.profile') }}"
                 class="bottom-nav-item {{ request()->routeIs('public.profile') ? 'active' : '' }}">
-                <i class="fas fa-building"></i>
+                <i class="fas fa-info-circle"></i>
                 <span>Profil</span>
             </a>
 
             <!-- Menu Utama 3: Struktur -->
             <a href="{{ route('public.struktur') }}"
                 class="bottom-nav-item {{ request()->routeIs('public.struktur') ? 'active' : '' }}">
-                <i class="fas fa-users"></i>
+                <i class="fas fa-sitemap"></i>
                 <span>Struktur</span>
             </a>
 
