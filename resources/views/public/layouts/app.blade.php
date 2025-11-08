@@ -11,6 +11,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
+    {{-- Responsive Styles - All Media Queries Organized --}}
+    <link href="{{ asset('css/public-responsive.css') }}" rel="stylesheet">
+
     @if (isset($profile) && $profile->logo && Storage::disk('public')->exists($profile->logo))
         <link rel="icon" type="image/png" href="{{ Storage::url($profile->logo) }}">
     @else
@@ -226,48 +229,6 @@
             display: none;
         }
 
-        /* ===== TABLET RESPONSIVE (iPad and similar) ===== */
-        @media (max-width: 1024px) and (min-width: 769px) {
-            .floating-navbar {
-                top: 15px;
-                padding: 10px 20px;
-                border-radius: 40px;
-            }
-        }
-
-        /* ===== iPad Air & Similar Tablets (820px - 1024px) ===== */
-        @media (max-width: 1024px) and (min-width: 768px) {
-            /* Hide floating navbar on iPad Air */
-            .floating-navbar {
-                display: none !important;
-            }
-
-            body {
-                padding-top: 0;
-                padding-bottom: 90px;
-            }
-
-            /* Show bottom navigation on iPad Air */
-            .bottom-nav {
-                display: block !important;
-            }
-        }
-
-        /* ===== SMARTPHONE MODE (Hide Top Navbar) ===== */
-        @media (max-width: 767px) {
-            body {
-                padding-top: 20px;
-                /* Remove top padding for navbar */
-                padding-bottom: 120px;
-                /* Space for bottom nav */
-            }
-
-            .floating-navbar {
-                display: none !important;
-                /* Completely hide top navbar on mobile */
-            }
-        }
-
         /* ===== BOTTOM NAVIGATION (Smartphone Only) ===== */
         .bottom-nav {
             position: fixed !important;
@@ -288,17 +249,14 @@
                 0 4px 15px rgba(0, 0, 0, 0.06);
             padding: 8px 6px;
             z-index: 999;
-            display: none;
-            /* Ensure consistent sizing */
+            display: none !important;
+            /* Hidden by default, shown in media queries */
             box-sizing: border-box;
-
-            /* Immediate positioning - no delay */
             opacity: 1;
             transition: none;
-
-            /* Force positioning from start */
             margin: 0 !important;
             top: auto !important;
+            visibility: visible !important;
         }
 
         .bottom-nav.loaded {
@@ -311,8 +269,8 @@
         }
 
         /* Force center positioning - override any conflicting styles */
-        @media (max-width: 1024px) and (min-width: 768px) {
-            /* iPad Air and similar tablets */
+        /* Large Tablet / Small Desktop (1024px - 1400px width) */
+        @media (max-width: 1400px) and (min-width: 1024px) {
             .bottom-nav {
                 display: block !important;
                 margin-left: 0 !important;
@@ -322,35 +280,11 @@
                 transform: translateX(-50%) !important;
                 opacity: 1 !important;
                 visibility: visible !important;
-                max-width: 500px !important;
-                bottom: 20px !important;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .bottom-nav {
-                display: block !important;
-                margin-left: 0 !important;
-                margin-right: 0 !important;
-                inset-inline-start: 50% !important;
-                inset-inline-end: auto !important;
-                /* Immediate positioning */
-                opacity: 1 !important;
-                visibility: visible !important;
-                /* Override any potential conflicting positioning */
-                top: auto !important;
-                transform-origin: center !important;
-                /* Prevent any movement during load */
-                transition: none !important;
-            }
-        }
-
-        /* Ensure stable positioning on page load */
-        @media (max-width: 1024px) {
-            .bottom-nav:not(.loaded) {
-                opacity: 1 !important;
-                transform: translateX(-50%) !important;
-                left: 50% !important;
+                max-width: 650px !important;
+                width: calc(100% - 60px) !important;
+                bottom: 25px !important;
+                position: fixed !important;
+                padding: 14px 12px;
             }
         }
 
@@ -493,8 +427,47 @@
             }
         }
 
-        /* iPad Air & Tablet optimized (768px - 1024px) */
-        @media (max-width: 1024px) and (min-width: 768px) {
+        /* Large Tablet / Small Desktop optimized (1024px - 1400px) */
+        @media (max-width: 1400px) and (min-width: 1024px) {
+            .bottom-nav {
+                display: block !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                max-width: 650px !important;
+                width: calc(100% - 60px) !important;
+                opacity: 1 !important;
+                bottom: 25px !important;
+                position: fixed !important;
+                padding: 14px 12px;
+            }
+
+            .bottom-nav-container {
+                gap: 12px;
+            }
+
+            .bottom-nav-item {
+                min-width: 85px;
+                padding: 15px 12px;
+                border-radius: 16px;
+            }
+
+            .bottom-nav-item i {
+                font-size: 1.5rem;
+                margin-bottom: 6px;
+            }
+
+            .bottom-nav-item span {
+                font-size: 0.9rem;
+            }
+
+            body {
+                padding-bottom: 110px;
+            }
+        }
+
+        /* iPad Air & Tablet optimized (768px - 1023px) */
+        @media (max-width: 1023px) and (min-width: 768px) {
             .bottom-nav {
                 display: block !important;
                 left: 50% !important;
@@ -609,14 +582,33 @@
             }
         }
 
-        /* Hide bottom nav on desktop/tablet */
-        @media (min-width: 769px) {
+        /* Hide bottom nav on large desktop only */
+        @media (min-width: 1401px) {
             .bottom-nav {
                 display: none !important;
             }
 
             body {
                 padding-bottom: 0 !important;
+            }
+
+            .floating-navbar {
+                display: block !important;
+            }
+        }
+
+        /* Show bottom nav on tablet/small desktop (1024-1400px) */
+        @media (max-width: 1400px) and (min-width: 1024px) {
+            .floating-navbar {
+                display: none !important;
+            }
+
+            .bottom-nav {
+                display: block !important;
+            }
+
+            body {
+                padding-bottom: 110px;
             }
         }
 
@@ -627,7 +619,27 @@
         }
 
         /* Mobile responsive adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 820px) {
+            /* === NAVIGATION - Force bottom nav to show === */
+            .floating-navbar {
+                display: none !important;
+            }
+
+            .bottom-nav {
+                display: block !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                position: fixed !important;
+            }
+
+            body {
+                padding-bottom: 100px;
+            }
+
+            /* === CONTENT === */
             .main-content {
                 padding-top: 20px;
                 /* Consistent top spacing for mobile */
@@ -1012,10 +1024,12 @@
         /* ===== HERO SLIDESHOW ===== */
         .hero-slideshow {
             position: relative;
-            min-height: 100vh;
+            height: 0;
+            padding-bottom: 45%;
             display: flex;
             align-items: center;
             overflow: hidden;
+            margin: 0;
         }
 
         .slideshow-container {
@@ -1059,15 +1073,60 @@
             z-index: 3;
             color: white;
             text-align: center;
+            padding: 20px;
+        }
+
+        .hero-slideshow .hero-content h1 {
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-bottom: 15px;
+            font-size: 3rem;
+        }
+
+        .hero-slideshow .hero-content .lead {
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+            margin-bottom: 20px;
+            font-size: 1.25rem;
         }
 
         .hero-slideshow .container {
-            position: relative;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 3;
+            width: 100%;
+            max-width: 1400px;
+            padding: 0 40px;
         }
 
         /* ===== RESPONSIVE HERO ===== */
-        @media (max-width: 768px) {
+        /* Large Tablets & Small Desktops (1024px - 1400px) */
+        @media (max-width: 1400px) and (min-width: 1024px) {
+            .hero-slideshow {
+                min-height: 100vh;
+                margin: 0;
+            }
+
+            .slideshow-container {
+                height: 100%;
+            }
+        }
+
+        /* iPad Air & Medium Tablets (768px - 1023px) */
+        @media (max-width: 1023px) and (min-width: 768px) {
+            .hero-slideshow {
+                min-height: 100vh;
+                margin: 0;
+            }
+
+            .slideshow-container {
+                height: 100%;
+            }
+        }
+
+        /* Mobile Devices */
+        @media (max-width: 767px) {
             .hero-slideshow {
                 min-height: calc(100vh - 20px);
                 /* Adjust for mobile spacing */
