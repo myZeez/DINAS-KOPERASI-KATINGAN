@@ -237,8 +237,8 @@
             right: auto !important;
             transform: translateX(-50%) !important;
             width: calc(100% - 30px) !important;
-            max-width: 400px !important;
-            min-width: 320px !important;
+            max-width: 380px !important;
+            min-width: 300px !important;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -247,7 +247,7 @@
             box-shadow:
                 0 10px 40px rgba(0, 0, 0, 0.1),
                 0 4px 15px rgba(0, 0, 0, 0.06);
-            padding: 8px 6px;
+            padding: 6px 4px; /* Reduced base padding to help cap total height */
             z-index: 999;
             display: none !important;
             /* Hidden by default, shown in media queries */
@@ -280,11 +280,13 @@
                 transform: translateX(-50%) !important;
                 opacity: 1 !important;
                 visibility: visible !important;
-                max-width: 650px !important;
-                width: calc(100% - 60px) !important;
+                max-width: 620px !important; /* Slightly narrower */
+                width: calc(100% - 50px) !important;
                 bottom: 25px !important;
                 position: fixed !important;
-                padding: 14px 12px;
+                height: 110px; /* Adjusted target height */
+                padding: 16px 10px; /* Scaled to 110px */
+                box-sizing: border-box;
             }
         }
 
@@ -296,7 +298,7 @@
             position: relative;
             width: 100%;
             /* Ensure full width utilization */
-            min-height: 50px;
+            min-height: 44px; /* Slightly smaller to fit within 80px cap */
             /* Prevent layout shift */
         }
 
@@ -307,7 +309,7 @@
             text-decoration: none;
             color: var(--gray-500);
             transition: all 0.3s ease;
-            padding: 8px 6px;
+            padding: 6px 4px; /* Reduced item padding */
             border-radius: 12px;
             min-width: 50px;
             flex: 1;
@@ -323,12 +325,12 @@
         }
 
         .bottom-nav-item i {
-            font-size: 1.2rem;
+            font-size: 1rem; /* Smaller icon size for compact height */
             margin-bottom: 3px;
         }
 
         .bottom-nav-item span {
-            font-size: 0.7rem;
+            font-size: 0.65rem; /* Slightly smaller label */
             font-weight: 500;
             line-height: 1;
         }
@@ -434,27 +436,29 @@
                 left: 50% !important;
                 right: auto !important;
                 transform: translateX(-50%) !important;
-                max-width: 650px !important;
-                width: calc(100% - 60px) !important;
+                max-width: 620px !important;
+                width: calc(100% - 50px) !important;
                 opacity: 1 !important;
                 bottom: 25px !important;
                 position: fixed !important;
-                padding: 14px 12px;
+                height: 110px; /* Adjusted target height */
+                padding: 16px 10px; /* Scaled to 110px */
+                box-sizing: border-box;
             }
 
             .bottom-nav-container {
-                gap: 12px;
+                gap: 12px; /* More spacious at 120px height */
             }
 
             .bottom-nav-item {
-                min-width: 85px;
-                padding: 15px 12px;
+                min-width: 80px; /* Wider hit area */
+                padding: 14px 10px; /* Adjust item padding for 110px */
                 border-radius: 16px;
             }
 
             .bottom-nav-item i {
-                font-size: 1.5rem;
-                margin-bottom: 6px;
+                font-size: 1.5rem; /* Slightly reduced for 110px */
+                margin-bottom: 5px;
             }
 
             .bottom-nav-item span {
@@ -462,7 +466,7 @@
             }
 
             body {
-                padding-bottom: 110px;
+                padding-bottom: 140px; /* Adjust for 110px nav height */
             }
         }
 
@@ -608,7 +612,7 @@
             }
 
             body {
-                padding-bottom: 110px;
+                padding-bottom: 140px; /* Adjust for 110px nav height */
             }
         }
 
@@ -2971,24 +2975,25 @@
             /* ===== NAVBAR SPECIFIC ===== */
             .bottom-nav {
                 bottom: 15px;
-                left: 15px;
-                right: 15px;
-                border-radius: 20px;
-                padding: 12px 15px;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                border-radius: 18px;
+                padding: 10px 8px; /* Match 820/768 */
             }
 
             .bottom-nav-item {
-                font-size: 0.75rem;
-                padding: 8px 6px;
-                min-width: 55px;
+                font-size: 0.8rem; /* label font handled below */
+                padding: 12px 8px; /* Match 820/768 */
+                min-width: 70px; /* Match 820/768 */
             }
 
             .bottom-nav-item i {
-                font-size: 1.1rem;
+                font-size: 1.3rem; /* Match 820/768 */
             }
 
             .bottom-nav-item span {
-                font-size: 0.7rem;
+                font-size: 0.8rem; /* Match 820/768 */
             }
 
             /* ===== FOOTER ADJUSTMENTS ===== */
