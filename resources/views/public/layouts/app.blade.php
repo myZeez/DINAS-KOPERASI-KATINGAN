@@ -1127,11 +1127,11 @@
                 padding: 0 20px;
             }
 
-            .hero-content h1 {
+            .hero-slideshow .hero-content h1 {
                 font-size: 2rem !important;
             }
 
-            .hero-content .lead {
+            .hero-slideshow .hero-content .lead {
                 font-size: 1rem !important;
             }
 
@@ -1152,7 +1152,7 @@
                 padding: 0 15px;
             }
 
-            .hero-content h1 {
+            .hero-slideshow .hero-content h1 {
                 font-size: 1.75rem !important;
             }
 
