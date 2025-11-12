@@ -1062,6 +1062,13 @@
             transform: translate(-50%, -50%);
             z-index: 3;
             width: 100%;
+            max-width: 100%;
+            padding: 0;
+        }
+
+        .hero-slideshow .row {
+            margin: 0;
+            width: 100%;
         }
 
         .hero-slideshow .hero-content {
