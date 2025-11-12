@@ -293,12 +293,12 @@
         }
 
         .bottom-nav-item i {
-            width: 60px;
-            height: 60px;
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 20px;
             margin-bottom: 4px;
         }
 
@@ -383,7 +383,7 @@
 
         /* ===== TABLET BREAKPOINTS - CONSISTENT SIZING ===== */
         /* All tablets use same icon size (60px) and padding */
-        
+
         /* Show bottom nav only on smartphones */
         @media (max-width: 767px) {
             .bottom-nav {
@@ -393,9 +393,9 @@
             }
 
             .bottom-nav-item i {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
             }
 
             .bottom-nav-item span {
@@ -403,7 +403,7 @@
             }
 
             body {
-                padding-bottom: 110px;
+                padding-bottom: 100px;
             }
         }
 
@@ -427,9 +427,9 @@
             }
 
             .bottom-nav-item i {
-                width: 60px;
-                height: 60px;
-                font-size: 28px;
+                width: 38px;
+                height: 38px;
+                font-size: 20px;
             }
 
             .bottom-nav-item span {
@@ -437,7 +437,7 @@
             }
 
             body {
-                padding-bottom: 130px;
+                padding-bottom: 120px;
             }
         }
 
@@ -461,9 +461,9 @@
             }
 
             .bottom-nav-item i {
-                width: 60px;
-                height: 60px;
-                font-size: 28px;
+                width: 38px;
+                height: 38px;
+                font-size: 20px;
             }
 
             .bottom-nav-item span {
@@ -471,7 +471,7 @@
             }
 
             body {
-                padding-bottom: 130px;
+                padding-bottom: 120px;
             }
         }
 
@@ -497,9 +497,9 @@
             }
 
             .bottom-nav-item i {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
             }
 
             .bottom-nav-item span {
@@ -507,7 +507,7 @@
             }
 
             body {
-                padding-bottom: 110px;
+                padding-bottom: 100px;
             }
         }
 
@@ -530,9 +530,9 @@
             }
 
             .bottom-nav-item i {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
             }
 
             .bottom-nav-item span {
@@ -540,7 +540,7 @@
             }
 
             body {
-                padding-bottom: 110px;
+                padding-bottom: 100px;
             }
         }
                 font-size: 0.55rem;
