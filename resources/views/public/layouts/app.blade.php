@@ -2231,8 +2231,8 @@
 
         .profile-card {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 500px;
+            height: 500px;
             border-radius: 20px;
             overflow: hidden;
             background: white;
@@ -2587,8 +2587,8 @@
             }
 
             .profile-card {
-                width: 280px;
-                height: 280px;
+                width: 350px;
+                height: 350px;
                 margin: 2rem auto 0;
             }
 
@@ -2748,8 +2748,8 @@
 
             /* ===== PROFILE CARDS ===== */
             .profile-card {
-                width: 280px;
-                height: 280px;
+                width: 320px;
+                height: 320px;
                 margin: 0 auto;
             }
 
@@ -3245,8 +3245,8 @@
         }
 
         .profile-card {
-            width: 180px;
-            height: 180px;
+            width: 280px;
+            height: 280px;
         }
 
         .vision-mission-card .card-icon {

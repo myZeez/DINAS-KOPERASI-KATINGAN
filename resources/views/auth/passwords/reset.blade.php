@@ -178,7 +178,11 @@
         <div class="auth-card">
             <div class="auth-header">
                 <div class="auth-logo">
-                    <i class="fas fa-shield-alt"></i>
+                    @php
+                        $profile = \App\Models\Profile::first();
+                        $logoPath = $profile && $profile->logo ? 'storage/' . $profile->logo : 'favicon.ico';
+                    @endphp
+                    <img src="{{ asset($logoPath) }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
                 </div>
                 <h1 class="auth-title">Reset Password</h1>
                 <p class="auth-subtitle">Masukkan password baru untuk akun Anda</p>

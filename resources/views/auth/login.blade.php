@@ -219,9 +219,13 @@
         <div class="auth-card">
             <div class="auth-header">
                 <div class="auth-logo">
-                    <i class="fas fa-building"></i>
+                    @php
+                        $profile = \App\Models\Profile::first();
+                        $logoPath = $profile && $profile->logo ? 'storage/' . $profile->logo : 'favicon.ico';
+                    @endphp
+                    <img src="{{ asset($logoPath) }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
                 </div>
-                <h1 class="auth-title">{{ isset($profile) ? $profile->app_name : 'Dinas Koperasi' }}</h1>
+                <h1 class="auth-title">{{ $profile ? $profile->app_name : 'Dinas Koperasi' }}</h1>
                 <p class="auth-subtitle">Silakan masuk ke akun Anda</p>
             </div>
 
