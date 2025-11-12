@@ -1055,17 +1055,23 @@
             border-radius: 30px;
         }
 
-        .hero-slideshow .hero-content {
+        .hero-slideshow .container {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 3;
+            width: 100%;
+        }
+
+        .hero-slideshow .hero-content {
+            position: relative;
             color: white;
             text-align: center;
             width: 100%;
             max-width: 1400px;
             padding: 0 40px;
+            margin: 0 auto;
         }
 
         .hero-slideshow .hero-content h1 {
