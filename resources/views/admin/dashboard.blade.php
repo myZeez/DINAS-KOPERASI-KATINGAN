@@ -13,7 +13,7 @@
             'icon' => 'fas fa-tachometer-alt',
             'breadcrumb' => 'Dashboard',
 
-            'showProgress' => true,
+            'showProgress' => true,z
             'progressValue' => 75,
         ])
 

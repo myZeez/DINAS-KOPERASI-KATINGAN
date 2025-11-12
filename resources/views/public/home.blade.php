@@ -6,19 +6,18 @@
     <!-- Hero Section dengan Background Slideshow -->
     <section class="hero-slideshow" style="margin: 0px 30px 0px 30px">
 
-        <div class="slideshow-container"
-            style="padding: 20px; border-radius: 30px; overflow: hidden; width: 100%; height: 720px; ">
+        <div class="slideshow-container">
             @if ($carousels->count())
                 @foreach ($carousels as $i => $carousel)
                     <!-- Test: Direct image URL: {{ asset('storage/' . $carousel->image) }} -->
                     <div class="slide {{ $i === 0 ? 'active' : '' }}"
-                        style="background-image: url('{{ asset('storage/' . $carousel->image) }}'); background-color: #667eea; background-size: cover; background-position: center; border-radius: 20px;">
+                        style="background-image: url('{{ asset('storage/' . $carousel->image) }}'); background-color: #667eea; background-size: cover; background-position: center;">
                     </div>
                 @endforeach
             @else
-                <div class="slide active" style="background: var(--gradient-hero); border-radius: 20px;"></div>
+                <div class="slide active" style="background: var(--gradient-hero);"></div>
             @endif
-            <div class="slide-overlay" style="border-radius: 20px;"></div>
+            <div class="slide-overlay"></div>
         </div>
 
         <div class="container">

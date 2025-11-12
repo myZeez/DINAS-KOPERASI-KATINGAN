@@ -11,9 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-    {{-- Responsive Styles - All Media Queries Organized --}}
-    <link href="{{ asset('css/public-responsive.css') }}" rel="stylesheet">
-
     @if (isset($profile) && $profile->logo && Storage::disk('public')->exists($profile->logo))
         <link rel="icon" type="image/png" href="{{ Storage::url($profile->logo) }}">
     @else
@@ -55,33 +52,6 @@
             padding-top: 0;
             /* Removed padding for overlay effect */
             background: var(--gray-50);
-            max-width: 100vw;
-            position: relative;
-        }
-
-        /* Prevent horizontal scroll from any element */
-        html {
-            overflow-x: hidden;
-            max-width: 100%;
-        }
-
-        /* Ensure all containers respect viewport width */
-        .container,
-        .container-fluid,
-        .row,
-        section {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        /* Fix for elements that might overflow */
-        * {
-            max-width: 100%;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
         }
 
         /* Ensure no unwanted spacing on any device */
@@ -256,15 +226,16 @@
             display: none;
         }
 
-        /* ===== BOTTOM NAVIGATION - STANDARDIZED ===== */
+        /* ===== BOTTOM NAVIGATION (Smartphone Only) ===== */
         .bottom-nav {
             position: fixed !important;
-            bottom: 20px !important;
+            bottom: 15px !important;
             left: 50% !important;
             right: auto !important;
             transform: translateX(-50%) !important;
-            width: calc(100% - 40px) !important;
-            max-width: 600px !important;
+            width: calc(100% - 30px) !important;
+            max-width: 400px !important;
+            min-width: 320px !important;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -273,9 +244,10 @@
             box-shadow:
                 0 10px 40px rgba(0, 0, 0, 0.1),
                 0 4px 15px rgba(0, 0, 0, 0.06);
-            padding: 12px 16px;
+            padding: 8px 6px;
             z-index: 999;
             display: none !important;
+            /* Hidden by default, shown in media queries */
             box-sizing: border-box;
             opacity: 1;
             transition: none;
@@ -288,13 +260,41 @@
             opacity: 1;
         }
 
+        /* Immediate positioning for all screen sizes */
+        .bottom-nav {
+            visibility: visible !important;
+        }
+
+        /* Force center positioning - override any conflicting styles */
+        /* Large Tablet / Small Desktop (1024px - 1400px width) */
+        @media (max-width: 1400px) and (min-width: 1024px) {
+            .bottom-nav {
+                display: block !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                max-width: 650px !important;
+                width: calc(100% - 60px) !important;
+                bottom: 25px !important;
+                position: fixed !important;
+                padding: 14px 12px;
+            }
+        }
+
         .bottom-nav-container {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
             position: relative;
             width: 100%;
+            /* Ensure full width utilization */
+            min-height: 50px;
+            /* Prevent layout shift */
         }
 
         .bottom-nav-item {
@@ -304,9 +304,9 @@
             text-decoration: none;
             color: var(--gray-500);
             transition: all 0.3s ease;
-            padding: 8px 12px;
-            border-radius: 14px;
-            min-width: 70px;
+            padding: 8px 6px;
+            border-radius: 12px;
+            min-width: 50px;
             flex: 1;
             text-align: center;
             position: relative;
@@ -320,19 +320,14 @@
         }
 
         .bottom-nav-item i {
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-bottom: 4px;
+            font-size: 1.2rem;
+            margin-bottom: 3px;
         }
 
         .bottom-nav-item span {
-            font-size: 13px;
+            font-size: 0.7rem;
             font-weight: 500;
-            line-height: 1.2;
+            line-height: 1;
         }
 
         /* Dropdown Styles */
@@ -408,40 +403,40 @@
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
-        /* ===== TABLET BREAKPOINTS - CONSISTENT SIZING ===== */
-        /* All tablets use same icon size (60px) and padding */
-
         /* Show bottom nav only on smartphones */
         @media (max-width: 767px) {
             .bottom-nav {
                 display: block !important;
-                padding: 10px 12px;
+                /* Force show on smartphones */
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                max-width: 380px !important;
+                width: calc(100% - 20px) !important;
+                /* Immediate positioning */
+                opacity: 1 !important;
                 bottom: 15px !important;
-            }
-
-            .bottom-nav-item i {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
-            }
-
-            .bottom-nav-item span {
-                font-size: 12px;
+                position: fixed !important;
             }
 
             body {
-                padding-bottom: 100px;
+                padding-bottom: 85px;
             }
         }
 
-        /* Large Tablet / Small Desktop (1024px - 1400px) */
+        /* Large Tablet / Small Desktop optimized (1024px - 1400px) */
         @media (max-width: 1400px) and (min-width: 1024px) {
             .bottom-nav {
                 display: block !important;
-                max-width: 620px !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                max-width: 650px !important;
                 width: calc(100% - 60px) !important;
-                padding: 12px 16px;
-                bottom: 20px !important;
+                opacity: 1 !important;
+                bottom: 25px !important;
+                position: fixed !important;
+                padding: 14px 12px;
             }
 
             .bottom-nav-container {
@@ -449,127 +444,133 @@
             }
 
             .bottom-nav-item {
-                min-width: 80px;
-                padding: 8px 12px;
+                min-width: 85px;
+                padding: 15px 12px;
+                border-radius: 16px;
             }
 
             .bottom-nav-item i {
-                width: 38px;
-                height: 38px;
-                font-size: 20px;
+                font-size: 1.5rem;
+                margin-bottom: 6px;
             }
 
             .bottom-nav-item span {
-                font-size: 13px;
+                font-size: 0.9rem;
             }
 
             body {
-                padding-bottom: 120px;
+                padding-bottom: 110px;
             }
         }
 
-        /* iPad Air & Tablet (768px - 1023px) */
+        /* iPad Air & Tablet optimized (768px - 1023px) */
         @media (max-width: 1023px) and (min-width: 768px) {
             .bottom-nav {
                 display: block !important;
-                max-width: 580px !important;
-                width: calc(100% - 50px) !important;
-                padding: 12px 16px;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                max-width: 550px !important;
+                width: calc(100% - 40px) !important;
+                opacity: 1 !important;
                 bottom: 20px !important;
+                position: fixed !important;
+                padding: 10px 8px;
             }
 
             .bottom-nav-container {
-                gap: 10px;
+                gap: 8px;
             }
 
             .bottom-nav-item {
-                min-width: 75px;
-                padding: 8px 12px;
+                min-width: 70px;
+                padding: 12px 8px;
+                border-radius: 14px;
             }
 
             .bottom-nav-item i {
-                width: 38px;
-                height: 38px;
-                font-size: 20px;
+                font-size: 1.3rem;
+                margin-bottom: 4px;
             }
 
             .bottom-nav-item span {
-                font-size: 13px;
+                font-size: 0.8rem;
             }
 
             body {
-                padding-bottom: 120px;
+                padding-bottom: 100px;
             }
         }
-
-        /* ===== SMARTPHONE BREAKPOINTS - CONSISTENT SIZING ===== */
-        /* All smartphones use same icon size (50px) and padding */
 
         /* Optimize for smaller smartphones */
         @media (max-width: 576px) {
             .bottom-nav {
-                bottom: 15px !important;
-                width: calc(100% - 30px) !important;
-                max-width: 400px !important;
-                padding: 10px 12px;
+                bottom: 10px !important;
+                /* Maintain center positioning */
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                width: calc(100% - 16px) !important;
+                max-width: 350px !important;
+                border-radius: 18px;
+                padding: 6px 4px;
+                /* Force immediate positioning */
+                opacity: 1 !important;
+                position: fixed !important;
             }
 
             .bottom-nav-container {
-                gap: 6px;
+                gap: 1px;
             }
 
             .bottom-nav-item {
-                min-width: 65px;
-                padding: 6px 8px;
+                min-width: 32px;
+                padding: 6px 2px;
+                border-radius: 10px;
+                max-width: 50px;
             }
 
             .bottom-nav-item i {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
+                font-size: 1rem;
+                margin-bottom: 1px;
             }
 
             .bottom-nav-item span {
-                font-size: 12px;
+                font-size: 0.6rem;
             }
 
             body {
-                padding-bottom: 100px;
+                padding-bottom: 80px;
             }
         }
 
-        /* Extra small screens */
+        /* Extra small screens optimization */
         @media (max-width: 375px) {
             .bottom-nav {
+                /* Maintain center positioning */
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                width: calc(100% - 10px) !important;
+                max-width: 320px !important;
+                padding: 5px 3px;
+                /* Force immediate positioning */
+                opacity: 1 !important;
+                position: fixed !important;
                 bottom: 15px !important;
-                width: calc(100% - 20px) !important;
-                max-width: 350px !important;
-                padding: 10px 12px;
-            }
-
-            .bottom-nav-container {
-                gap: 4px;
             }
 
             .bottom-nav-item {
-                min-width: 60px;
-                padding: 6px 6px;
+                min-width: 28px;
+                padding: 5px 1px;
+                max-width: 45px;
             }
 
             .bottom-nav-item i {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
+                font-size: 0.9rem;
             }
 
             .bottom-nav-item span {
-                font-size: 11px;
-            }
-
-            body {
-                padding-bottom: 100px;
-            }
-        }
                 font-size: 0.55rem;
             }
 
@@ -578,29 +579,14 @@
             }
         }
 
-        /* Hide bottom nav on large desktop only */
-        @media (min-width: 1401px) {
+        /* Hide bottom nav on desktop/tablet */
+        @media (min-width: 769px) {
             .bottom-nav {
                 display: none !important;
             }
 
             body {
                 padding-bottom: 0 !important;
-            }
-
-            .floating-navbar {
-                display: block !important;
-            }
-        }
-
-        /* Show bottom nav on tablet/small desktop (1024-1400px) - handled above */
-        @media (max-width: 1400px) and (min-width: 1024px) {
-            .floating-navbar {
-                display: none !important;
-            }
-
-            .bottom-nav {
-                display: block !important;
             }
         }
 
@@ -612,16 +598,6 @@
 
         /* Mobile responsive adjustments */
         @media (max-width: 820px) {
-            /* === NAVIGATION - Force bottom nav to show === */
-            .floating-navbar {
-                display: none !important;
-            }
-
-            .bottom-nav {
-                display: block !important;
-            }
-
-            /* === CONTENT === */
             .main-content {
                 padding-top: 20px;
                 /* Consistent top spacing for mobile */
@@ -1006,13 +982,11 @@
         /* ===== HERO SLIDESHOW ===== */
         .hero-slideshow {
             position: relative;
-            height: 0;
-            padding-bottom: 50%;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             overflow: hidden;
             margin: 0;
-            border-radius: 30px;
         }
 
         .slideshow-container {
@@ -1022,8 +996,6 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            border-radius: 30px;
-            overflow: hidden;
         }
 
         .slide {
@@ -1037,7 +1009,6 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            border-radius: 30px;
         }
 
         .slide.active {
@@ -1052,79 +1023,55 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.4);
             z-index: 2;
-            border-radius: 30px;
         }
 
         .hero-slideshow .hero-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
             z-index: 3;
             color: white;
             text-align: center;
-            width: 100%;
-            max-width: 1400px;
-            padding: 0 40px;
         }
 
-        .hero-slideshow .hero-content h1 {
-            font-weight: 700;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-            margin-bottom: 15px;
-            font-size: 3rem;
-        }
-
-        .hero-slideshow .hero-content .lead {
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-            margin-bottom: 20px;
-            font-size: 1.25rem;
+        .hero-slideshow .container {
+            position: relative;
+            z-index: 3;
         }
 
         /* ===== RESPONSIVE HERO ===== */
         /* Large Tablets & Small Desktops (1024px - 1400px) */
         @media (max-width: 1400px) and (min-width: 1024px) {
             .hero-slideshow {
-                padding-bottom: 48%;
+                min-height: 100vh;
+                margin: 0;
             }
 
-            .hero-slideshow .hero-content h1 {
-                font-size: 2.75rem;
-            }
-
-            .hero-slideshow .hero-content .lead {
-                font-size: 1.15rem;
+            .slideshow-container {
+                height: 100%;
             }
         }
 
         /* iPad Air & Medium Tablets (768px - 1023px) */
         @media (max-width: 1023px) and (min-width: 768px) {
             .hero-slideshow {
-                padding-bottom: 52%;
+                min-height: 100vh;
+                margin: 0;
             }
 
-            .hero-slideshow .hero-content {
-                padding: 0 30px;
-            }
-
-            .hero-slideshow .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-slideshow .hero-content .lead {
-                font-size: 1.1rem;
+            .slideshow-container {
+                height: 100%;
             }
         }
 
         /* Mobile Devices */
         @media (max-width: 767px) {
             .hero-slideshow {
-                padding-bottom: 60%;
+                min-height: calc(100vh - 20px);
+                /* Adjust for mobile spacing */
                 margin-top: 0;
             }
 
-            .hero-slideshow .hero-content {
-                padding: 0 20px;
+            .hero-slideshow .slideshow-container {
+                height: 70vh;
             }
 
             .hero-content h1 {
@@ -1144,12 +1091,13 @@
 
         @media (max-width: 576px) {
             .hero-slideshow {
-                padding-bottom: 70%;
+                min-height: 60vh;
                 margin: 0px 15px 0px 15px !important;
             }
 
-            .hero-slideshow .hero-content {
-                padding: 0 15px;
+            .hero-slideshow .slideshow-container {
+                height: 60vh;
+                padding: 15px !important;
             }
 
             .hero-content h1 {
@@ -2957,7 +2905,28 @@
                 margin-bottom: 20px;
             }
 
-            /* Bottom nav styles handled in main media queries above */
+            /* ===== NAVBAR SPECIFIC ===== */
+            .bottom-nav {
+                bottom: 15px;
+                left: 15px;
+                right: 15px;
+                border-radius: 20px;
+                padding: 12px 15px;
+            }
+
+            .bottom-nav-item {
+                font-size: 0.75rem;
+                padding: 8px 6px;
+                min-width: 55px;
+            }
+
+            .bottom-nav-item i {
+                font-size: 1.1rem;
+            }
+
+            .bottom-nav-item span {
+                font-size: 0.7rem;
+            }
 
             /* ===== FOOTER ADJUSTMENTS ===== */
             footer {
@@ -4199,21 +4168,6 @@
             justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
-            align-items: flex-start;
-        }
-
-        /* Ensure each level 2 card takes consistent space */
-        .level2-container .org-card {
-            flex: 0 1 auto;
-            min-width: 280px;
-            max-width: 380px;
-        }
-
-        /* Special handling for JPT Fungsional (5th item in level 2) to always be centered alone */
-        .level2-container .org-card.level2:nth-child(5) {
-            flex-basis: 100%;
-            max-width: 420px;
-            margin: 0 auto;
         }
 
         .level3-container,
@@ -4419,12 +4373,6 @@
                 gap: 20px;
             }
 
-            /* Maintain centered JPT card on tablets */
-            .level2-container .org-card.level2:nth-child(5) {
-                flex-basis: 100%;
-                max-width: 400px;
-            }
-
             .level3-container,
             .staff-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -4476,18 +4424,6 @@
                 flex-direction: column;
                 align-items: center;
                 gap: 15px;
-            }
-
-            /* All level 2 cards centered on mobile */
-            .level2-container .org-card {
-                width: 100%;
-                max-width: 350px;
-                flex-basis: auto;
-            }
-
-            .level2-container .org-card.level2:nth-child(5) {
-                flex-basis: auto;
-                max-width: 350px;
             }
 
             .level3-container,
