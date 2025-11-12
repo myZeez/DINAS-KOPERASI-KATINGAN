@@ -229,16 +229,15 @@
             display: none;
         }
 
-        /* ===== BOTTOM NAVIGATION (Smartphone Only) ===== */
+        /* ===== BOTTOM NAVIGATION - STANDARDIZED ===== */
         .bottom-nav {
             position: fixed !important;
-            bottom: 15px !important;
+            bottom: 20px !important;
             left: 50% !important;
             right: auto !important;
             transform: translateX(-50%) !important;
-            width: calc(100% - 30px) !important;
-            max-width: 380px !important;
-            min-width: 300px !important;
+            width: calc(100% - 40px) !important;
+            max-width: 600px !important;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -247,10 +246,9 @@
             box-shadow:
                 0 10px 40px rgba(0, 0, 0, 0.1),
                 0 4px 15px rgba(0, 0, 0, 0.06);
-            padding: 6px 4px; /* Reduced base padding to help cap total height */
+            padding: 12px 16px;
             z-index: 999;
             display: none !important;
-            /* Hidden by default, shown in media queries */
             box-sizing: border-box;
             opacity: 1;
             transition: none;
@@ -263,43 +261,13 @@
             opacity: 1;
         }
 
-        /* Immediate positioning for all screen sizes */
-        .bottom-nav {
-            visibility: visible !important;
-        }
-
-        /* Force center positioning - override any conflicting styles */
-        /* Large Tablet / Small Desktop (1024px - 1400px width) */
-        @media (max-width: 1400px) and (min-width: 1024px) {
-            .bottom-nav {
-                display: block !important;
-                margin-left: 0 !important;
-                margin-right: 0 !important;
-                left: 50% !important;
-                right: auto !important;
-                transform: translateX(-50%) !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                max-width: 620px !important; /* Slightly narrower */
-                width: calc(100% - 50px) !important;
-                bottom: 25px !important;
-                position: fixed !important;
-                height: 110px; /* Adjusted target height */
-                padding: 16px 10px; /* Scaled to 110px */
-                box-sizing: border-box;
-            }
-        }
-
         .bottom-nav-container {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             position: relative;
             width: 100%;
-            /* Ensure full width utilization */
-            min-height: 44px; /* Slightly smaller to fit within 80px cap */
-            /* Prevent layout shift */
         }
 
         .bottom-nav-item {
@@ -309,9 +277,9 @@
             text-decoration: none;
             color: var(--gray-500);
             transition: all 0.3s ease;
-            padding: 6px 4px; /* Reduced item padding */
-            border-radius: 12px;
-            min-width: 50px;
+            padding: 8px 12px;
+            border-radius: 14px;
+            min-width: 70px;
             flex: 1;
             text-align: center;
             position: relative;
@@ -325,14 +293,19 @@
         }
 
         .bottom-nav-item i {
-            font-size: 1rem; /* Smaller icon size for compact height */
-            margin-bottom: 3px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 4px;
         }
 
         .bottom-nav-item span {
-            font-size: 0.65rem; /* Slightly smaller label */
+            font-size: 13px;
             font-weight: 500;
-            line-height: 1;
+            line-height: 1.2;
         }
 
         /* Dropdown Styles */
@@ -408,176 +381,168 @@
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
+        /* ===== TABLET BREAKPOINTS - CONSISTENT SIZING ===== */
+        /* All tablets use same icon size (60px) and padding */
+        
         /* Show bottom nav only on smartphones */
         @media (max-width: 767px) {
             .bottom-nav {
                 display: block !important;
-                /* Force show on smartphones */
-                left: 50% !important;
-                right: auto !important;
-                transform: translateX(-50%) !important;
-                max-width: 380px !important;
-                width: calc(100% - 20px) !important;
-                /* Immediate positioning */
-                opacity: 1 !important;
+                padding: 10px 12px;
                 bottom: 15px !important;
-                position: fixed !important;
+            }
+
+            .bottom-nav-item i {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .bottom-nav-item span {
+                font-size: 12px;
             }
 
             body {
-                padding-bottom: 85px;
+                padding-bottom: 110px;
             }
         }
 
-        /* Large Tablet / Small Desktop optimized (1024px - 1400px) */
+        /* Large Tablet / Small Desktop (1024px - 1400px) */
         @media (max-width: 1400px) and (min-width: 1024px) {
             .bottom-nav {
                 display: block !important;
-                left: 50% !important;
-                right: auto !important;
-                transform: translateX(-50%) !important;
                 max-width: 620px !important;
-                width: calc(100% - 50px) !important;
-                opacity: 1 !important;
-                bottom: 25px !important;
-                position: fixed !important;
-                height: 110px; /* Adjusted target height */
-                padding: 16px 10px; /* Scaled to 110px */
-                box-sizing: border-box;
+                width: calc(100% - 60px) !important;
+                padding: 12px 16px;
+                bottom: 20px !important;
             }
 
             .bottom-nav-container {
-                gap: 12px; /* More spacious at 120px height */
+                gap: 12px;
             }
 
             .bottom-nav-item {
-                min-width: 80px; /* Wider hit area */
-                padding: 14px 10px; /* Adjust item padding for 110px */
-                border-radius: 16px;
+                min-width: 80px;
+                padding: 8px 12px;
             }
 
             .bottom-nav-item i {
-                font-size: 1.5rem; /* Slightly reduced for 110px */
-                margin-bottom: 5px;
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
             }
 
             .bottom-nav-item span {
-                font-size: 0.9rem;
+                font-size: 13px;
             }
 
             body {
-                padding-bottom: 140px; /* Adjust for 110px nav height */
+                padding-bottom: 130px;
             }
         }
 
-        /* iPad Air & Tablet optimized (768px - 1023px) */
+        /* iPad Air & Tablet (768px - 1023px) */
         @media (max-width: 1023px) and (min-width: 768px) {
             .bottom-nav {
                 display: block !important;
-                left: 50% !important;
-                right: auto !important;
-                transform: translateX(-50%) !important;
-                max-width: 550px !important;
-                width: calc(100% - 40px) !important;
-                opacity: 1 !important;
+                max-width: 580px !important;
+                width: calc(100% - 50px) !important;
+                padding: 12px 16px;
                 bottom: 20px !important;
-                position: fixed !important;
-                padding: 10px 8px;
             }
 
             .bottom-nav-container {
-                gap: 8px;
+                gap: 10px;
             }
 
             .bottom-nav-item {
-                min-width: 70px;
-                padding: 12px 8px;
-                border-radius: 14px;
+                min-width: 75px;
+                padding: 8px 12px;
             }
 
             .bottom-nav-item i {
-                font-size: 1.3rem;
-                margin-bottom: 4px;
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
             }
 
             .bottom-nav-item span {
-                font-size: 0.8rem;
+                font-size: 13px;
             }
 
             body {
-                padding-bottom: 100px;
+                padding-bottom: 130px;
             }
         }
+
+        /* ===== SMARTPHONE BREAKPOINTS - CONSISTENT SIZING ===== */
+        /* All smartphones use same icon size (50px) and padding */
 
         /* Optimize for smaller smartphones */
         @media (max-width: 576px) {
             .bottom-nav {
-                bottom: 10px !important;
-                /* Maintain center positioning */
-                left: 50% !important;
-                right: auto !important;
-                transform: translateX(-50%) !important;
-                width: calc(100% - 16px) !important;
-                max-width: 350px !important;
-                border-radius: 18px;
-                padding: 6px 4px;
-                /* Force immediate positioning */
-                opacity: 1 !important;
-                position: fixed !important;
+                bottom: 15px !important;
+                width: calc(100% - 30px) !important;
+                max-width: 400px !important;
+                padding: 10px 12px;
             }
 
             .bottom-nav-container {
-                gap: 1px;
+                gap: 6px;
             }
 
             .bottom-nav-item {
-                min-width: 32px;
-                padding: 6px 2px;
-                border-radius: 10px;
-                max-width: 50px;
+                min-width: 65px;
+                padding: 6px 8px;
             }
 
             .bottom-nav-item i {
-                font-size: 1rem;
-                margin-bottom: 1px;
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
             }
 
             .bottom-nav-item span {
-                font-size: 0.6rem;
+                font-size: 12px;
             }
 
             body {
-                padding-bottom: 80px;
+                padding-bottom: 110px;
             }
         }
 
-        /* Extra small screens optimization */
+        /* Extra small screens */
         @media (max-width: 375px) {
             .bottom-nav {
-                /* Maintain center positioning */
-                left: 50% !important;
-                right: auto !important;
-                transform: translateX(-50%) !important;
-                width: calc(100% - 10px) !important;
-                max-width: 320px !important;
-                padding: 5px 3px;
-                /* Force immediate positioning */
-                opacity: 1 !important;
-                position: fixed !important;
                 bottom: 15px !important;
+                width: calc(100% - 20px) !important;
+                max-width: 350px !important;
+                padding: 10px 12px;
+            }
+
+            .bottom-nav-container {
+                gap: 4px;
             }
 
             .bottom-nav-item {
-                min-width: 28px;
-                padding: 5px 1px;
-                max-width: 45px;
+                min-width: 60px;
+                padding: 6px 6px;
             }
 
             .bottom-nav-item i {
-                font-size: 0.9rem;
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
             }
 
             .bottom-nav-item span {
+                font-size: 11px;
+            }
+
+            body {
+                padding-bottom: 110px;
+            }
+        }
                 font-size: 0.55rem;
             }
 
@@ -601,7 +566,7 @@
             }
         }
 
-        /* Show bottom nav on tablet/small desktop (1024-1400px) */
+        /* Show bottom nav on tablet/small desktop (1024-1400px) - handled above */
         @media (max-width: 1400px) and (min-width: 1024px) {
             .floating-navbar {
                 display: none !important;
@@ -609,10 +574,6 @@
 
             .bottom-nav {
                 display: block !important;
-            }
-
-            body {
-                padding-bottom: 140px; /* Adjust for 110px nav height */
             }
         }
 
@@ -631,16 +592,6 @@
 
             .bottom-nav {
                 display: block !important;
-                left: 50% !important;
-                right: auto !important;
-                transform: translateX(-50%) !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                position: fixed !important;
-            }
-
-            body {
-                padding-bottom: 100px;
             }
 
             /* === CONTENT === */
@@ -2972,29 +2923,7 @@
                 margin-bottom: 20px;
             }
 
-            /* ===== NAVBAR SPECIFIC ===== */
-            .bottom-nav {
-                bottom: 15px;
-                left: 50%;
-                right: auto;
-                transform: translateX(-50%);
-                border-radius: 18px;
-                padding: 10px 8px; /* Match 820/768 */
-            }
-
-            .bottom-nav-item {
-                font-size: 0.8rem; /* label font handled below */
-                padding: 12px 8px; /* Match 820/768 */
-                min-width: 70px; /* Match 820/768 */
-            }
-
-            .bottom-nav-item i {
-                font-size: 1.3rem; /* Match 820/768 */
-            }
-
-            .bottom-nav-item span {
-                font-size: 0.8rem; /* Match 820/768 */
-            }
+            /* Bottom nav styles handled in main media queries above */
 
             /* ===== FOOTER ADJUSTMENTS ===== */
             footer {
