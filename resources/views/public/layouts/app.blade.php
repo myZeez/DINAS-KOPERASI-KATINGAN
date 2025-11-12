@@ -4236,6 +4236,21 @@
             justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        /* Ensure each level 2 card takes consistent space */
+        .level2-container .org-card {
+            flex: 0 1 auto;
+            min-width: 280px;
+            max-width: 380px;
+        }
+
+        /* Special handling for JPT Fungsional (5th item in level 2) to always be centered alone */
+        .level2-container .org-card.level2:nth-child(5) {
+            flex-basis: 100%;
+            max-width: 420px;
+            margin: 0 auto;
         }
 
         .level3-container,
@@ -4441,6 +4456,12 @@
                 gap: 20px;
             }
 
+            /* Maintain centered JPT card on tablets */
+            .level2-container .org-card.level2:nth-child(5) {
+                flex-basis: 100%;
+                max-width: 400px;
+            }
+
             .level3-container,
             .staff-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -4492,6 +4513,18 @@
                 flex-direction: column;
                 align-items: center;
                 gap: 15px;
+            }
+
+            /* All level 2 cards centered on mobile */
+            .level2-container .org-card {
+                width: 100%;
+                max-width: 350px;
+                flex-basis: auto;
+            }
+
+            .level2-container .org-card.level2:nth-child(5) {
+                flex-basis: auto;
+                max-width: 350px;
             }
 
             .level3-container,
