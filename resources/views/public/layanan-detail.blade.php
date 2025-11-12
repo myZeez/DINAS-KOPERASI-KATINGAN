@@ -267,6 +267,7 @@
             padding: 1.5rem;
             height: 100%;
             transition: all 0.3s ease;
+            text-align: left;
         }
 
         .info-card:hover {
@@ -282,11 +283,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .info-icon i {
             color: white;
             font-size: 1.2rem;
+        }
+
+        .info-card h6 {
+            text-align: left;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-card p {
+            text-align: left;
+            margin-bottom: 0;
         }
 
         .content-card {
