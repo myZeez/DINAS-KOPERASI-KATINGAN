@@ -267,12 +267,20 @@
             padding: 1.5rem;
             height: 100%;
             transition: all 0.3s ease;
-            text-align: left;
+            text-align: left !important;
         }
 
         .info-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(79, 172, 254, 0.2);
+        }
+
+        .info-card .d-flex {
+            text-align: left !important;
+        }
+
+        .info-card .d-flex > div {
+            text-align: left !important;
         }
 
         .info-icon {
@@ -292,12 +300,12 @@
         }
 
         .info-card h6 {
-            text-align: left;
+            text-align: left !important;
             margin-bottom: 0.25rem;
         }
 
         .info-card p {
-            text-align: left;
+            text-align: left !important;
             margin-bottom: 0;
         }
 

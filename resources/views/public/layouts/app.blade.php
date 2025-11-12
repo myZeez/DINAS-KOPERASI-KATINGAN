@@ -2329,7 +2329,9 @@
 
         .vision-mission-card .card-header {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            text-align: center;
             margin-bottom: 20px;
         }
 
@@ -2340,7 +2342,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 20px;
+            margin-bottom: 15px;
             font-size: 1.5rem;
             color: white;
         }
@@ -2358,6 +2360,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: #1f2937;
+            text-align: center;
         }
 
         .vision-mission-card .card-body p {
@@ -2365,6 +2368,7 @@
             line-height: 1.7;
             font-size: 1rem;
             margin: 0;
+            text-align: center;
         }
 
         /* ===== INFO CARD STYLES ===== */
@@ -2620,8 +2624,8 @@
             }
 
             .info-card-header {
-                flex-direction: column;
-                text-align: center;
+                flex-direction: row;
+                text-align: left;
                 gap: 16px;
             }
 
@@ -2629,11 +2633,11 @@
                 width: 50px;
                 height: 50px;
                 font-size: 1.2rem;
-                margin: 0 auto;
             }
 
             .info-title {
                 font-size: 1.2rem;
+                text-align: left;
             }
 
             .feature-card {
@@ -2829,8 +2833,8 @@
             }
 
             .info-card-header {
-                flex-direction: column;
-                text-align: center;
+                flex-direction: row;
+                text-align: left;
                 gap: 15px;
             }
 
@@ -2838,12 +2842,11 @@
                 width: 50px;
                 height: 50px;
                 font-size: 1.2rem;
-                margin: 0 auto;
             }
 
             .info-title {
                 font-size: 1.1rem;
-                text-align: center;
+                text-align: left;
             }
 
             /* ===== FEATURE CARDS ===== */
