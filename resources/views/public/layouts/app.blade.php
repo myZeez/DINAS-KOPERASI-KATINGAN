@@ -71,6 +71,11 @@
         .row,
         section {
             max-width: 100%;
+        }
+
+        /* Only prevent horizontal scroll on body and html */
+        body,
+        html {
             overflow-x: hidden;
         }
 
@@ -90,6 +95,7 @@
         .row {
             margin-left: 0;
             margin-right: 0;
+            padding: 10px 0;
         }
 
         .row > * {
