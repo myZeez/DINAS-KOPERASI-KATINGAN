@@ -74,6 +74,29 @@
             overflow-x: hidden;
         }
 
+        /* Container centering for all sections */
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .container-fluid {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .row > * {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
         /* Fix for elements that might overflow */
         * {
             max-width: 100%;
@@ -192,11 +215,16 @@
         .navbar-brand img {
             width: 50px;
             height: 50px;
+            min-width: 50px;
+            min-height: 50px;
             border-radius: 50%;
-            object-fit: cover;
+            object-fit: contain;
             border: 2px solid rgba(79, 70, 229, 0.2);
             transition: all 0.3s ease;
-            margin-right: 20px
+            margin-right: 20px;
+            background: white;
+            padding: 3px;
+            aspect-ratio: 1 / 1;
         }
 
         .navbar-brand:hover {
@@ -602,6 +630,169 @@
             .bottom-nav {
                 display: block !important;
             }
+
+            /* Center container on tablet - EQUAL spacing */
+            .container {
+                width: 100%;
+                max-width: 100%;
+                padding-left: 40px;
+                padding-right: 40px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .row {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            /* Center all content on tablet */
+            .section .container {
+                text-align: center;
+            }
+
+            /* Headings center */
+            .section h1,
+            .section h2,
+            .section h3,
+            .section h4,
+            .section h5,
+            .section h6 {
+                text-align: center !important;
+            }
+
+            /* Paragraphs left-aligned */
+            .section p,
+            .section .lead,
+            .section ul,
+            .section ol,
+            .section li {
+                text-align: left !important;
+            }
+
+            /* Override text-start to center only for headings */
+            .section .text-start h1,
+            .section .text-start h2,
+            .section .text-start h3,
+            .section .text-left h1,
+            .section .text-left h2,
+            .section .text-left h3 {
+                text-align: center !important;
+            }
+
+            .section .row {
+                justify-content: center;
+            }
+        }
+
+        /* Tablet medium (768px - 1023px) */
+        @media (max-width: 1023px) and (min-width: 768px) {
+            .container {
+                width: 100%;
+                max-width: 100%;
+                padding-left: 30px;
+                padding-right: 30px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .row {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            /* Center all content on tablet */
+            .section .container {
+                text-align: center;
+            }
+
+            /* Headings center */
+            .section h1,
+            .section h2,
+            .section h3,
+            .section h4,
+            .section h5,
+            .section h6 {
+                text-align: center !important;
+            }
+
+            /* Paragraphs left-aligned */
+            .section p,
+            .section .lead,
+            .section ul,
+            .section ol,
+            .section li {
+                text-align: left !important;
+            }
+
+            /* Override text-start to center only for headings */
+            .section .text-start h1,
+            .section .text-start h2,
+            .section .text-start h3,
+            .section .text-left h1,
+            .section .text-left h2,
+            .section .text-left h3 {
+                text-align: center !important;
+            }
+
+            .section .row {
+                justify-content: center;
+            }
+        }
+
+        /* Mobile (< 768px) */
+        @media (max-width: 767px) {
+            .container {
+                width: 100%;
+                max-width: 100%;
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .row {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            /* Center all content on mobile */
+            .section .container {
+                text-align: center;
+            }
+
+            /* Headings center */
+            .section h1,
+            .section h2,
+            .section h3,
+            .section h4,
+            .section h5,
+            .section h6 {
+                text-align: center !important;
+            }
+
+            /* Paragraphs left-aligned */
+            .section p,
+            .section .lead,
+            .section ul,
+            .section ol,
+            .section li {
+                text-align: left !important;
+            }
+
+            /* Override text-start to center only for headings */
+            .section .text-start h1,
+            .section .text-start h2,
+            .section .text-start h3,
+            .section .text-left h1,
+            .section .text-left h2,
+            .section .text-left h3 {
+                text-align: center !important;
+            }
+
+            .section .row {
+                justify-content: center;
+            }
         }
 
         /* ===== MAIN CONTENT ===== */
@@ -851,7 +1042,13 @@
 
         /* ===== UTILITIES ===== */
         .section {
-            padding: 80px 0;
+            padding: 80px 20px;
+        }
+
+        @media (max-width: 767px) {
+            .section {
+                padding: 40px 15px;
+            }
         }
 
         /* ===== UNIVERSAL HERO SECTIONS ===== */
