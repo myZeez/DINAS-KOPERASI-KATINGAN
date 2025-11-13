@@ -400,9 +400,18 @@
         const fileInput = document.getElementById('fileInput');
         const filePreview = document.getElementById('filePreview');
 
-        // Click to select file
-        uploadArea.addEventListener('click', () => {
-            fileInput.click();
+        // Click to select file - only trigger if not already clicking the input
+        uploadArea.addEventListener('click', (e) => {
+            // Don't trigger if clicking the actual file input
+            if (e.target !== fileInput) {
+                e.stopPropagation();
+                fileInput.click();
+            }
+        });
+
+        // Prevent double trigger from file input
+        fileInput.addEventListener('click', (e) => {
+            e.stopPropagation();
         });
 
         // Drag and drop functionality

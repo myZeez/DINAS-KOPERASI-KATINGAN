@@ -129,7 +129,7 @@
 
                             <div class="d-flex justify-content-end gap-2">
                                 @if ($review->status === 'pending')
-                                    <button class="btn btn-sm review-action" data-action="approve" data-method="PATCH"
+                                    <button class="btn btn-sm review-action" data-action="approve"
                                         data-url="{{ route('admin.reviews.approve', $review) }}"
                                         style="background: rgba(0, 255, 136, 0.2); color: var(--accent-color); border: none; border-radius: 6px;"
                                         title="Setujui Ulasan">
@@ -144,14 +144,14 @@
                                     <i class="fas fa-reply"></i>
                                 </button>
 
-                                <button class="btn btn-sm review-action" data-action="toggle" data-method="PATCH"
+                                <button class="btn btn-sm review-action" data-action="toggle"
                                     data-url="{{ route('admin.reviews.toggle-visibility', $review) }}"
                                     style="background: rgba(255, 215, 61, 0.2); color: var(--warning-color); border: none; border-radius: 6px;"
                                     title="{{ $review->is_visible ? 'Sembunyikan' : 'Tampilkan' }}">
                                     <i class="fas fa-eye{{ $review->is_visible ? '' : '-slash' }}"></i>
                                 </button>
 
-                                <button class="btn btn-sm review-action" data-action="delete" data-method="DELETE"
+                                <button class="btn btn-sm review-action" data-action="delete"
                                     data-url="{{ route('admin.reviews.destroy', $review) }}"
                                     style="background: rgba(255, 107, 107, 0.2); color: var(--danger-color); border: none; border-radius: 6px;"
                                     title="Hapus">
@@ -176,38 +176,99 @@
         <script>
             (function() {
                 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                $(document).on('click', '.review-action', function(e) {
+
+                $(document).on('click', '.review-action', async function(e) {
                     e.preventDefault();
                     const $btn = $(this);
                     const url = $btn.data('url');
-                    const method = ($btn.data('method') || 'PATCH').toUpperCase();
                     const action = $btn.data('action');
 
-                    if (method === 'DELETE') {
-                        if (!confirm('Hapus ulasan ini?')) return;
+                    // Prepare confirm dialog config based on action
+                    let confirmConfig = {};
+                    if (action === 'delete') {
+                        confirmConfig = {
+                            title: 'Konfirmasi Hapus',
+                            message: 'Apakah Anda yakin ingin menghapus ulasan ini?',
+                            confirmText: 'Hapus',
+                            icon: 'trash',
+                            variant: 'warning'
+                        };
                     } else if (action === 'approve') {
-                        if (!confirm('Setujui ulasan ini? Ulasan akan ditampilkan di halaman public.')) return;
+                        confirmConfig = {
+                            title: 'Setujui ulasan ini?',
+                            message: 'Ulasan akan ditampilkan di halaman public.',
+                            confirmText: 'Setujui',
+                            icon: 'check',
+                            variant: 'success'
+                        };
+                    } else {
+                        // Toggle visibility - no confirmation needed
+                        performAction();
+                        return;
                     }
 
-                    $btn.prop('disabled', true).addClass('disabled');
-                    $.ajax({
-                        url: url,
-                        type: method,
-                        headers: {
-                            'X-CSRF-TOKEN': token
-                        },
-                        success: function() {
-                            window.location.reload();
-                        },
-                        error: function(xhr) {
-                            const msg = (xhr.responseJSON && xhr.responseJSON.message) || xhr
-                                .statusText || 'Gagal memproses aksi';
-                            alert(msg);
-                        },
-                        complete: function() {
+                    // Show confirmation and wait for user response
+                    const confirmed = await confirmAction(confirmConfig);
+                    if (!confirmed) return;
+
+                    performAction();
+
+                    function performAction() {
+                        $btn.prop('disabled', true).addClass('disabled');
+                        showLoading();
+
+                        // Use simple POST for maximum hosting compatibility
+                        const formData = new FormData();
+                        formData.append('_token', token);
+
+                        console.log('Sending request to:', url);
+                        console.log('CSRF Token:', token);
+
+                        fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            credentials: 'same-origin'
+                        })
+                        .then(async response => {
+                            // Get response text first
+                            const text = await response.text();
+
+                            // Try to parse as JSON
+                            let data;
+                            try {
+                                data = JSON.parse(text);
+                            } catch (e) {
+                                // If not JSON, it's likely an HTML error page
+                                console.error('Response is not JSON:', text.substring(0, 200));
+                                throw new Error('Server mengembalikan response yang tidak valid. Silakan cek kembali.');
+                            }
+
+                            if (!response.ok) {
+                                throw new Error(data.message || `HTTP error! status: ${response.status}`);
+                            }
+
+                            return data;
+                        })
+                        .then(data => {
+                            const message = data.message ||
+                                (action === 'delete' ? 'Ulasan berhasil dihapus' :
+                                 action === 'approve' ? 'Ulasan berhasil disetujui' :
+                                 'Aksi berhasil dijalankan');
+                            showToast(message, 'success');
+                            setTimeout(() => window.location.reload(), 1500);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            showToast('Terjadi kesalahan: ' + error.message, 'error');
                             $btn.prop('disabled', false).removeClass('disabled');
-                        }
-                    });
+                        })
+                        .finally(() => hideLoading());
+                    }
                 });
 
                 // Handle email reply buttons (open Gmail compose, fallback to mailto)

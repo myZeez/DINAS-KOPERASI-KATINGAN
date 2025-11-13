@@ -143,10 +143,18 @@
             border-radius: 12px;
             color: var(--text-primary);
             padding: 14px 18px;
-            font-size: 14px;
+            font-size: 16px;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
             width: 100%;
+            max-width: 100%;
+        }
+
+        /* Title input specific styling */
+        #title {
+            font-size: 18px;
+            font-weight: 500;
+            padding: 16px 20px;
         }
 
         .form-control-modern::placeholder {
@@ -500,10 +508,10 @@
                                     <i class="fas fa-heading"></i>
                                     Judul Berita
                                 </label>
-                                <input type="text" class="form-control-glass @error('title') is-invalid @enderror"
+                                <input type="text" class="form-control-modern @error('title') is-invalid @enderror"
                                     id="title" name="title" value="{{ old('title', $news->title) }}"
                                     placeholder="Masukkan judul berita yang menarik dan informatif..." maxlength="100"
-                                    required>
+                                    required style="width: 100% !important; max-width: 100% !important;">
                                 <div class="char-counter" id="title-counter">0/100</div>
                                 @error('title')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -579,7 +587,7 @@
                                     Gambar Utama
                                 </label>
                                 <div class="upload-zone" id="upload-zone">
-                                    <div id="upload-placeholder" style="display: none;">
+                                    <div id="upload-placeholder" style="{{ $news->image ? 'display: none;' : '' }}">
                                         <i class="fas fa-cloud-upload-alt upload-icon"></i>
                                         <div class="upload-text">Klik atau drag & drop gambar</div>
                                         <div class="upload-hint">JPG, PNG, GIF - Maksimal 2MB</div>
@@ -588,13 +596,15 @@
                                             Pilih File
                                         </button>
                                     </div>
-                                    <div id="image-preview">
+                                    <div id="image-preview" style="{{ $news->image ? '' : 'display: none;' }}">
+                                        @if($news->image)
                                         <div class="upload-preview">
-                                            <img src="https://picsum.photos/400/300?random=1" alt="Current Image">
+                                            <img src="{{ asset('storage/' . $news->image) }}" alt="Current Image">
                                             <button type="button" class="preview-overlay" onclick="removeImage()">
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <input type="file" class="@error('image') is-invalid @enderror" id="image"
@@ -864,22 +874,43 @@
             modal.show();
         }
 
-        // === FORCE PLAIN TEXT PASTE ===
+        // === FORCE PLAIN TEXT PASTE (NO FORMATTING) ===
+        const contentEditor = document.getElementById('content-editor');
+
         contentEditor.addEventListener('paste', function(e) {
+            // Prevent default paste behavior
             e.preventDefault();
-            const clipboardData = (e.clipboardData || window.clipboardData);
-            const text = clipboardData ? clipboardData.getData('text/plain') : '';
-            if (document.queryCommandSupported && document.queryCommandSupported('insertText')) {
+            e.stopPropagation();
+
+            // Get plain text from clipboard
+            const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+
+            // Insert plain text only (no HTML formatting)
+            if (document.queryCommandSupported('insertText')) {
                 document.execCommand('insertText', false, text);
             } else {
+                // Fallback for older browsers
                 const selection = window.getSelection();
                 if (!selection.rangeCount) return;
-                selection.deleteFromDocument();
-                selection.getRangeAt(0).insertNode(document.createTextNode(text));
+
+                const range = selection.getRangeAt(0);
+                range.deleteContents();
+
+                const textNode = document.createTextNode(text);
+                range.insertNode(textNode);
+
+                // Move cursor to end of inserted text
+                range.setStartAfter(textNode);
+                range.setEndAfter(textNode);
+                selection.removeAllRanges();
+                selection.addRange(range);
             }
-            // Sinkronkan ke textarea hidden jika ada
-            const hidden = document.getElementById('content');
-            if (hidden) hidden.value = contentEditor.innerHTML;
+
+            // Sync to hidden textarea
+            const hiddenTextarea = document.getElementById('content');
+            if (hiddenTextarea) {
+                hiddenTextarea.value = contentEditor.innerHTML;
+            }
         });
         // === END FORCE PLAIN TEXT PASTE ===
     </script>

@@ -439,8 +439,8 @@ function goBackToNews() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('News show page loaded');
 
-    // Handle any back button clicks
-    const backButtons = document.querySelectorAll('[data-action="back"], .btn-back, a[href*="news"]');
+    // Handle only specific back button clicks (not all news links)
+    const backButtons = document.querySelectorAll('[data-action="back"], .btn-back');
 
     backButtons.forEach(button => {
         button.addEventListener('click', function(e) {
@@ -460,11 +460,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Force any button with "Kembali" text to work
+    // Handle only buttons with "Kembali" text specifically (not "Edit Berita")
     setTimeout(function() {
         const kembaliButtons = document.querySelectorAll('button, a');
         kembaliButtons.forEach(btn => {
-            if (btn.textContent.includes('Kembali')) {
+            const text = btn.textContent.trim();
+            if (text === 'Kembali' || text.includes('Kembali')) {
                 console.log('Found Kembali button:', btn);
                 btn.addEventListener('click', function(e) {
                     console.log('Kembali button clicked');

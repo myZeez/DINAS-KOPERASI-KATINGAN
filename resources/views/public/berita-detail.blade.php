@@ -129,6 +129,8 @@
             line-height: 1.8;
             /* Force base text color to black */
             color: #000;
+            /* Force text alignment to left (not center) */
+            text-align: left;
             /* Disable text selection */
             user-select: none;
             -webkit-user-select: none;
@@ -140,6 +142,8 @@
             color: #000 !important;
             background: transparent !important;
             /* Remove any pasted background */
+            text-align: left !important;
+            /* Force all content to align left */
         }
 
         /* Keep links distinguishable (optional subtle underline) */
@@ -149,6 +153,20 @@
 
         .news-content p {
             margin-bottom: 1.5rem;
+            text-align: left !important;
+            /* Explicitly set paragraph alignment to left */
+        }
+
+        .news-content div,
+        .news-content span,
+        .news-content h1,
+        .news-content h2,
+        .news-content h3,
+        .news-content h4,
+        .news-content h5,
+        .news-content h6 {
+            text-align: left !important;
+            /* All heading and text blocks align left */
         }
 
         .news-cover img {

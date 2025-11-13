@@ -2342,7 +2342,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin: 0 auto 15px auto; /* Center icon horizontally */
             font-size: 1.5rem;
             color: white;
         }
@@ -3256,7 +3256,7 @@
             width: 50px;
             height: 50px;
             font-size: 1.25rem;
-            margin-right: 15px;
+            margin: 0 auto 15px auto; /* Center icon */
         }
 
         .contact-icon {

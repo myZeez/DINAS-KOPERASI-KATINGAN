@@ -350,6 +350,19 @@
 
     @push('scripts')
         <script>
+            // Handle flash messages
+            @if(session('success'))
+                showToast('{{ session('success') }}', 'success');
+            @endif
+
+            @if(session('error'))
+                showToast('{{ session('error') }}', 'error');
+            @endif
+
+            @if($errors->any())
+                showToast('{{ $errors->first() }}', 'error');
+            @endif
+
             let bulkMode = false;
             let selectedItems = [];
 
@@ -398,12 +411,21 @@
                 document.getElementById('bulkActions').style.display = 'none';
             }
 
-            function deleteImage(id) {
-                if (confirm('Yakin ingin menghapus foto ini?')) {
+            async function deleteImage(id) {
+                const confirmed = await confirmAction({
+                    title: 'Hapus Foto',
+                    message: 'Yakin ingin menghapus foto ini?',
+                    confirmText: 'Hapus',
+                    icon: 'trash',
+                    variant: 'danger'
+                });
+
+                if (confirmed) {
+                    showLoading();
                     // Implementasi delete
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `/admin/galleries/${id}`;
+                    form.action = `/admin/gallery/${id}`;  // Fixed: use 'gallery' not 'galleries'
                     form.innerHTML = `
             @csrf
             @method('DELETE')
@@ -413,12 +435,24 @@
                 }
             }
 
-            function bulkDelete() {
+            async function bulkDelete() {
                 if (selectedItems.length === 0) return;
 
-                if (confirm(`Yakin ingin menghapus ${selectedItems.length} foto yang dipilih?`)) {
+                const confirmed = await confirmAction({
+                    title: 'Hapus Foto Terpilih',
+                    message: `Yakin ingin menghapus ${selectedItems.length} foto yang dipilih?`,
+                    confirmText: 'Hapus Semua',
+                    icon: 'trash',
+                    variant: 'danger'
+                });
+
+                if (confirmed) {
+                    showLoading();
                     // Implementasi bulk delete
                     console.log('Bulk delete:', selectedItems);
+                    // TODO: Implement actual bulk delete logic
+                    showToast('Fitur bulk delete akan segera tersedia', 'info');
+                    hideLoading();
                 }
             }
 

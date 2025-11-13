@@ -34,8 +34,11 @@ class ReviewController extends Controller
         $review->is_visible = !$review->is_visible;
         $review->save();
 
-        if (request()->ajax()) {
-            return response()->json(['message' => 'Status tampilan ulasan berhasil diubah.']);
+        if (request()->ajax() || request()->wantsJson() || request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Status tampilan ulasan berhasil diubah.'
+            ], 200, ['Content-Type' => 'application/json']);
         }
         return back()->with('success', 'Status tampilan ulasan berhasil diubah.');
     }
@@ -57,8 +60,11 @@ class ReviewController extends Controller
         $review->is_visible = true;
         $review->save();
 
-        if (request()->ajax()) {
-            return response()->json(['message' => 'Ulasan berhasil disetujui.']);
+        if (request()->ajax() || request()->wantsJson() || request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Ulasan berhasil disetujui.'
+            ], 200, ['Content-Type' => 'application/json']);
         }
         return back()->with('success', 'Ulasan berhasil disetujui.');
     }
@@ -69,8 +75,11 @@ class ReviewController extends Controller
         $review->is_visible = false;
         $review->save();
 
-        if (request()->ajax()) {
-            return response()->json(['message' => 'Ulasan berhasil ditolak.']);
+        if (request()->ajax() || request()->wantsJson() || request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Ulasan berhasil ditolak.'
+            ], 200, ['Content-Type' => 'application/json']);
         }
         return back()->with('success', 'Ulasan berhasil ditolak.');
     }
@@ -79,8 +88,11 @@ class ReviewController extends Controller
     {
         $review->delete();
 
-        if (request()->ajax()) {
-            return response()->json(['message' => 'Ulasan berhasil dihapus.']);
+        if (request()->ajax() || request()->wantsJson() || request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Ulasan berhasil dihapus.'
+            ], 200, ['Content-Type' => 'application/json']);
         }
         return back()->with('success', 'Ulasan berhasil dihapus.');
     }

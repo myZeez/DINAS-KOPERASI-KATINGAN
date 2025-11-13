@@ -142,10 +142,18 @@
             border-radius: 12px;
             color: var(--text-primary);
             padding: 14px 18px;
-            font-size: 14px;
+            font-size: 16px;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
             width: 100%;
+            max-width: 100%;
+        }
+
+        /* Title input specific styling */
+        #title {
+            font-size: 18px;
+            font-weight: 500;
+            padding: 16px 20px;
         }
 
         .form-control-modern::placeholder {
@@ -567,10 +575,10 @@
                                     <i class="fas fa-heading"></i>
                                     Judul Berita
                                 </label>
-                                <input type="text" class="form-control-glass @error('title') is-invalid @enderror"
+                                <input type="text" class="form-control-modern @error('title') is-invalid @enderror"
                                     id="title" name="title" value="{{ old('title') }}"
                                     placeholder="Masukkan judul berita yang menarik dan informatif..." maxlength="100"
-                                    required>
+                                    required style="width: 100% !important; max-width: 100% !important;">
                                 <div class="char-counter" id="title-counter">0/100</div>
                                 @error('title')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -963,21 +971,37 @@
                 localStorage.removeItem('news_draft');
             });
 
-            // === FORCE PLAIN TEXT PASTE (override previous sanitizer) ===
+            // === FORCE PLAIN TEXT PASTE (NO FORMATTING) ===
             contentEditor.addEventListener('paste', function(e) {
+                // Prevent default paste behavior
                 e.preventDefault();
-                const clipboardData = (e.clipboardData || window.clipboardData);
-                const text = clipboardData ? clipboardData.getData('text/plain') : '';
-                // Insert plain text (fallback ke execCommand untuk dukung undo)
-                if (document.queryCommandSupported && document.queryCommandSupported('insertText')) {
+                e.stopPropagation();
+
+                // Get plain text from clipboard
+                const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+
+                // Insert plain text only (no HTML formatting)
+                if (document.queryCommandSupported('insertText')) {
                     document.execCommand('insertText', false, text);
                 } else {
-                    // Fallback manual
+                    // Fallback for older browsers
                     const selection = window.getSelection();
                     if (!selection.rangeCount) return;
-                    selection.deleteFromDocument();
-                    selection.getRangeAt(0).insertNode(document.createTextNode(text));
+
+                    const range = selection.getRangeAt(0);
+                    range.deleteContents();
+
+                    const textNode = document.createTextNode(text);
+                    range.insertNode(textNode);
+
+                    // Move cursor to end of inserted text
+                    range.setStartAfter(textNode);
+                    range.setEndAfter(textNode);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
                 }
+
+                // Sync to hidden textarea
                 contentTextarea.value = contentEditor.innerHTML;
             });
             // === END FORCE PLAIN TEXT PASTE ===

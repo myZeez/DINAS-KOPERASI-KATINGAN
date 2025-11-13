@@ -177,11 +177,12 @@ Route::middleware(['auth'])->group(function () {
         // Review Management Routes
         Route::prefix('admin/reviews')->name('admin.reviews.')->group(function () {
             Route::get('/', [ReviewController::class, 'index'])->name('index');
-            Route::patch('/{review}/toggle-visibility', [ReviewController::class, 'toggleVisibility'])->name('toggle-visibility');
-            Route::patch('/{review}/verify', [ReviewController::class, 'verify'])->name('verify');
-            Route::patch('/{review}/approve', [ReviewController::class, 'approve'])->name('approve');
-            Route::patch('/{review}/reject', [ReviewController::class, 'reject'])->name('reject');
-            Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
+            // Changed all to POST for better hosting compatibility
+            Route::post('/{review}/toggle-visibility', [ReviewController::class, 'toggleVisibility'])->name('toggle-visibility');
+            Route::post('/{review}/verify', [ReviewController::class, 'verify'])->name('verify');
+            Route::post('/{review}/approve', [ReviewController::class, 'approve'])->name('approve');
+            Route::post('/{review}/reject', [ReviewController::class, 'reject'])->name('reject');
+            Route::post('/{review}/delete', [ReviewController::class, 'destroy'])->name('destroy');
         });
 
         // Single route untuk backward compatibility

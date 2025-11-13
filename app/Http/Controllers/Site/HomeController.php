@@ -38,7 +38,8 @@ class HomeController extends Controller
             ->whereIn('section_name', ['HERO_SUBTITLE', 'HERO_SUB', 'Sub Judul', 'HOME_SUBTITLE', 'hero_secondary'])
             ->orderBy('id', 'desc')
             ->first();
-        $heroTitle = $heroMain ? ($heroMain->content ?: ($heroMain->title ?: null)) : null;
+        // Fix: title should be main heading, content should be subtitle/description
+        $heroTitle = $heroMain ? ($heroMain->title ?: ($heroMain->content ?: null)) : null;
         $heroSubtitle = $heroSub ? ($heroSub->content ?: ($heroSub->title ?: null)) : null;
 
         // Reviews: 3 terbaik (rating tertinggi, terbaru lebih dulu), dan 3 terbaru (tanpa duplikasi dengan terbaik)
