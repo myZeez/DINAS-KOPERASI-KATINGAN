@@ -180,39 +180,39 @@
                             <div class="mb-5">
                                 <h3 class="mb-4"><i class="fas fa-phone me-2 text-primary"></i>Informasi Kontak</h3>
                                 <div class="content-card">
-                                    <div class="row g-3">
+                                    <div class="row g-4">
                                         @if ($service->responsible_person)
-                                            <div class="col-sm-6 col-lg-4">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="fas fa-user-tie me-2 text-muted"></i>
-                                                    <div>
-                                                        <small class="text-muted d-block">Penanggung Jawab</small>
-                                                        <strong>{{ $service->responsible_person }}</strong>
+                                            <div class="col-12 col-sm-6 col-lg-4">
+                                                <div class="contact-item">
+                                                    <div class="contact-icon-wrapper mb-2">
+                                                        <i class="fas fa-user-tie"></i>
                                                     </div>
+                                                    <small class="text-muted d-block mb-1">Penanggung Jawab</small>
+                                                    <strong class="d-block">{{ $service->responsible_person }}</strong>
                                                 </div>
                                             </div>
                                         @endif
 
                                         @if ($service->phone_number)
-                                            <div class="col-sm-6 col-lg-4">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="fas fa-phone me-2 text-muted"></i>
-                                                    <div>
-                                                        <small class="text-muted d-block">Telefon</small>
-                                                        <strong>{{ $service->phone_number }}</strong>
+                                            <div class="col-12 col-sm-6 col-lg-4">
+                                                <div class="contact-item">
+                                                    <div class="contact-icon-wrapper mb-2">
+                                                        <i class="fas fa-phone"></i>
                                                     </div>
+                                                    <small class="text-muted d-block mb-1">Telefon</small>
+                                                    <strong class="d-block">{{ $service->phone_number }}</strong>
                                                 </div>
                                             </div>
                                         @endif
 
                                         @if ($service->contact_email)
-                                            <div class="col-sm-6 col-lg-4">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="fas fa-envelope me-2 text-muted"></i>
-                                                    <div>
-                                                        <small class="text-muted d-block">Email</small>
-                                                        <strong>{{ $service->contact_email }}</strong>
+                                            <div class="col-12 col-sm-6 col-lg-4">
+                                                <div class="contact-item">
+                                                    <div class="contact-icon-wrapper mb-2">
+                                                        <i class="fas fa-envelope"></i>
                                                     </div>
+                                                    <small class="text-muted d-block mb-1">Email</small>
+                                                    <strong class="d-block" style="word-break: break-word;">{{ $service->contact_email }}</strong>
                                                 </div>
                                             </div>
                                         @endif
@@ -315,6 +315,7 @@
             border-radius: 15px;
             padding: 2rem;
             margin-bottom: 1rem;
+            text-align: left !important;
         }
 
         .service-content h1,
@@ -323,20 +324,24 @@
         .service-content h4 {
             font-weight: 600;
             margin-top: 2rem;
+            text-align: left !important;
         }
 
         .service-content p {
             margin-bottom: 1.25rem;
+            text-align: left !important;
         }
 
         .service-content ul,
         .service-content ol {
             margin-bottom: 1.25rem;
             padding-left: 1.25rem;
+            text-align: left !important;
         }
 
         .service-content ul li {
             margin-bottom: 0.5rem;
+            text-align: left !important;
         }
 
         .service-content ul li::marker {
@@ -356,6 +361,44 @@
             border-radius: 12px;
         }
 
+        .contact-item {
+            text-align: left !important;
+            padding: 1.25rem;
+            background: rgba(79, 172, 254, 0.03);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .contact-item:hover {
+            background: rgba(79, 172, 254, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .contact-icon-wrapper {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-icon-wrapper i {
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .contact-item small {
+            text-align: left !important;
+        }
+
+        .contact-item strong {
+            text-align: left !important;
+            font-size: 0.95rem;
+        }
+
         @media (max-width: 768px) {
             .info-card {
                 padding: 1rem;
@@ -363,6 +406,38 @@
 
             .content-card {
                 padding: 1.5rem;
+            }
+
+            .contact-item {
+                padding: 1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .contact-icon-wrapper {
+                width: 35px;
+                height: 35px;
+            }
+
+            .contact-icon-wrapper i {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .info-card {
+                padding: 0.875rem;
+            }
+
+            .content-card {
+                padding: 1.25rem;
+            }
+
+            .service-content h3 {
+                font-size: 1.25rem;
+            }
+
+            .service-content h5 {
+                font-size: 1.1rem;
             }
         }
     </style>

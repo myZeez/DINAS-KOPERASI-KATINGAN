@@ -207,6 +207,19 @@
                             <small class="text-muted">Minimal 10 karakter, maksimal 1000 karakter</small>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="captcha" class="form-label">Pertanyaan Keamanan *</label>
+                            <div class="captcha-box">
+                                <div class="captcha-question">
+                                    <i class="fas fa-calculator me-2"></i>
+                                    Berapa hasil dari: <strong>{{ session('captcha_question', '0 + 0') }}</strong> ?
+                                </div>
+                                <input type="number" class="form-control form-modern mt-2" id="captcha" name="captcha"
+                                    placeholder="Masukkan jawaban Anda" required min="0" max="10">
+                            </div>
+                            <small class="text-muted">Silakan jawab pertanyaan matematika sederhana di atas</small>
+                        </div>
+
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="agree_terms" required>
                             <label class="form-check-label" for="agree_terms">
@@ -298,6 +311,7 @@
                     const email = document.querySelector('#email').value.trim();
                     const rating = document.querySelector('input[name="rating"]:checked');
                     const comment = commentTextarea.value.trim();
+                    const captcha = document.querySelector('#captcha').value.trim();
                     const agreeTerms = document.querySelector('#agree_terms').checked;
 
                     let isValid = true;
@@ -329,6 +343,11 @@
                         isValid = false;
                     } else if (comment.length > 1000) {
                         errorMessage += '- Ulasan maksimal 1000 karakter\n';
+                        isValid = false;
+                    }
+
+                    if (!captcha) {
+                        errorMessage += '- Jawaban pertanyaan keamanan wajib diisi\n';
                         isValid = false;
                     }
 
@@ -493,6 +512,35 @@
             font-size: 0.9rem;
             color: #4a5568;
             line-height: 1.4;
+        }
+
+        /* Captcha Box */
+        .captcha-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .captcha-question {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #2d3748;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .captcha-question strong {
+            color: #667eea;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .captcha-question i {
+            color: #667eea;
         }
 
         /* Button Styling */

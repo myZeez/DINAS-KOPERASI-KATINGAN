@@ -133,6 +133,27 @@ class HomeController extends Controller
     public function layananDetail(FeaturedService $service): View
     {
         $profile = Profile::first();
+        
+        // Generate simple captcha
+        $num1 = rand(1, 5);
+        $num2 = rand(1, 5);
+        $operator = rand(0, 1) ? '+' : '-';
+        
+        // Ensure subtraction doesn't result in negative
+        if ($operator === '-' && $num1 < $num2) {
+            $temp = $num1;
+            $num1 = $num2;
+            $num2 = $temp;
+        }
+        
+        $captchaQuestion = "$num1 $operator $num2";
+        $captchaAnswer = $operator === '+' ? $num1 + $num2 : $num1 - $num2;
+        
+        session([
+            'captcha_question' => $captchaQuestion,
+            'captcha_answer' => $captchaAnswer
+        ]);
+        
         return view('public.layanan-detail', compact('profile', 'service'));
     }
 
@@ -143,6 +164,26 @@ class HomeController extends Controller
             ->where('status', 'approved')
             ->latest()
             ->paginate(12);
+
+        // Generate simple captcha
+        $num1 = rand(1, 5);
+        $num2 = rand(1, 5);
+        $operator = rand(0, 1) ? '+' : '-';
+        
+        // Ensure subtraction doesn't result in negative
+        if ($operator === '-' && $num1 < $num2) {
+            $temp = $num1;
+            $num1 = $num2;
+            $num2 = $temp;
+        }
+        
+        $captchaQuestion = "$num1 $operator $num2";
+        $captchaAnswer = $operator === '+' ? $num1 + $num2 : $num1 - $num2;
+        
+        session([
+            'captcha_question' => $captchaQuestion,
+            'captcha_answer' => $captchaAnswer
+        ]);
 
         return view('public.ulasan', compact('profile', 'reviews'));
     }
@@ -197,6 +238,7 @@ class HomeController extends Controller
             'email' => 'required|email|max:255',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'required|string|max:1000',
+            'captcha' => 'required|integer',
         ], [
             'name.required' => 'Nama lengkap wajib diisi',
             'email.required' => 'Email wajib diisi',
@@ -206,7 +248,14 @@ class HomeController extends Controller
             'rating.max' => 'Rating maksimal 5 bintang',
             'comment.required' => 'Ulasan & testimoni wajib diisi',
             'comment.max' => 'Ulasan maksimal 1000 karakter',
+            'captcha.required' => 'Silakan jawab pertanyaan keamanan',
+            'captcha.integer' => 'Jawaban harus berupa angka',
         ]);
+
+        // Verify captcha
+        if ($request->captcha != session('captcha_answer')) {
+            return back()->with('error', 'Jawaban pertanyaan keamanan salah. Silakan coba lagi.')->withInput();
+        }
 
         try {
             Review::create([
@@ -218,6 +267,9 @@ class HomeController extends Controller
                 'is_verified' => false,
                 'status' => 'pending',
             ]);
+
+            // Clear captcha session
+            session()->forget(['captcha_question', 'captcha_answer']);
 
             return back()->with('success', 'Terima kasih! Ulasan Anda telah dikirim dan akan ditampilkan setelah diverifikasi oleh admin.');
         } catch (\Exception $e) {
