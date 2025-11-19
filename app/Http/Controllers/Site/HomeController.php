@@ -133,27 +133,27 @@ class HomeController extends Controller
     public function layananDetail(FeaturedService $service): View
     {
         $profile = Profile::first();
-        
+
         // Generate simple captcha
         $num1 = rand(1, 5);
         $num2 = rand(1, 5);
         $operator = rand(0, 1) ? '+' : '-';
-        
+
         // Ensure subtraction doesn't result in negative
         if ($operator === '-' && $num1 < $num2) {
             $temp = $num1;
             $num1 = $num2;
             $num2 = $temp;
         }
-        
+
         $captchaQuestion = "$num1 $operator $num2";
         $captchaAnswer = $operator === '+' ? $num1 + $num2 : $num1 - $num2;
-        
+
         session([
             'captcha_question' => $captchaQuestion,
             'captcha_answer' => $captchaAnswer
         ]);
-        
+
         return view('public.layanan-detail', compact('profile', 'service'));
     }
 
@@ -169,17 +169,17 @@ class HomeController extends Controller
         $num1 = rand(1, 5);
         $num2 = rand(1, 5);
         $operator = rand(0, 1) ? '+' : '-';
-        
+
         // Ensure subtraction doesn't result in negative
         if ($operator === '-' && $num1 < $num2) {
             $temp = $num1;
             $num1 = $num2;
             $num2 = $temp;
         }
-        
+
         $captchaQuestion = "$num1 $operator $num2";
         $captchaAnswer = $operator === '+' ? $num1 + $num2 : $num1 - $num2;
-        
+
         session([
             'captcha_question' => $captchaQuestion,
             'captcha_answer' => $captchaAnswer
