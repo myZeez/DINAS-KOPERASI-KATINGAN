@@ -4244,20 +4244,21 @@
             position: relative;
         }
 
-        /* Organization Cards */
+        /* Organization Cards - Modern Design with Full Cover Photo */
         .org-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
+            background: white;
             border-radius: 20px;
-            padding: 25px;
+            overflow: hidden;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            border: 2px solid #f3f4f6;
             transition: all 0.3s ease;
             position: relative;
-            min-width: 280px;
-            max-width: 400px;
-            margin: 0 15px;
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Remove any edit icons and other unwanted elements */
@@ -4274,109 +4275,102 @@
         }
 
         .org-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
 
-        /* Card Types */
-        .org-card.kepala {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05));
-            border-color: rgba(239, 68, 68, 0.3);
-            min-width: 300px;
-            max-width: 450px;
+        /* Card Types - Consistent Sizing - All cards same width */
+        .org-card.kepala,
+        .org-card.sekretaris,
+        .org-card.kabid,
+        .org-card.staff,
+        .org-card.level2,
+        .org-card.level3 {
+            max-width: 340px;
+            width: 340px;
         }
 
-        .org-card.sekretaris {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05));
-            border-color: rgba(34, 197, 94, 0.3);
-            min-width: 300px;
-            max-width: 450px;
-        }
-
-        .org-card.kabid {
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
-            border-color: rgba(251, 191, 36, 0.3);
-            min-width: 260px;
-            max-width: 350px;
-        }
-
-        .org-card.staff {
-            background: linear-gradient(135deg, rgba(139, 192, 216, 0.1), rgba(125, 211, 252, 0.05));
-            border-color: rgba(139, 192, 216, 0.3);
-            min-width: 220px;
-            max-width: 300px;
-            padding: 20px;
-        }
-
-        /* Card Photo */
+        /* Card Photo - Full Cover Design */
         .card-photo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid rgba(102, 126, 234, 0.2);
+            width: 100%;
+            height: 280px;
             position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            border-bottom: 3px solid #f3f4f6;
         }
 
-        .card-photo.small {
-            width: 60px;
-            height: 60px;
+        .card-photo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            pointer-events: none;
         }
 
         .card-photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
         .photo-placeholder {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.8rem;
-        }
-
-        .card-photo.small .photo-placeholder {
-            font-size: 1.4rem;
+            font-size: 5rem;
+            opacity: 0.5;
         }
 
         /* Card Info */
+        .card-info {
+            padding: 24px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
         .card-info h4 {
-            color: #1f2937;
-            font-size: 0.85rem;
+            color: #dc2626;
+            font-size: 0.7rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .card-info h5 {
-            color: #374151;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 5px;
+            color: #1f2937;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 6px;
             line-height: 1.3;
         }
 
         .card-info h6 {
             color: #374151;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             line-height: 1.3;
         }
 
         .card-info .nip {
             color: #6b7280;
-            font-size: 0.8rem;
-            margin: 0;
+            font-size: 0.75rem;
+            margin: 0 0 14px 0;
             font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         /* PLT Badge Styling */
@@ -4384,83 +4378,88 @@
             display: inline-block;
             background: linear-gradient(135deg, #ff9800, #ff5722);
             color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.7rem;
             font-weight: 700;
-            margin: 8px 0;
-            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+            margin: 0 0 10px 0;
+            box-shadow: 0 2px 8px rgba(255, 152, 0, 0.25);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .plt-badge i {
             margin-right: 4px;
-            font-size: 0.7rem;
-        }
-
-        .plt-badge-small {
-            padding: 4px 10px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
         }
 
         .plt-info {
-            background: rgba(255, 152, 0, 0.1);
-            border: 1px solid rgba(255, 152, 0, 0.3);
-            border-radius: 12px;
-            padding: 10px;
+            background: #fef3c7;
+            border-left: 3px solid #f59e0b;
+            border-radius: 8px;
+            padding: 12px;
             margin: 8px 0 0 0;
+            text-align: left;
         }
 
         .plt-info small {
-            color: #6b7280;
+            color: #92400e;
             font-size: 0.75rem;
-            line-height: 1.5;
+            line-height: 1.6;
+            display: block;
         }
 
         .plt-info strong {
-            color: #374151;
-            font-weight: 600;
+            color: #78350f;
+            font-weight: 700;
         }
 
 
 
         /* Containers for Multiple Items */
-        .level2-container,
-        .kabid-container {
+
+        /* Sekretaris container - centered below Kepala Dinas */
+        .sekretaris-container {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            align-items: flex-start;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        /* Ensure each level 2 card takes consistent space */
-        .level2-container .org-card {
-            flex: 0 1 auto;
-            min-width: 280px;
-            max-width: 380px;
+        .sekretaris-container .org-card {
+            max-width: 340px;
+            width: 340px;
+        }
+
+        /* Level 2b container - horizontal grid for Kepala Bidang */
+        .level2-container,
+        .kabid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 340px);
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            justify-content: center;
         }
 
         /* Special handling for JPT Fungsional (5th item in level 2) to always be centered alone */
         .level2-container .org-card.level2:nth-child(5) {
-            flex-basis: 100%;
-            max-width: 420px;
+            grid-column: 1 / -1;
+            max-width: 340px;
             margin: 0 auto;
         }
 
         .level3-container,
         .staff-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            max-width: 1200px;
+            grid-template-columns: repeat(auto-fit, 340px);
+            gap: 24px;
+            max-width: 1400px;
             margin: 0 auto;
-        }
-
-        .level3-container .org-card,
-        .staff-container .org-card {
-            margin: 0;
+            padding: 0 20px;
+            justify-content: center;
         }
 
         /* Organization Connectors */

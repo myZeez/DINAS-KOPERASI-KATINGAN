@@ -51,7 +51,35 @@
                                         @endif
                                     </div>
                                     <div class="card-info">
-                                        <h4>{{ $kepala->position }}</h4>
+                                        <h4>
+                                            @php
+                                                // Persingkat nama jabatan untuk tampilan card
+                                                $shortPosition = $kepala->position;
+                                                if (stripos($shortPosition, 'KEPALA DINAS') !== false) {
+                                                    $shortPosition = 'KEPALA DINAS';
+                                                } elseif (stripos($shortPosition, 'SEKRETARIS') !== false) {
+                                                    $shortPosition = 'SEKRETARIS DINAS';
+                                                } elseif (stripos($shortPosition, 'KEPALA BIDANG') !== false || stripos($shortPosition, 'KABID') !== false) {
+                                                    // Ambil nama bidang setelah "KEPALA BIDANG" atau "KABID"
+                                                    if (stripos($shortPosition, 'KOPERASI') !== false) {
+                                                        $shortPosition = 'KEPALA BIDANG KOPERASI';
+                                                    } elseif (stripos($shortPosition, 'UMKM') !== false || stripos($shortPosition, 'UKM') !== false) {
+                                                        $shortPosition = 'KEPALA BIDANG UMKM';
+                                                    } elseif (stripos($shortPosition, 'PERDAGANGAN') !== false) {
+                                                        $shortPosition = 'KEPALA BIDANG PERDAGANGAN';
+                                                    } else {
+                                                        $shortPosition = 'KEPALA BIDANG';
+                                                    }
+                                                } elseif (stripos($shortPosition, 'KASUBBAG') !== false || stripos($shortPosition, 'KEPALA SUB BAGIAN') !== false) {
+                                                    $shortPosition = preg_replace('/KEPALA SUB BAGIAN|KASUBBAG/i', 'KASUBBAG', $shortPosition);
+                                                    $shortPosition = preg_replace('/DINAS.*$/i', '', $shortPosition);
+                                                    $shortPosition = trim($shortPosition);
+                                                } elseif (stripos($shortPosition, 'JABATAN FUNGSIONAL') !== false) {
+                                                    $shortPosition = 'JABATAN FUNGSIONAL TERTENTU';
+                                                }
+                                            @endphp
+                                            {{ $shortPosition }}
+                                        </h4>
                                         <h5>{{ $kepala->name }}</h5>
                                         @if ($kepala->nip)
                                             <p class="nip">NIP: {{ $kepala->nip }}</p>
@@ -83,11 +111,68 @@
                         <div class="org-connector vertical"></div>
                     @endif
 
-                    <!-- Level 2: Sekretaris, Kepala Bidang, JPT Fungsional -->
-                    @if ($level2->count() > 0)
-                        <div class="org-level level-2">
+                    <!-- Level 2a: Sekretaris Dinas -->
+                    @php
+                        $sekretaris = $level2->filter(function($item) {
+                            return stripos($item->position, 'SEKRETARIS') !== false;
+                        });
+                        $otherLevel2 = $level2->filter(function($item) {
+                            return stripos($item->position, 'SEKRETARIS') === false;
+                        });
+                    @endphp
+
+                    @if ($sekretaris->count() > 0)
+                        <div class="org-level level-2a">
+                            <div class="sekretaris-container">
+                                @foreach ($sekretaris as $sek)
+                                    <div class="org-card level2 sekretaris">
+                                        <div class="card-photo">
+                                            @if ($sek->photo)
+                                                <img src="{{ asset('storage/' . $sek->photo) }}" alt="{{ $sek->name }}">
+                                            @else
+                                                <div class="photo-placeholder">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="card-info">
+                                            <h4>SEKRETARIS DINAS</h4>
+                                            <h5>{{ $sek->name }}</h5>
+                                            @if ($sek->nip)
+                                                <p class="nip">NIP: {{ $sek->nip }}</p>
+                                            @endif
+                                            @if ($sek->is_plt)
+                                                <div class="plt-badge">
+                                                    <i class="fas fa-user-clock"></i> PLT
+                                                </div>
+                                                @if ($sek->pltFromStructure)
+                                                    <p class="plt-info">
+                                                        <small>Dijabat oleh: <strong>{{ $sek->pltFromStructure->name }}</strong></small>
+                                                        <small class="d-block">{{ $sek->pltFromStructure->position }}</small>
+                                                    </p>
+                                                @elseif ($sek->plt_name)
+                                                    <p class="plt-info">
+                                                        <small>Dijabat oleh: <strong>{{ $sek->plt_name }}</strong></small>
+                                                        @if($sek->plt_nip)
+                                                            <small class="d-block">NIP: {{ $sek->plt_nip }}</small>
+                                                        @endif
+                                                    </p>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <!-- Connection Line -->
+                        <div class="org-connector vertical"></div>
+                    @endif
+
+                    <!-- Level 2b: Kepala Bidang, JPT Fungsional -->
+                    @if ($otherLevel2->count() > 0)
+                        <div class="org-level level-2b">
                             <div class="level2-container">
-                                @foreach ($level2 as $index => $staff2)
+                                @foreach ($otherLevel2 as $index => $staff2)
                                     <div class="org-card level2 level2-{{ $index + 1 }}">
                                         <div class="card-photo">
                                             @if ($staff2->photo)
@@ -99,7 +184,35 @@
                                             @endif
                                         </div>
                                         <div class="card-info">
-                                            <h4>{{ $staff2->position }}</h4>
+                                            <h4>
+                                                @php
+                                                    // Persingkat nama jabatan untuk tampilan card
+                                                    $shortPosition = $staff2->position;
+                                                    if (stripos($shortPosition, 'KEPALA DINAS') !== false) {
+                                                        $shortPosition = 'KEPALA DINAS';
+                                                    } elseif (stripos($shortPosition, 'SEKRETARIS') !== false) {
+                                                        $shortPosition = 'SEKRETARIS DINAS';
+                                                    } elseif (stripos($shortPosition, 'KEPALA BIDANG') !== false || stripos($shortPosition, 'KABID') !== false) {
+                                                        // Ambil nama bidang setelah "KEPALA BIDANG" atau "KABID"
+                                                        if (stripos($shortPosition, 'KOPERASI') !== false) {
+                                                            $shortPosition = 'KEPALA BIDANG KOPERASI';
+                                                        } elseif (stripos($shortPosition, 'UMKM') !== false || stripos($shortPosition, 'UKM') !== false) {
+                                                            $shortPosition = 'KEPALA BIDANG UMKM';
+                                                        } elseif (stripos($shortPosition, 'PERDAGANGAN') !== false) {
+                                                            $shortPosition = 'KEPALA BIDANG PERDAGANGAN';
+                                                        } else {
+                                                            $shortPosition = 'KEPALA BIDANG';
+                                                        }
+                                                    } elseif (stripos($shortPosition, 'KASUBBAG') !== false || stripos($shortPosition, 'KEPALA SUB BAGIAN') !== false) {
+                                                        $shortPosition = preg_replace('/KEPALA SUB BAGIAN|KASUBBAG/i', 'KASUBBAG', $shortPosition);
+                                                        $shortPosition = preg_replace('/DINAS.*$/i', '', $shortPosition);
+                                                        $shortPosition = trim($shortPosition);
+                                                    } elseif (stripos($shortPosition, 'JABATAN FUNGSIONAL') !== false) {
+                                                        $shortPosition = 'JABATAN FUNGSIONAL TERTENTU';
+                                                    }
+                                                @endphp
+                                                {{ $shortPosition }}
+                                            </h4>
                                             <h5>{{ $staff2->name }}</h5>
                                             @if ($staff2->nip)
                                                 <p class="nip">NIP: {{ $staff2->nip }}</p>
@@ -127,7 +240,6 @@
                                 @endforeach
                             </div>
                         </div>
-
                         <!-- Connection Line -->
                         <div class="org-connector vertical"></div>
                     @endif
@@ -148,7 +260,35 @@
                                             @endif
                                         </div>
                                         <div class="card-info">
-                                            <h4>{{ $staff3->position }}</h4>
+                                            <h4>
+                                                @php
+                                                    // Persingkat nama jabatan untuk tampilan card
+                                                    $shortPosition = $staff3->position;
+                                                    if (stripos($shortPosition, 'KEPALA DINAS') !== false) {
+                                                        $shortPosition = 'KEPALA DINAS';
+                                                    } elseif (stripos($shortPosition, 'SEKRETARIS') !== false) {
+                                                        $shortPosition = 'SEKRETARIS DINAS';
+                                                    } elseif (stripos($shortPosition, 'KEPALA BIDANG') !== false || stripos($shortPosition, 'KABID') !== false) {
+                                                        // Ambil nama bidang setelah "KEPALA BIDANG" atau "KABID"
+                                                        if (stripos($shortPosition, 'KOPERASI') !== false) {
+                                                            $shortPosition = 'KEPALA BIDANG KOPERASI';
+                                                        } elseif (stripos($shortPosition, 'UMKM') !== false || stripos($shortPosition, 'UKM') !== false) {
+                                                            $shortPosition = 'KEPALA BIDANG UMKM';
+                                                        } elseif (stripos($shortPosition, 'PERDAGANGAN') !== false) {
+                                                            $shortPosition = 'KEPALA BIDANG PERDAGANGAN';
+                                                        } else {
+                                                            $shortPosition = 'KEPALA BIDANG';
+                                                        }
+                                                    } elseif (stripos($shortPosition, 'KASUBBAG') !== false || stripos($shortPosition, 'KEPALA SUB BAGIAN') !== false) {
+                                                        $shortPosition = preg_replace('/KEPALA SUB BAGIAN|KASUBBAG/i', 'KASUBBAG', $shortPosition);
+                                                        $shortPosition = preg_replace('/DINAS.*$/i', '', $shortPosition);
+                                                        $shortPosition = trim($shortPosition);
+                                                    } elseif (stripos($shortPosition, 'JABATAN FUNGSIONAL') !== false) {
+                                                        $shortPosition = 'JABATAN FUNGSIONAL TERTENTU';
+                                                    }
+                                                @endphp
+                                                {{ $shortPosition }}
+                                            </h4>
                                             <h5>{{ $staff3->name }}</h5>
                                             @if ($staff3->nip)
                                                 <p class="nip">NIP: {{ $staff3->nip }}</p>
