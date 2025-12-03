@@ -4758,36 +4758,59 @@
                 padding: 20px 10px;
             }
 
-            .level2-container,
-            .kabid-container {
+            /* Force single column layout on mobile */
+            .sekretaris-container {
                 flex-direction: column;
                 align-items: center;
-                gap: 15px;
+                padding: 0 15px;
             }
 
-            /* All level 2 cards centered on mobile */
-            .level2-container .org-card {
+            .sekretaris-container .org-card {
                 width: 100%;
-                max-width: 320px;
+                max-width: 300px;
+            }
+
+            .level2-container,
+            .kabid-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                padding: 0 15px;
+            }
+
+            /* All level 2 cards single column on mobile */
+            .level2-container .org-card,
+            .kabid-container .org-card {
+                width: 100%;
+                max-width: 300px;
                 flex-basis: auto;
             }
 
             .level2-container .org-card.level2:nth-child(5) {
                 flex-basis: auto;
-                max-width: 320px;
+                max-width: 300px;
             }
 
             .level3-container,
             .staff-container {
-                grid-template-columns: 1fr;
-                gap: 15px;
-                padding: 0 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                padding: 0 15px;
+            }
+
+            .level3-container .org-card,
+            .staff-container .org-card {
+                width: 100%;
+                max-width: 300px;
             }
 
             .org-card {
                 min-width: unset;
                 width: 100%;
-                max-width: 320px;
+                max-width: 300px;
                 margin: 0 auto;
             }
 
@@ -4865,8 +4888,30 @@
         }
 
         @media (max-width: 576px) {
+            /* Force single column on small mobile */
+            .sekretaris-container,
+            .level2-container,
+            .kabid-container,
+            .level3-container,
+            .staff-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+                padding: 0 10px;
+            }
+
             .org-card {
                 min-width: 100%;
+                max-width: 280px;
+            }
+
+            .sekretaris-container .org-card,
+            .level2-container .org-card,
+            .kabid-container .org-card,
+            .level3-container .org-card,
+            .staff-container .org-card {
+                width: 100%;
                 max-width: 280px;
             }
 
