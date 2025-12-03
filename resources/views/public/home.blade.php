@@ -46,8 +46,8 @@
 
     <!-- Tentang Dinas Koperasi Section -->
     <section id="tentang" class="section scroll-reveal">
-        <div class="container">
-            <div class="row align-items-center g-5 px-lg-5 px-md-4 px-3">
+        <div class="container px-lg-5 px-md-4">
+            <div class="row align-items-center g-5">
                 <div class="col-lg-6 scroll-reveal-left">
                     <div class="about-content">
                         <h2 class="section-title text-start mb-4">Tentang {{ $profile->name ?? 'Dinas Koperasi' }}</h2>
@@ -146,7 +146,7 @@
 
     <!-- Layanan Section -->
     <section id="layanan" class="section scroll-reveal">
-        <div class="container">
+        <div class="container px-lg-5 px-md-4">
             <div class="text-center mb-5 scroll-reveal-fade">
                 <h2 class="section-title">Layanan Unggulan</h2>
                 <p class="section-subtitle">
@@ -221,7 +221,7 @@
 
     <!-- Berita Section -->
     <section id="berita" class="section section-alternate scroll-reveal">
-        <div class="container">
+        <div class="container px-lg-5 px-md-4">
             <div class="text-center mb-5">
                 <h2 class="section-title">Berita & Informasi</h2>
                 <p class="section-subtitle">Tetap update dengan berita dan pengumuman terbaru dari kami</p>
@@ -300,7 +300,7 @@
 
     <!-- Galeri Section -->
     <section id="galeri" class="section scroll-reveal">
-        <div class="container">
+        <div class="container px-lg-5 px-md-4">
             <div class="text-center mb-5">
                 <h2 class="section-title">Galeri Kegiatan</h2>
                 <p class="section-subtitle">Dokumentasi kegiatan dan momen penting kami</p>
@@ -369,7 +369,7 @@
 
     <!-- Ulasan Section -->
     <section id="ulasan" class="section section-alternate scroll-reveal">
-        <div class="container">
+        <div class="container px-lg-5 px-md-4">
             <div class="text-center mb-5">
                 <h2 class="section-title">Testimoni Masyarakat</h2>
                 <p class="section-subtitle">Apa kata mereka tentang layanan kami</p>

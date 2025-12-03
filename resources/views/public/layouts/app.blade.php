@@ -1085,6 +1085,35 @@
             }
         }
 
+        /* Container padding utilities for consistent spacing */
+        .container.px-lg-5 {
+            padding-left: 3rem !important;
+            padding-right: 3rem !important;
+        }
+
+        @media (max-width: 1199px) {
+            .container.px-lg-5 {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .container.px-lg-5,
+            .container.px-md-4 {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .container.px-lg-5,
+            .container.px-md-4 {
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+            }
+        }
+
         /* ===== UNIVERSAL HERO SECTIONS ===== */
         .page-hero-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -1737,13 +1766,11 @@
 
         /* ===== ABOUT SECTION ===== */
         .about-content {
-            padding-right: 3rem;
-            padding-left: 1rem;
+            padding-right: 1.5rem;
         }
 
         .about-image-section {
-            padding-left: 2rem;
-            padding-right: 1rem;
+            padding-left: 1.5rem;
         }
 
         .about-content .section-title {
@@ -1832,13 +1859,11 @@
         @media (max-width: 991.98px) {
             .about-content {
                 padding-right: 0;
-                padding-left: 0;
                 margin-bottom: 2rem;
             }
 
             .about-image-section {
                 padding-left: 0;
-                padding-right: 0;
             }
 
             .about-content .section-title {
