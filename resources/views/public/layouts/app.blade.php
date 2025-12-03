@@ -4341,8 +4341,16 @@
         .org-card.staff,
         .org-card.level2,
         .org-card.level3 {
-            max-width: 340px;
-            width: 340px;
+            max-width: 320px;
+            width: 320px;
+            min-width: 320px; /* Force consistent width */
+        }
+
+        /* Kepala Dinas specific - ensure same size as others */
+        .kepala-container .org-card.kepala {
+            max-width: 320px;
+            width: 320px;
+            min-width: 320px;
         }
 
         /* Card Photo - Full Cover Design */
@@ -4353,6 +4361,7 @@
             overflow: hidden;
             background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
             border-bottom: 3px solid #f3f4f6;
+            border-radius: 16px 16px 0 0; /* Border radius di bagian atas foto */
         }
 
         .card-photo::after {
@@ -4371,6 +4380,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            border-radius: 16px 16px 0 0; /* Border radius pada gambar */
         }
 
         .photo-placeholder {
@@ -4378,6 +4388,7 @@
             height: 100%;
             background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
             display: flex;
+            border-radius: 16px 16px 0 0; /* Border radius pada placeholder */
             align-items: center;
             justify-content: center;
             color: white;
@@ -4758,40 +4769,11 @@
                 padding: 20px 10px;
             }
 
-            /* Force single column layout on mobile */
-            .sekretaris-container {
-                flex-direction: column;
-                align-items: center;
-                padding: 0 15px;
-            }
-
-            .sekretaris-container .org-card {
-                width: 100%;
-                max-width: 300px;
-            }
-
+            /* Force single column layout on mobile for all containers */
+            .kepala-container,
+            .sekretaris-container,
             .level2-container,
-            .kabid-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-                padding: 0 15px;
-            }
-
-            /* All level 2 cards single column on mobile */
-            .level2-container .org-card,
-            .kabid-container .org-card {
-                width: 100%;
-                max-width: 300px;
-                flex-basis: auto;
-            }
-
-            .level2-container .org-card.level2:nth-child(5) {
-                flex-basis: auto;
-                max-width: 300px;
-            }
-
+            .kabid-container,
             .level3-container,
             .staff-container {
                 display: flex;
@@ -4801,9 +4783,27 @@
                 padding: 0 15px;
             }
 
+            /* All cards same size on mobile */
+            .kepala-container .org-card,
+            .sekretaris-container .org-card,
+            .level2-container .org-card,
+            .kabid-container .org-card,
             .level3-container .org-card,
-            .staff-container .org-card {
-                width: 100%;
+            .staff-container .org-card,
+            .org-card.kepala,
+            .org-card.sekretaris,
+            .org-card.level2,
+            .org-card.kabid,
+            .org-card.level3,
+            .org-card.staff {
+                width: 100% !important;
+                max-width: 300px !important;
+                min-width: auto !important;
+                flex-basis: auto;
+            }
+
+            .level2-container .org-card.level2:nth-child(5) {
+                flex-basis: auto;
                 max-width: 300px;
             }
 
@@ -4814,14 +4814,20 @@
                 margin: 0 auto;
             }
 
-            /* Card Photo - Keep full cover design on mobile */
+            /* Card Photo - Keep full cover design on mobile with border radius */
             .card-photo {
                 width: 100%;
                 height: 220px;
+                border-radius: 14px 14px 0 0;
+            }
+
+            .card-photo img {
+                border-radius: 14px 14px 0 0;
             }
 
             .photo-placeholder {
                 font-size: 3.5rem;
+                border-radius: 14px 14px 0 0;
             }
 
             /* Card Info - Slightly smaller padding on mobile */
@@ -4889,6 +4895,7 @@
 
         @media (max-width: 576px) {
             /* Force single column on small mobile */
+            .kepala-container,
             .sekretaris-container,
             .level2-container,
             .kabid-container,
@@ -4901,32 +4908,43 @@
                 padding: 0 10px;
             }
 
-            .org-card {
-                min-width: 100%;
-                max-width: 280px;
+            /* All cards same size on mobile */
+            .org-card,
+            .org-card.kepala,
+            .org-card.sekretaris,
+            .org-card.level2,
+            .org-card.kabid,
+            .org-card.level3,
+            .org-card.staff {
+                width: 100% !important;
+                max-width: 300px !important;
+                min-width: auto !important;
             }
 
+            .kepala-container .org-card.kepala,
             .sekretaris-container .org-card,
             .level2-container .org-card,
             .kabid-container .org-card,
             .level3-container .org-card,
             .staff-container .org-card {
-                width: 100%;
-                max-width: 280px;
-            }
-
-            .org-card.staff {
-                max-width: 280px;
+                width: 100% !important;
+                max-width: 300px !important;
             }
 
             /* Card Photo - Maintain full cover on small mobile */
             .card-photo {
                 width: 100%;
-                height: 200px;
+                height: 220px;
+                border-radius: 14px 14px 0 0;
+            }
+
+            .card-photo img {
+                border-radius: 14px 14px 0 0;
             }
 
             .photo-placeholder {
                 font-size: 3rem;
+                border-radius: 14px 14px 0 0;
             }
 
             /* Card Info - Compact on small mobile */
@@ -4935,7 +4953,7 @@
             }
 
             .card-info h4 {
-                font-size: 0.6rem;
+                font-size: 0.65rem;
                 margin-bottom: 6px;
             }
 
