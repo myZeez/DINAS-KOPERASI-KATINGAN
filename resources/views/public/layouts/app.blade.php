@@ -1058,12 +1058,30 @@
 
         /* ===== UTILITIES ===== */
         .section {
-            padding: 80px 20px;
+            padding: 80px 60px;
+        }
+
+        @media (max-width: 1200px) {
+            .section {
+                padding: 70px 40px;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .section {
+                padding: 60px 30px;
+            }
         }
 
         @media (max-width: 767px) {
             .section {
-                padding: 40px 15px;
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 30px 15px;
             }
         }
 
@@ -1719,7 +1737,13 @@
 
         /* ===== ABOUT SECTION ===== */
         .about-content {
-            padding-right: 2rem;
+            padding-right: 3rem;
+            padding-left: 1rem;
+        }
+
+        .about-image-section {
+            padding-left: 2rem;
+            padding-right: 1rem;
         }
 
         .about-content .section-title {
@@ -1808,7 +1832,13 @@
         @media (max-width: 991.98px) {
             .about-content {
                 padding-right: 0;
+                padding-left: 0;
                 margin-bottom: 2rem;
+            }
+
+            .about-image-section {
+                padding-left: 0;
+                padding-right: 0;
             }
 
             .about-content .section-title {

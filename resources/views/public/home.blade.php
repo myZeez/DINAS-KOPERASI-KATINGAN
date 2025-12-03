@@ -47,7 +47,7 @@
     <!-- Tentang Dinas Koperasi Section -->
     <section id="tentang" class="section scroll-reveal">
         <div class="container">
-            <div class="row align-items-center g-5">
+            <div class="row align-items-center g-5 px-lg-5 px-md-4 px-3">
                 <div class="col-lg-6 scroll-reveal-left">
                     <div class="about-content">
                         <h2 class="section-title text-start mb-4">Tentang {{ $profile->name ?? 'Dinas Koperasi' }}</h2>
