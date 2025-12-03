@@ -4768,13 +4768,13 @@
             /* All level 2 cards centered on mobile */
             .level2-container .org-card {
                 width: 100%;
-                max-width: 350px;
+                max-width: 320px;
                 flex-basis: auto;
             }
 
             .level2-container .org-card.level2:nth-child(5) {
                 flex-basis: auto;
-                max-width: 350px;
+                max-width: 320px;
             }
 
             .level3-container,
@@ -4787,8 +4787,32 @@
             .org-card {
                 min-width: unset;
                 width: 100%;
-                max-width: 350px;
+                max-width: 320px;
                 margin: 0 auto;
+            }
+
+            /* Card Photo - Keep full cover design on mobile */
+            .card-photo {
+                width: 100%;
+                height: 220px;
+            }
+
+            .photo-placeholder {
+                font-size: 3.5rem;
+            }
+
+            /* Card Info - Slightly smaller padding on mobile */
+            .card-info {
+                padding: 18px 16px;
+            }
+
+            .card-info h4 {
+                font-size: 0.65rem;
+                margin-bottom: 8px;
+            }
+
+            .card-info h5 {
+                font-size: 1rem;
             }
 
             .structure-table-section {
@@ -4844,33 +4868,38 @@
             .org-card {
                 min-width: 100%;
                 max-width: 280px;
-                padding: 20px;
             }
 
             .org-card.staff {
-                padding: 15px;
+                max-width: 280px;
             }
 
+            /* Card Photo - Maintain full cover on small mobile */
             .card-photo {
-                width: 70px;
-                height: 70px;
+                width: 100%;
+                height: 200px;
             }
 
-            .card-photo.small {
-                width: 50px;
-                height: 50px;
+            .photo-placeholder {
+                font-size: 3rem;
+            }
+
+            /* Card Info - Compact on small mobile */
+            .card-info {
+                padding: 16px 14px;
             }
 
             .card-info h4 {
-                font-size: 0.9rem;
+                font-size: 0.6rem;
+                margin-bottom: 6px;
             }
 
             .card-info h5 {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
 
             .card-info h6 {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
         }
 
