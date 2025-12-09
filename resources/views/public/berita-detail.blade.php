@@ -93,7 +93,7 @@
                                 </div>
 
                                 <h5 class="mb-3">
-                                    <a href="{{ route('public.berita.detail', $related) }}"
+                                    <a href="{{ route('public.berita.detail', $related->slug) }}"
                                         class="text-decoration-none text-dark">
                                         {{ $related->title }}
                                     </a>
@@ -103,7 +103,7 @@
                                     {{ \Illuminate\Support\Str::limit(strip_tags($related->content), 100) }}
                                 </p>
 
-                                <a href="{{ route('public.berita.detail', $related) }}"
+                                <a href="{{ route('public.berita.detail', $related->slug) }}"
                                     class="btn btn-outline-gradient btn-sm">
                                     Baca Selengkapnya <i class="fas fa-arrow-right ms-2"></i>
                                 </a>

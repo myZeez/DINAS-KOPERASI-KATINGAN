@@ -95,9 +95,16 @@ class HomeController extends Controller
         return view('public.berita', compact('profile', 'news'));
     }
 
-    public function beritaDetail(News $news): View
+    public function beritaDetail(string $slug): View
     {
         $profile = Profile::first();
+        
+        // Find news by slug
+        $news = News::published()->where('slug', $slug)->firstOrFail();
+        
+        // Increment views count
+        $news->increment('views');
+        
         $relatedNews = News::published()
             ->where('id', '!=', $news->id)
             ->latest('published_at')

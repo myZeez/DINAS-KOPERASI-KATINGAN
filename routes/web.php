@@ -42,7 +42,7 @@ Route::prefix('public')->name('public.')->group(function () {
     Route::get('/struktur', [HomeController::class, 'struktur'])->name('struktur');
     Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
     Route::get('/berita', [HomeController::class, 'berita'])->name('berita');
-    Route::get('/berita/{news}', [HomeController::class, 'beritaDetail'])->name('berita.detail');
+    Route::get('/berita/{slug}', [HomeController::class, 'beritaDetail'])->name('berita.detail');
     Route::get('/galeri', [HomeController::class, 'galeri'])->name('galeri');
     Route::get('/layanan', [HomeController::class, 'layanan'])->name('layanan');
     Route::get('/layanan/{service:slug}', [HomeController::class, 'layananDetail'])->name('layanan.detail');

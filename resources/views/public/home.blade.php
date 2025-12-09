@@ -266,7 +266,7 @@
                                 <p class="news-excerpt">{{ Str::limit(strip_tags($n->content), 150) }}</p>
 
                                 <div class="news-action">
-                                    <a href="{{ route('public.berita.detail', $n) }}" class="news-btn">
+                                    <a href="{{ route('public.berita.detail', $n->slug) }}" class="news-btn">
                                         <span>Baca Selengkapnya</span>
                                         <i class="fas fa-arrow-right"></i>
                                     </a>
