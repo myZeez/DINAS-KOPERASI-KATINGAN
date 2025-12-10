@@ -322,4 +322,5 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Memproses...';
             submitBtn.disabled = true;
         });
-    @endsection
+    </script>
+@endsection

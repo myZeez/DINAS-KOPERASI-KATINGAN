@@ -211,8 +211,13 @@
                         <i class="fas fa-lock me-2"></i>
                         Password Baru
                     </label>
-                    <input id="password" type="password" class="form-control-auth @error('password') is-invalid @enderror"
-                        name="password" required autocomplete="new-password" placeholder="Masukkan password baru">
+                    <div style="position: relative;">
+                        <input id="password" type="password" class="form-control-auth password-input @error('password') is-invalid @enderror"
+                            name="password" required autocomplete="new-password" placeholder="Masukkan password baru">
+                        <button type="button" class="password-toggle" onclick="togglePassword('password', 'passwordToggleIcon')">
+                            <i id="passwordToggleIcon" class="fas fa-eye"></i>
+                        </button>
+                    </div>
                     @error('password')
                         <span class="invalid-feedback">
                             {{ $message }}
@@ -233,8 +238,13 @@
                         <i class="fas fa-lock me-2"></i>
                         Konfirmasi Password
                     </label>
-                    <input id="password-confirm" type="password" class="form-control-auth" name="password_confirmation"
-                        required autocomplete="new-password" placeholder="Ulangi password baru">
+                    <div style="position: relative;">
+                        <input id="password-confirm" type="password" class="form-control-auth password-input" name="password_confirmation"
+                            required autocomplete="new-password" placeholder="Ulangi password baru">
+                        <button type="button" class="password-toggle" onclick="togglePassword('password-confirm', 'passwordConfirmToggleIcon')">
+                            <i id="passwordConfirmToggleIcon" class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-auth">
@@ -251,4 +261,28 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function togglePassword(inputId, iconId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(iconId);
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Form submission loading state
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const submitBtn = document.querySelector('.btn-auth');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Memproses...';
+            submitBtn.disabled = true;
+        });
+    </script>
 @endsection
