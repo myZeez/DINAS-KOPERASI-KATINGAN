@@ -6,6 +6,7 @@ use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class News extends Model
 {
@@ -18,16 +19,52 @@ class News extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'content',
         'image',
         'status',
         'published_at',
-        'user_id'
+        'user_id',
+        'views'
     ];
 
     protected $casts = [
         'published_at' => 'datetime'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($news) {
+            if (empty($news->slug)) {
+                $news->slug = static::generateUniqueSlug($news->title);
+            }
+        });
+
+        static::updating(function ($news) {
+            if ($news->isDirty('title') && empty($news->slug)) {
+                $news->slug = static::generateUniqueSlug($news->title);
+            }
+        });
+    }
+
+    /**
+     * Generate unique slug from title
+     */
+    protected static function generateUniqueSlug(string $title): string
+    {
+        $slug = Str::slug($title);
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (static::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+        }
+
+        return $slug;
+    }
 
     public function user(): BelongsTo
     {
