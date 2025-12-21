@@ -5133,6 +5133,36 @@
                 animation: none;
             }
         }
+
+        /* Fix untuk layar dengan height rendah - auto reveal konten */
+        @media (max-height: 850px) {
+            .scroll-reveal,
+            .scroll-reveal-left,
+            .scroll-reveal-right,
+            .scroll-reveal-fade,
+            .scroll-reveal-scale {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .scroll-stagger>* {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            /* Ensure org-chart content is always visible */
+            .org-chart,
+            .org-chart * {
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+
+            .org-card {
+                opacity: 1 !important;
+                transform: none !important;
+                animation: none !important;
+            }
+        }
     </style>
     @stack('styles')
 </head>
@@ -5599,6 +5629,24 @@
                     '.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-fade, .scroll-reveal-scale, .scroll-stagger'
                 );
 
+                // Deteksi tinggi viewport dan sesuaikan settings
+                const viewportHeight = window.innerHeight;
+                const isShortScreen = viewportHeight < 850;
+
+                // Jika layar pendek, langsung reveal semua elemen tanpa observer
+                if (isShortScreen) {
+                    revealElements.forEach(element => {
+                        element.classList.add('revealed');
+                    });
+                    return;
+                }
+
+                // Untuk layar normal, gunakan observer dengan threshold yang lebih agresif
+                const observerOptions = {
+                    threshold: viewportHeight < 1000 ? 0.05 : 0.1,
+                    rootMargin: viewportHeight < 1000 ? '0px 0px -20px 0px' : '0px 0px -50px 0px'
+                };
+
                 const revealObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
@@ -5606,10 +5654,7 @@
                             revealObserver.unobserve(entry.target);
                         }
                     });
-                }, {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                });
+                }, observerOptions);
 
                 revealElements.forEach(element => {
                     revealObserver.observe(element);
@@ -5618,6 +5663,15 @@
 
             // Initialize scroll reveal
             initScrollReveal();
+
+            // Re-initialize on window resize untuk handle orientation changes
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    initScrollReveal();
+                }, 250);
+            });
         });
     </script>
 
